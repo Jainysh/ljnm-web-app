@@ -1,19 +1,29 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import "./App.css";
-import { getHotiDetailById } from "./firebase/service";
+import { getHotiDetailById, addLabhartiDetails, addHotiAllocationDetails, getHotiAllocationDetailById } from "./firebase/service";
 
 const App = () => {
   const addDetails = async () => {
     const hotiDetails = await getHotiDetailById(hotiNumber);
     console.log(hotiDetails);
+    const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
     setHotiDetails(hotiDetails);
+    setHotiAllocationDetails(hotiAllocationDetails);
   };
   const [hotiNumber, setHotiNumber] = useState(-1);
   const [hotiDetails, setHotiDetails] = useState({});
+  const [hotiAllocationDetails, setHotiAllocationDetails] = useState({});
+
+   // Similar to componentDidMount and componentDidUpdate:
+   useEffect(() => {
+    // Update the document title using the browser API
+    // addLabhartiDetails();
+    // addHotiAllocationDetails();
+  });
 
   const updateHotiDetails = (e) => setHotiNumber(e.target.value);
-
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -35,13 +45,16 @@ const App = () => {
           >
             Show hoti
           </Button>
-        </Box>
+        </Box> 
         {hotiDetails.name && (
           <Box padding="16px">
             <Typography>
               {hotiDetails.name} ({hotiDetails.hindiName}) <br />
               City: {hotiDetails.city} <br />
-              Number: {hotiDetails.mobile}
+              Number: {hotiDetails.mobile} <br />
+              Extra Tickets: {hotiAllocationDetails?.extraTicketQuota} <br />
+              Hoti Ticket Quota: {hotiAllocationDetails?.hotiTicketQuota} <br />
+              Labharti Tickets: {hotiAllocationDetails?.labhartiTicketQuota} <br />
             </Typography>
           </Box>
         )}

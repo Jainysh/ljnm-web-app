@@ -7,7 +7,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { getFirebaseFirestoreDB } from ".";
-import { hotiDetails } from "../constants/hoti";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";

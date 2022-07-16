@@ -9,6 +9,7 @@ import {
 import { getFirebaseFirestoreDB } from ".";
 import { hotiDetails } from "../constants/hoti";
 import { labhartiDetails } from "../constants/labharti";
+import { Hoti } from "../types/hoti";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -85,9 +86,9 @@ export const getHotiDetailById = async (id: number) => {
   const q = query(collection(db, "hotiMaster"), ...constraints);
   const querySnapShot = await getDocs(q);
   if (querySnapShot.empty) {
-    return null;
+    return {} as Hoti;
   }
-  const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data());
+  const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data()) as Hoti[];
   return hotiDetails;
 }; 
 

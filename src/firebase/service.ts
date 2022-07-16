@@ -1,13 +1,6 @@
-import {
-  setDoc,
-  doc,
-  query,
-  collection,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { query, collection, where, getDocs } from "firebase/firestore";
 import { getFirebaseFirestoreDB } from ".";
-import { hotiDetails } from "../constants/hoti";
+// import { hotiDetails } from "../constants/hoti";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {

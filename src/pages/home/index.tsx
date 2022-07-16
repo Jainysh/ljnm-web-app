@@ -3,23 +3,27 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import { useState } from "react";
-import { getHotiDetailById } from "../../firebase/service";
+import { getHotiDetailById, getHotiAllocationDetailById } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
 import TicketForm from "../../components/TicketForm";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { IconButton, Typography } from "@mui/material";
 import { LJNMColors } from "../../styles";
 import { ArrowForwardIos } from "@mui/icons-material";
+import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
 const HomeComponent = () => {
   const getHotiDetails = async () => {
     const hotiDetails = await getHotiDetailById(hotiNumber);
+    const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
     setHotiDetails(hotiDetails);
+    setHotiAllocationDetails(hotiAllocationDetails);
   };
 
   const clearHotiDetails = () => setHotiDetails({} as Hoti);
   const [hotiNumber, setHotiNumber] = useState(-1);
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
+  const [hotiAllocationDetails, setHotiAllocationDetails] = useState<HotiAllocationDetail>({} as HotiAllocationDetail);
   const [hasError, setHasError] = useState(false);
 
   const updateHotiDetails = (e: any) => {
@@ -95,7 +99,7 @@ const HomeComponent = () => {
             <ArrowBackIosIcon />
             Go back
           </Button>
-          <TicketForm hotiDetails={hotiDetails} />
+          <TicketForm hotiDetails={hotiDetails} hotiAllocationDetails={hotiAllocationDetails} />
         </Box>
       )}
     </>

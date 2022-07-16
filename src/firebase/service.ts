@@ -1,5 +1,6 @@
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { getFirebaseFirestoreDB } from ".";
+import { Hoti } from "../types/hoti";
 // import { hotiDetails } from "../constants/hoti";
 
 // refernce function to add any new doc to firestore
@@ -24,14 +25,14 @@ import { getFirebaseFirestoreDB } from ".";
 //   console.log("here");
 // };
 
-export const getHotiDetailById = async (id: number) => {
+export const getHotiDetailById = async (id: number): Promise<Hoti> => {
   const db = await getFirebaseFirestoreDB();
   const constraints = [where("hotiId", "==", id)];
   const q = query(collection(db, "hotiMaster"), ...constraints);
   const querySnapShot = await getDocs(q);
   if (querySnapShot.empty) {
-    return null;
+    return {} as Hoti;
   }
-  const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data());
+  const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data()) as Hoti[];
   return hotiDetails;
 };

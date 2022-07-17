@@ -48,13 +48,13 @@ const TicketDetails = ({
     } as YatriFormFieldType);
   };
 
-  // const routeToTicket = (ticketType: TicketType) => {
-  //   // if (selectedYatri.isDirty) {
-  //   //   setToastOpen(true);
-  //   // } else {
-  //   setSelectedTab(ticketType);
-  //   // }
-  // };
+  const routeToTicket = (ticketType: TicketType) => {
+    // if (selectedYatri.isDirty) {
+    //   setToastOpen(true);
+    // } else {
+    setSelectedTab(ticketType);
+    // }
+  };
 
   return (
     <>
@@ -184,6 +184,7 @@ const TicketDetails = ({
           </Button>
         )}
       </Box>
+      {false && <Button onClick={() => routeToTicket("HOTI")}>test</Button>}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

@@ -9,8 +9,8 @@ import TicketDetails from "../TicketDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { ArrowForwardIos } from "@mui/icons-material";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
 
 type TicketFormProps = {
   hotiDetails: Hoti;
@@ -33,7 +33,7 @@ const TicketForm = ({
       justifyContent="center"
       alignItems="center"
     >
-      <Grid item lg={6} md={6} xs={12}>
+      <Grid item lg={6} md={8} xs={12}>
         {!isDataConfirmed ? (
           <>
             <Typography fontSize="20px" sx={{ mb: 3 }}>
@@ -72,13 +72,13 @@ const TicketForm = ({
                 justifyContent="space-between"
                 mt={5}
               >
-                <Button onClick={clearHotiDetails} color="secondary">
-                  <ArrowBackIosIcon />
-                  Change
-                </Button>
                 <Button onClick={confirmHotiDetails} color="secondary">
-                  Yes, I confirm
-                  <ArrowForwardIos />
+                  <CheckIcon />
+                  &nbsp;Yes, confirm
+                </Button>
+                <Button onClick={clearHotiDetails} color="secondary">
+                  <EditIcon />
+                  &nbsp;No, Change
                 </Button>
               </Box>
             </Box>

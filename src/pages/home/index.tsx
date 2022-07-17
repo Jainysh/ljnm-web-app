@@ -14,6 +14,10 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 const HomeComponent = () => {
   const getHotiDetails = async () => {
+    if (!hotiNumber || hotiNumber <= 0 || hotiNumber >= 224) {
+      setHasError(true);
+      return;
+    }
     setShowLoader(true);
     const hotiDetails = await getHotiDetailById(hotiNumber);
     const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
@@ -51,7 +55,7 @@ const HomeComponent = () => {
           height="100vh"
         >
           <Grid container justifyContent="center">
-            <Grid item lg={8} md={10} xs={12}>
+            <Grid item lg={6} md={8} xs={12}>
               <Box
                 borderBottom={`1px solid ${LJNMColors.secondary}`}
                 borderLeft="none"
@@ -67,48 +71,52 @@ const HomeComponent = () => {
                   <Typography margin="8px 0">Passenger details form</Typography>
                 </Box>
               </Box>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="baseline"
+                marginTop="40px"
+              >
+                <TextField
+                  label="Enter Hoti Number"
+                  color="secondary"
+                  value={hotiNumber > 0 ? hotiNumber : ""}
+                  sx={{
+                    color: "fff",
+                    input: { color: "white" },
+                    width: "80%",
+                    marginLeft: "24px",
+                  }}
+                  focused
+                  error={hotiNumber === 0 || hotiNumber > 225 || hasError}
+                  onChange={updateHotiDetails}
+                  type="number"
+                  helperText={
+                    hotiNumber === 0 || hotiNumber > 225 || hasError
+                      ? "Please enter Hoti number between 1 and 224"
+                      : " "
+                  }
+                />
+                <IconButton
+                  color="secondary"
+                  disabled={showLoader}
+                  onClick={getHotiDetails}
+                  sx={{ marginLeft: "16px" }}
+                >
+                  <>
+                    <Typography sx={{ color: "inherit" }} fontSize="20px">
+                      Go
+                    </Typography>
+                    {!showLoader ? (
+                      <ArrowForwardIos></ArrowForwardIos>
+                    ) : (
+                      <CircularProgress size={20} color="secondary" />
+                    )}
+                  </>
+                </IconButton>
+              </Box>
             </Grid>
           </Grid>
-
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="baseline"
-            marginTop="40px"
-          >
-            <TextField
-              label="Enter Hoti Number"
-              color="secondary"
-              value={hotiNumber > 0 ? hotiNumber : ""}
-              sx={{ color: "fff", input: { color: "white" } }}
-              focused
-              error={hotiNumber === 0 || hotiNumber > 225 || hasError}
-              onChange={updateHotiDetails}
-              type="number"
-              helperText={
-                hotiNumber === 0 || hotiNumber > 225 || hasError
-                  ? "Invalid Hoti Number"
-                  : " "
-              }
-            />
-            <IconButton
-              color="secondary"
-              disabled={showLoader}
-              onClick={getHotiDetails}
-              sx={{ marginLeft: "16px" }}
-            >
-              <>
-                <Typography sx={{ color: "inherit" }} fontSize="20px">
-                  Go
-                </Typography>
-                {!showLoader ? (
-                  <ArrowForwardIos></ArrowForwardIos>
-                ) : (
-                  <CircularProgress size={20} color="secondary" />
-                )}
-              </>
-            </IconButton>
-          </Box>
         </Box>
       ) : (
         <Box padding="16px">

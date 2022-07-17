@@ -9,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
+import { addPassengerDetails } from "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { FormFields } from "./constant";
 import MuiAlert from "@mui/material/Alert";
@@ -20,16 +21,19 @@ type YatriFormFieldType = YatriDetails & {
 
 type TicketDetailsProps = {
   hotiAllocationDetails: HotiAllocationDetail;
+  yatriDetails: YatriDetails[],
   ticketType: TicketType;
   setIsDataConfirmed: (data: boolean) => void;
 };
+
 const TicketDetails = ({
   hotiAllocationDetails,
+  yatriDetails,
   ticketType,
   setIsDataConfirmed,
 }: TicketDetailsProps) => {
   const [selectedTab, setSelectedTab] = useState<TicketType>(ticketType);
-
+  const [yatriId, setyatriId] = useState(yatriDetails.length+1);
   const [selectedYatri, setSelectedYatri] = useState<YatriFormFieldType>({
     isDirty: false,
   } as YatriFormFieldType);
@@ -160,7 +164,12 @@ const TicketDetails = ({
             >
               Clear
             </Button>
-            <Button sx={{ marginX: "8px" }} color="primary" variant="contained">
+            <Button sx={{ marginX: "8px" }} color="primary" variant="contained" onClick={async ()=>{   
+              selectedYatri.yatriId=`yatri-${yatriId}` ;
+              setyatriId(yatriId+1)          
+              await addPassengerDetails(selectedYatri, hotiAllocationDetails.hotiId );
+              console.log("Passenger details saved successfully");
+            }} >
               Save
             </Button>
           </Box>

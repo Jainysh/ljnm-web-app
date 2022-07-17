@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   getHotiDetailById,
   getHotiAllocationDetailById,
+  getAllYatriDetailsById
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
 import TicketForm from "../../components/TicketForm";
@@ -12,6 +13,7 @@ import { CircularProgress, Grid, IconButton, Typography } from "@mui/material";
 import { LJNMColors } from "../../styles";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
+import { YatriDetails } from "../../types/yatriDetails";
 const HomeComponent = () => {
   const getHotiDetails = async () => {
     if (!hotiNumber || hotiNumber <= 0 || hotiNumber >= 224) {
@@ -21,14 +23,17 @@ const HomeComponent = () => {
     setShowLoader(true);
     const hotiDetails = await getHotiDetailById(hotiNumber);
     const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
+    const yatriDetails = await getAllYatriDetailsById(hotiNumber);
     setHotiDetails(hotiDetails);
     setHotiAllocationDetails(hotiAllocationDetails);
+    setYatriDetails(yatriDetails);
     setShowLoader(false);
   };
 
   const clearHotiDetails = () => setHotiDetails({} as Hoti);
   const [hotiNumber, setHotiNumber] = useState(-1);
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
+  const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>([] as YatriDetails[]);
   const [hotiAllocationDetails, setHotiAllocationDetails] =
     useState<HotiAllocationDetail>({} as HotiAllocationDetail);
   const [hasError, setHasError] = useState(false);
@@ -129,6 +134,7 @@ const HomeComponent = () => {
         <TicketForm
           clearHotiDetails={clearHotiDetails}
           hotiDetails={hotiDetails}
+          yatriDetails={yatriDetails}
           hotiAllocationDetails={hotiAllocationDetails}
         />
       )}

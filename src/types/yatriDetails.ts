@@ -1,5 +1,5 @@
 export type YatriDetails = {
-  yatriId: number; // id: 001-001 <hotiId>-<yatriId>
+  yatriId: string; // id: 001-001 <hotiId>-<yatriId>
   dateOfBirth: Date;
   fullName: string;
   gender: "Male" | "Female";

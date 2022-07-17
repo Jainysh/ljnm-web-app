@@ -11,16 +11,18 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
 import TicketRoutingContainer from "./TicketRoutingContainer";
-import { TicketType } from "../../types/yatriDetails";
+import { TicketType, YatriDetails } from "../../types/yatriDetails";
 
 type TicketFormProps = {
   hotiDetails: Hoti;
   hotiAllocationDetails: HotiAllocationDetail;
+  yatriDetails: YatriDetails[];
   clearHotiDetails: () => void;
 };
 const TicketForm = ({
   hotiDetails,
   hotiAllocationDetails,
+  yatriDetails,
   clearHotiDetails,
 }: TicketFormProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
@@ -138,6 +140,7 @@ const TicketForm = ({
           <TicketDetails
             ticketType={ticketType}
             setIsDataConfirmed={setIsDataConfirmed}
+            yatriDetails={yatriDetails}
             hotiAllocationDetails={hotiAllocationDetails}
           />
         )}

@@ -45,6 +45,12 @@ const HomeComponent = () => {
     setHotiNumber(hotiNumber);
   };
 
+  const handleSubmit = (e: any) => {
+    if (e.key === "Enter") {
+      getHotiDetails();
+    }
+  };
+
   return (
     <>
       {!hotiDetails.name ? (
@@ -88,6 +94,7 @@ const HomeComponent = () => {
                     marginLeft: "24px",
                   }}
                   focused
+                  onKeyUp={handleSubmit}
                   error={hotiNumber === 0 || hotiNumber > 225 || hasError}
                   onChange={updateHotiDetails}
                   type="number"
@@ -119,13 +126,11 @@ const HomeComponent = () => {
           </Grid>
         </Box>
       ) : (
-        <Box padding="16px">
-          <TicketForm
-            clearHotiDetails={clearHotiDetails}
-            hotiDetails={hotiDetails}
-            hotiAllocationDetails={hotiAllocationDetails}
-          />
-        </Box>
+        <TicketForm
+          clearHotiDetails={clearHotiDetails}
+          hotiDetails={hotiDetails}
+          hotiAllocationDetails={hotiAllocationDetails}
+        />
       )}
     </>
   );

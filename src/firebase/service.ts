@@ -10,6 +10,7 @@ import { getFirebaseFirestoreDB } from ".";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
+import { PassengerDetail } from "../types/pasengerDetail";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -103,3 +104,36 @@ export const getHotiAllocationDetailById = async (id: number) => {
   const [hotiAllocationDetail] = querySnapShot.docs.map((doc) => doc.data()) as HotiAllocationDetail[];
   return hotiAllocationDetail;
 };
+
+export const getAllYatriDetailsById = async (hotiId: number) => {
+  const db = await getFirebaseFirestoreDB();
+  const constraints = [where("hotiId", "==", hotiId)];
+  const path =`EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+  const q = query(collection(db, path));
+  const querySnapShot = await getDocs(q);
+  if (querySnapShot.empty) {
+    return [] as PassengerDetail[];
+  }
+  const passengerDetaila = querySnapShot.docs.map((doc) => doc.data()) as PassengerDetail[];
+  return passengerDetaila;
+};
+
+export const addPassengerDetails = async (passengerDetail: PassengerDetail, hotiId: number) => {
+    try {
+        const path =`EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+        const docRef = await setDoc(
+          doc(await getFirebaseFirestoreDB(), path, `${passengerDetail.yatriId}`),
+          {
+            yatriId: passengerDetail.yatriId,
+            fulllName: passengerDetail.name,
+            gender: passengerDetail.gender,
+            mobile: passengerDetail.mobile,
+            ticketType: passengerDetail.ticketType
+          }
+        );
+        console.log("Document written with ID: ", docRef);
+
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+}

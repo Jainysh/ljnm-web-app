@@ -7,8 +7,17 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import React from "react";
+import {PassengerDetail} from "../../types/pasengerDetail";
+import { useState } from "react";
 
-const TicketDetails = () => {
+
+type TicketDetailsProps = {
+  savePassengerDetails: (detail: PassengerDetail) => void;
+};
+
+const TicketDetails = ({savePassengerDetails} : TicketDetailsProps) => {
+  const [passengerDetail, setPassengerDetail] = useState({yatriId:"yatrik-1", gender: "Male", ticketType: "hoti"} as PassengerDetail);
+  const [yatriId, setyatriId] = useState(1);
   return (
     <form autoComplete="off" noValidate>
       <Card>
@@ -25,7 +34,7 @@ const TicketDetails = () => {
                 // helperText="Please specify the first name"
                 label="Enter name"
                 name="firstName"
-                // onChange={handleChange}
+                onChange={(event)=>setPassengerDetail({...passengerDetail, name:event.target.value})}
                 required
                 // value = {values.firstName}
                 variant="outlined"
@@ -37,7 +46,7 @@ const TicketDetails = () => {
                 label="Age"
                 name="lastName"
                 type="number"
-                // onChange={handleChange}
+                onChange={(event)=>setPassengerDetail({...passengerDetail, age:event.target.value})}
                 required
                 // value = {values.lastName}
                 variant="outlined"
@@ -49,7 +58,7 @@ const TicketDetails = () => {
                 label="Mobile Number"
                 type="phone"
                 name="phone"
-                // onChange={handleChange}
+                onChange={(event)=>setPassengerDetail({...passengerDetail, mobile:event.target.value})}
                 required
                 // value = {values.email}
                 variant="outlined"
@@ -71,7 +80,7 @@ const TicketDetails = () => {
                 fullWidth
                 label="Aadhar Card number"
                 name="country"
-                // onChange={handleChange}
+                onChange={(event)=>setPassengerDetail({...passengerDetail, aadharNumber:event.target.value})}
                 required
                 // value = {values.country}
                 variant="outlined"
@@ -82,7 +91,7 @@ const TicketDetails = () => {
                 fullWidth
                 label="Gender"
                 name="state"
-                // onChange={handleChange}
+                onChange={(event)=>setPassengerDetail({...passengerDetail, gender:event.target.value})}
                 required
                 select
                 SelectProps={{ native: true }}
@@ -106,7 +115,10 @@ const TicketDetails = () => {
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={()=>{
+            savePassengerDetails({...passengerDetail, yatriId:`yatri-${yatriId}`});
+            setyatriId(yatriId+1)
+            }}>
             Save details
           </Button>
         </Box>

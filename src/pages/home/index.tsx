@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import { useState } from "react";
-import { getHotiDetailById, getHotiAllocationDetailById } from "../../firebase/service";
+import { getHotiDetailById, getHotiAllocationDetailById,getAllYatriDetailsById } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
 import TicketForm from "../../components/TicketForm";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -12,10 +12,11 @@ import { LJNMColors } from "../../styles";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
-const HomeComponent = () => {
+const   HomeComponent = () => {
   const getHotiDetails = async () => {
     const hotiDetails = await getHotiDetailById(hotiNumber);
     const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
+    const passengerDetails = await getAllYatriDetailsById(hotiNumber);
     setHotiDetails(hotiDetails);
     setHotiAllocationDetails(hotiAllocationDetails);
   };

@@ -6,5 +6,7 @@ export type YatriDetails = {
   idProof: string;
   mobile: string;
   profilePicture: string;
-  ticketType: "LABHARTI" | "HOTI" | "EXTRA" | "CHILD";
+  ticketType: TicketType;
 };
+
+export type TicketType = "LABHARTI" | "HOTI" | "EXTRA" | "CHILD";

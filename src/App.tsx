@@ -20,6 +20,10 @@ const theme = createTheme({
       main: LJNMColors.secondary,
       contrastText: "#dadfe1",
     },
+    text: {
+      primary: "#303030",
+      secondary: "#303030",
+    },
   },
 });
 

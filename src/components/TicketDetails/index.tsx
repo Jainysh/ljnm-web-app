@@ -6,8 +6,6 @@ import CardHeader from "@mui/material/CardHeader";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Snackbar from "@mui/material/Snackbar";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
@@ -22,30 +20,26 @@ type YatriFormFieldType = YatriDetails & {
 
 type TicketDetailsProps = {
   hotiAllocationDetails: HotiAllocationDetail;
+  ticketType: TicketType;
+  setIsDataConfirmed: (data: boolean) => void;
 };
-const TicketDetails = ({ hotiAllocationDetails }: TicketDetailsProps) => {
-  const [selectedTab, setSelectedTab] = useState<TicketType>("CHILD");
+const TicketDetails = ({
+  hotiAllocationDetails,
+  ticketType,
+  setIsDataConfirmed,
+}: TicketDetailsProps) => {
+  const [selectedTab, setSelectedTab] = useState<TicketType>(ticketType);
 
   const [selectedYatri, setSelectedYatri] = useState<YatriFormFieldType>({
     isDirty: false,
   } as YatriFormFieldType);
   const [toastOpen, setToastOpen] = useState(false);
 
-  const handleTabChange = (e: any, newVal: string) => {
-    console.log("selectedYatri", selectedYatri);
-    if (selectedYatri.isDirty) {
-      setToastOpen(true);
-    } else {
-      setSelectedTab(newVal as any);
-    }
-  };
-
   const handleChange = (e: any) => {
     const selectedYatriLocal = selectedYatri;
     selectedYatriLocal[e.target.name as string] = e.target.value;
     selectedYatriLocal.isDirty = true;
     setSelectedYatri({ ...selectedYatriLocal });
-    console.log("clocked", selectedYatriLocal);
   };
 
   const clearFormFields = () => {
@@ -54,36 +48,16 @@ const TicketDetails = ({ hotiAllocationDetails }: TicketDetailsProps) => {
     } as YatriFormFieldType);
   };
 
+  const routeToTicket = (ticketType: TicketType) => {
+    // if (selectedYatri.isDirty) {
+    //   setToastOpen(true);
+    // } else {
+    setSelectedTab(ticketType);
+    // }
+  };
+
   return (
-    <form autoComplete="off" noValidate>
-      <Box sx={{ maxWidth: "100%" }}>
-        <Tabs
-          onChange={handleTabChange}
-          textColor="secondary"
-          variant="scrollable"
-          value={selectedTab}
-          scrollButtons="auto"
-          sx={{
-            button: { color: "#fff" },
-            ".MuiTabs-scrollButtons.Mui-disabled": {
-              opacity: 0.3,
-            },
-            ".MuiTabs-scrollButtons": {
-              color: "#fff",
-            },
-          }}
-          allowScrollButtonsMobile={true}
-        >
-          <Tab
-            sx={{ paddingLeft: "4px" }}
-            label="Child tickets"
-            value="CHILD"
-          />
-          <Tab label="Labharti tickets" value="LABHARTI" />
-          <Tab label="Hoti tickets" value="HOTI" />
-          <Tab label="Extra tickets" value="EXTRA" />
-        </Tabs>
-      </Box>
+    <>
       <Card>
         <CardHeader
           subheader={FormFields(hotiAllocationDetails)[selectedTab].subtitle}
@@ -166,11 +140,19 @@ const TicketDetails = ({ hotiAllocationDetails }: TicketDetailsProps) => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             p: 2,
           }}
         >
-          {selectedYatri.isDirty && (
+          <Box>
+            <Button
+              onClick={() => setIsDataConfirmed(false)}
+              variant="outlined"
+            >
+              Go back
+            </Button>
+          </Box>
+          <Box>
             <Button
               onClick={clearFormFields}
               sx={{ marginX: "8px" }}
@@ -178,31 +160,50 @@ const TicketDetails = ({ hotiAllocationDetails }: TicketDetailsProps) => {
             >
               Clear
             </Button>
-          )}
-          {!selectedYatri.isDirty && (
-            <Button sx={{ marginX: "8px" }}>
-              Enter to {FormFields(hotiAllocationDetails)[selectedTab].next}
-            </Button>
-          )}
-          {selectedYatri.isDirty && (
             <Button sx={{ marginX: "8px" }} color="primary" variant="contained">
               Save
             </Button>
-          )}
+          </Box>
+
+          {/* {!selectedYatri.isDirty && (
+            <Button sx={{ marginX: "8px" }}>
+              Enter to {FormFields(hotiAllocationDetails)[selectedTab].next}
+            </Button>
+          )} */}
         </Box>
       </Card>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        {!!hotiAllocationDetails.extraTicketQuota && (
+          <Button sx={{ marginX: "4px" }} color="secondary" variant="outlined">
+            Enter Extra Tickets
+          </Button>
+        )}
+        {!!hotiAllocationDetails.labhartiTicketQuota && (
+          <Button sx={{ marginX: "4px" }} color="secondary" variant="outlined">
+            Enter Labharti Tickets
+          </Button>
+        )}
+      </Box>
+
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={toastOpen}
         onClose={() => setToastOpen(false)}
         autoHideDuration={4000}
-        message="Please fill all fields first!"
+        message="Please fill this form first!"
       >
-        <MuiAlert severity="info" sx={{ width: "100%" }}>
+        <MuiAlert
+          severity="info"
+          sx={{
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           Please fill all fields first!
         </MuiAlert>
       </Snackbar>
-    </form>
+    </>
   );
 };
 

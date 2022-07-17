@@ -126,13 +126,11 @@ const HomeComponent = () => {
           </Grid>
         </Box>
       ) : (
-        <Box padding="16px">
-          <TicketForm
-            clearHotiDetails={clearHotiDetails}
-            hotiDetails={hotiDetails}
-            hotiAllocationDetails={hotiAllocationDetails}
-          />
-        </Box>
+        <TicketForm
+          clearHotiDetails={clearHotiDetails}
+          hotiDetails={hotiDetails}
+          hotiAllocationDetails={hotiAllocationDetails}
+        />
       )}
     </>
   );

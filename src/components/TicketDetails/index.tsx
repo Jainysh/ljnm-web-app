@@ -48,13 +48,13 @@ const TicketDetails = ({
     } as YatriFormFieldType);
   };
 
-  const routeToTicket = (ticketType: TicketType) => {
-    // if (selectedYatri.isDirty) {
-    //   setToastOpen(true);
-    // } else {
-    setSelectedTab(ticketType);
-    // }
-  };
+  // const routeToTicket = (ticketType: TicketType) => {
+  //   // if (selectedYatri.isDirty) {
+  //   //   setToastOpen(true);
+  //   // } else {
+  //   setSelectedTab(ticketType);
+  //   // }
+  // };
 
   return (
     <>

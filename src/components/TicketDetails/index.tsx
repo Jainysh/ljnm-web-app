@@ -7,8 +7,12 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import React from "react";
+import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
-const TicketDetails = () => {
+type TicketDetailsProps = {
+  hotiAllocationDetails: HotiAllocationDetail;
+};
+const TicketDetails = ({ hotiAllocationDetails }: TicketDetailsProps) => {
   return (
     <form autoComplete="off" noValidate>
       <Card>

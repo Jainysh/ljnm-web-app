@@ -5,10 +5,10 @@ import { useState } from "react";
 import {
   getHotiDetailById,
   getHotiAllocationDetailById,
-  getAllYatriDetailsById
+  getAllYatriDetailsById,
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
-import TicketForm from "../../components/TicketForm";
+import HotiDetailsPage from "../../components/HotiDetailsPage";
 import { CircularProgress, Grid, IconButton, Typography } from "@mui/material";
 import { LJNMColors } from "../../styles";
 import { ArrowForwardIos } from "@mui/icons-material";
@@ -33,7 +33,9 @@ const HomeComponent = () => {
   const clearHotiDetails = () => setHotiDetails({} as Hoti);
   const [hotiNumber, setHotiNumber] = useState(-1);
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
-  const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>([] as YatriDetails[]);
+  const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>(
+    [] as YatriDetails[]
+  );
   const [hotiAllocationDetails, setHotiAllocationDetails] =
     useState<HotiAllocationDetail>({} as HotiAllocationDetail);
   const [hasError, setHasError] = useState(false);
@@ -131,10 +133,11 @@ const HomeComponent = () => {
           </Grid>
         </Box>
       ) : (
-        <TicketForm
+        <HotiDetailsPage
           clearHotiDetails={clearHotiDetails}
           hotiDetails={hotiDetails}
           yatriDetails={yatriDetails}
+          setYatriDetails={setYatriDetails}
           hotiAllocationDetails={hotiAllocationDetails}
         />
       )}

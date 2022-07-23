@@ -7,12 +7,15 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 import { addPassengerDetails } from "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { FormFields } from "./constant";
 import MuiAlert from "@mui/material/Alert";
+import YatriDetailView from "../YatriDetailView";
+import { Add, ArrowBackIos } from "@mui/icons-material";
+import { highlightDivContainer } from "../../lib/helper";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -21,19 +24,21 @@ type YatriFormFieldType = YatriDetails & {
 
 type TicketDetailsProps = {
   hotiAllocationDetails: HotiAllocationDetail;
-  yatriDetails: YatriDetails[],
+  yatriDetails: YatriDetails[];
   ticketType: TicketType;
   setIsDataConfirmed: (data: boolean) => void;
+  setYatriDetails: (data: YatriDetails[]) => void;
 };
 
-const TicketDetails = ({
+const AddViewTicketDetails = ({
   hotiAllocationDetails,
-  yatriDetails,
   ticketType,
   setIsDataConfirmed,
+  yatriDetails,
+  setYatriDetails,
 }: TicketDetailsProps) => {
-  const [selectedTab, setSelectedTab] = useState<TicketType>(ticketType);
-  const [yatriId, setyatriId] = useState(yatriDetails.length+1);
+  const selectedTab: TicketType = ticketType;
+
   const [selectedYatri, setSelectedYatri] = useState<YatriFormFieldType>({
     isDirty: false,
   } as YatriFormFieldType);
@@ -52,136 +57,172 @@ const TicketDetails = ({
     } as YatriFormFieldType);
   };
 
-  const routeToTicket = (ticketType: TicketType) => {
-    // if (selectedYatri.isDirty) {
-    //   setToastOpen(true);
-    // } else {
-    setSelectedTab(ticketType);
-    // }
+  const [yatriList, setYatriList] = useState<YatriDetails[]>(
+    yatriDetails.filter((yatri) => yatri.ticketType === ticketType)
+  );
+
+  useEffect(() => {
+    console.log("yatrid etails updated", yatriDetails);
+    setYatriList(
+      yatriDetails.filter((yatri) => yatri.ticketType === ticketType)
+    );
+  }, [yatriDetails, ticketType]);
+
+  const formEl = useRef<HTMLDivElement>(null);
+
+  const addYatriDetails = async () => {
+    const result = await addPassengerDetails(
+      selectedYatri,
+      hotiAllocationDetails,
+      selectedTab
+    );
+    console.log("resolt", result);
+    setYatriDetails([...yatriDetails, result]);
+    console.log("Passenger details saved successfully");
+  };
+
+  const goToForm = () => {
+    if (formEl.current) {
+      highlightDivContainer(formEl);
+    }
   };
 
   return (
     <>
-      <Card>
-        <CardHeader
-          subheader={FormFields(hotiAllocationDetails)[selectedTab].subtitle}
-          sx={{ color: "#303030" }}
-          color="text.secondary"
-          title={FormFields(hotiAllocationDetails)[selectedTab].title}
-        />
-        <Divider />
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Enter full name"
-                name="fullName"
-                onChange={handleChange}
-                required
-                value={selectedYatri.fullName || ""}
-                variant="outlined"
-              />
+      <Box display="flex" justifyContent="space-between" marginBottom="8px">
+        {yatriList.length <
+          FormFields(hotiAllocationDetails)[ticketType].seatQuota &&
+          !!yatriList.length && (
+            <Button color="secondary" onClick={goToForm}>
+              <Add />
+              Add Passenger
+            </Button>
+          )}
+        <Button color="secondary" onClick={() => setIsDataConfirmed(false)}>
+          <ArrowBackIos fontSize="small" />
+          Go back
+        </Button>
+      </Box>
+      {yatriList.map((yatri) => (
+        <YatriDetailView key={yatri.yatriId} yatri={yatri} />
+      ))}
+
+      {yatriList.length <
+        FormFields(hotiAllocationDetails)[ticketType].seatQuota && (
+        <Card>
+          <CardHeader
+            title={FormFields(hotiAllocationDetails)[selectedTab].title}
+            subheader={FormFields(hotiAllocationDetails)[selectedTab].subtitle}
+            sx={{ color: "#303030" }}
+            color="text.secondary"
+          />
+          <Divider />
+
+          <CardContent ref={formEl}>
+            <Grid container spacing={3}>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Enter full name"
+                  name="fullName"
+                  onChange={handleChange}
+                  required
+                  value={selectedYatri.fullName || ""}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Gender"
+                  name="gender"
+                  onChange={handleChange}
+                  required
+                  select
+                  SelectProps={{ native: true }}
+                  value={selectedYatri.gender}
+                  variant="outlined"
+                >
+                  {["Male", "Female"].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  focused
+                  label="Date of birth"
+                  name="dateOfBirth"
+                  type="date"
+                  onChange={handleChange}
+                  required
+                  value={selectedYatri.dateOfBirth || new Date()}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Mobile Number"
+                  type="phone"
+                  name="mobile"
+                  onChange={handleChange}
+                  required
+                  value={selectedYatri.mobile || ""}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Aadhar Card number"
+                  name="idProof"
+                  onChange={handleChange}
+                  required
+                  value={selectedYatri.idProof || ""}
+                  variant="outlined"
+                />
+              </Grid>
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Gender"
-                name="gender"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={selectedYatri.gender || "Male"}
+          </CardContent>
+          <Divider />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              p: 2,
+            }}
+          >
+            <Box>
+              <Button
+                onClick={clearFormFields}
+                sx={{ marginX: "8px" }}
                 variant="outlined"
               >
-                {["Male", "Female"].map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                focused
-                label="Date of birth"
-                name="dateOfBirth"
-                type="date"
-                onChange={handleChange}
-                required
-                value={selectedYatri.dateOfBirth || new Date()}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Mobile Number"
-                type="phone"
-                name="mobile"
-                onChange={handleChange}
-                required
-                value={selectedYatri.mobile || ""}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Aadhar Card number"
-                name="idProof"
-                onChange={handleChange}
-                required
-                value={selectedYatri.idProof || ""}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 2,
-          }}
-        >
-          <Box>
-            <Button
-              onClick={() => setIsDataConfirmed(false)}
-              variant="outlined"
-            >
-              Go back
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              onClick={clearFormFields}
-              sx={{ marginX: "8px" }}
-              variant="outlined"
-            >
-              Clear
-            </Button>
-            <Button sx={{ marginX: "8px" }} color="primary" variant="contained" onClick={async ()=>{   
-              selectedYatri.yatriId=`yatri-${yatriId}` ;
-              setyatriId(yatriId+1)          
-              await addPassengerDetails(selectedYatri, hotiAllocationDetails.hotiId );
-              console.log("Passenger details saved successfully");
-            }} >
-              Save
-            </Button>
-          </Box>
+                Clear
+              </Button>
+              <Button
+                sx={{ marginX: "8px" }}
+                color="primary"
+                variant="contained"
+                onClick={addYatriDetails}
+              >
+                Save
+              </Button>
+            </Box>
 
-          {/* {!selectedYatri.isDirty && (
+            {/* {!selectedYatri.isDirty && (
             <Button sx={{ marginX: "8px" }}>
               Enter to {FormFields(hotiAllocationDetails)[selectedTab].next}
             </Button>
           )} */}
-        </Box>
-      </Card>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+          </Box>
+        </Card>
+      )}
+      {/* <Box display="flex" alignItems="center" justifyContent="space-between">
         {!!hotiAllocationDetails.extraTicketQuota && (
           <Button sx={{ marginX: "4px" }} color="secondary" variant="outlined">
             Enter Extra Tickets
@@ -192,8 +233,7 @@ const TicketDetails = ({
             Enter Labharti Tickets
           </Button>
         )}
-      </Box>
-      {false && <Button onClick={() => routeToTicket("HOTI")}>test</Button>}
+      </Box> */}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -217,4 +257,6 @@ const TicketDetails = ({
   );
 };
 
-export default TicketDetails;
+export default AddViewTicketDetails;
+
+// add id for each yatri, retrieving from hotiAllocationDetails.nextYatriId

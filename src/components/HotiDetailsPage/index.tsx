@@ -5,12 +5,12 @@ import React, { useState } from "react";
 import { LJNMColors } from "../../styles";
 import { Hoti } from "../../types/hoti";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import TicketDetails from "../TicketDetails";
+import AddViewTicketDetails from "../TicketDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
-import TicketRoutingContainer from "./TicketRoutingContainer";
+import TicketTypeRouter from "./TicketTypeRouter";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 
 type TicketFormProps = {
@@ -18,12 +18,14 @@ type TicketFormProps = {
   hotiAllocationDetails: HotiAllocationDetail;
   yatriDetails: YatriDetails[];
   clearHotiDetails: () => void;
+  setYatriDetails: (yatriDetails: YatriDetails[]) => void;
 };
-const TicketForm = ({
+const HotiDetailsPage = ({
   hotiDetails,
   hotiAllocationDetails,
   yatriDetails,
   clearHotiDetails,
+  setYatriDetails,
 }: TicketFormProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
@@ -34,14 +36,21 @@ const TicketForm = ({
   return (
     <Grid
       container
-      // spacing={3}
       margin={0}
       width="100%"
       height="100vh"
       justifyContent="center"
       alignItems="center"
     >
-      <Grid padding="24px" width="100%" height="100%" lg={6} md={8} xs={12}>
+      <Grid
+        item
+        padding="24px"
+        width="100%"
+        height="100%"
+        lg={6}
+        md={8}
+        xs={12}
+      >
         {!isDataConfirmed ? (
           <>
             <Box
@@ -76,29 +85,50 @@ const TicketForm = ({
                   <PhoneIcon sx={{ marginRight: "8px" }} /> {hotiDetails.mobile}
                 </Typography>
                 {!!hotiAllocationDetails.labhartiTicketQuota && (
-                  <TicketRoutingContainer
+                  <TicketTypeRouter
+                    yatriLength={
+                      yatriDetails.filter(
+                        (yatri) => yatri.ticketType === "LABHARTI"
+                      )?.length || 0
+                    }
                     label="Labharti Tickets"
                     clickHandler={() => confirmHotiDetails("LABHARTI")}
                     ticketCount={hotiAllocationDetails.labhartiTicketQuota}
                   />
                 )}
                 {!!hotiAllocationDetails.hotiTicketQuota && (
-                  <TicketRoutingContainer
+                  <TicketTypeRouter
+                    yatriLength={
+                      yatriDetails.filter(
+                        (yatri) => yatri.ticketType === "HOTI"
+                      )?.length || 0
+                    }
                     label="Hoti Tickets"
                     clickHandler={() => confirmHotiDetails("HOTI")}
                     ticketCount={hotiAllocationDetails.hotiTicketQuota}
                   />
                 )}
                 {!!hotiAllocationDetails.extraTicketQuota && (
-                  <TicketRoutingContainer
+                  <TicketTypeRouter
                     label="Extra tickets"
+                    yatriLength={
+                      yatriDetails.filter(
+                        (yatri) => yatri.ticketType === "EXTRA"
+                      )?.length || 0
+                    }
                     clickHandler={() => confirmHotiDetails("EXTRA")}
                     ticketCount={hotiAllocationDetails.extraTicketQuota}
                   />
                 )}
               </Box>
 
-              <Box margin="24px">
+              <Box
+                margin="24px"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+              >
                 <Button
                   sx={{
                     marginTop: 3,
@@ -108,7 +138,7 @@ const TicketForm = ({
                   color="secondary"
                   variant="outlined"
                 >
-                  Enter Different Hoti Number
+                  Enter a Different Hoti Number
                 </Button>
                 <Box
                   padding="8px"
@@ -120,7 +150,8 @@ const TicketForm = ({
                 >
                   <InfoOutlined color="secondary" fontSize="small" />
                   <Typography fontSize="14px" marginLeft="8px">
-                    If you find this data incorrect, please contact us at
+                    If you find your Hoti details or ticket information
+                    incorrect, please contact us at
                     <a
                       style={{
                         textDecoration: "none",
@@ -137,10 +168,11 @@ const TicketForm = ({
             </Box>
           </>
         ) : (
-          <TicketDetails
+          <AddViewTicketDetails
             ticketType={ticketType}
             setIsDataConfirmed={setIsDataConfirmed}
             yatriDetails={yatriDetails}
+            setYatriDetails={setYatriDetails}
             hotiAllocationDetails={hotiAllocationDetails}
           />
         )}
@@ -149,4 +181,4 @@ const TicketForm = ({
   );
 };
 
-export default TicketForm;
+export default HotiDetailsPage;

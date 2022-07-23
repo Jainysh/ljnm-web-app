@@ -3,4 +3,5 @@ export type HotiAllocationDetail = {
   extraTicketQuota: number;
   hotiTicketQuota: number;
   labhartiTicketQuota: number;
+  nextYatriId?: number;
 };

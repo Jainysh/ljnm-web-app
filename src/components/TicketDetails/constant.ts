@@ -12,19 +12,19 @@ export const FormFields = (hotiAllocationDetail: HotiAllocationDetail) => {
         : "hotiTickets",
     },
     LABHARTI: {
-      title: "Labharti tickets",
+      title: "Labharti ticket",
       subtitle: "",
       seatQuota: hotiAllocationDetail.labhartiTicketQuota,
       next: "hotiTickets",
     },
     HOTI: {
-      title: "Hoti tickets",
+      title: "Hoti ticket",
       subtitle: "",
       seatQuota: hotiAllocationDetail.hotiTicketQuota,
       next: "extraTickets",
     },
     EXTRA: {
-      title: "Extra tickets",
+      title: "Extra ticket",
       subtitle: "",
       seatQuota: hotiAllocationDetail.extraTicketQuota,
       next: null,

@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   getHotiDetailById,
-  getHotiAllocationDetailById,
   getAllYatriDetailsById,
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
@@ -14,6 +13,8 @@ import { LJNMColors } from "../../styles";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 import { YatriDetails } from "../../types/yatriDetails";
+import { onSnapshot, Unsubscribe, doc } from "firebase/firestore";
+import { getFirebaseFirestoreDB } from "../../firebase";
 const HomeComponent = () => {
   const getHotiDetails = async () => {
     if (!hotiNumber || hotiNumber <= 0 || hotiNumber >= 224) {
@@ -22,11 +23,7 @@ const HomeComponent = () => {
     }
     setShowLoader(true);
     const hotiDetails = await getHotiDetailById(hotiNumber);
-    const hotiAllocationDetails = await getHotiAllocationDetailById(hotiNumber);
-    const yatriDetails = await getAllYatriDetailsById(hotiNumber);
     setHotiDetails(hotiDetails);
-    setHotiAllocationDetails(hotiAllocationDetails);
-    setYatriDetails(yatriDetails);
     setShowLoader(false);
   };
 
@@ -58,6 +55,34 @@ const HomeComponent = () => {
     }
   };
 
+  useEffect(() => {
+    let hotiDetailsUnsubscribe: Unsubscribe;
+    const doExecute = async () => {
+      hotiDetailsUnsubscribe = onSnapshot(
+        doc(
+          await getFirebaseFirestoreDB(),
+          `EventMaster/event-1/hotiAllocation/hoti-${hotiDetails.hotiId}`
+        ),
+        async (doc) => {
+          const hotiAllocationDetails = doc.data();
+          if (hotiAllocationDetails) {
+            setHotiAllocationDetails(
+              hotiAllocationDetails as HotiAllocationDetail
+            );
+            const yatriDetails = await getAllYatriDetailsById(
+              hotiDetails.hotiId
+            );
+            setYatriDetails(yatriDetails);
+          }
+        }
+      );
+    };
+    doExecute();
+    return () => {
+      hotiDetailsUnsubscribe && hotiDetailsUnsubscribe();
+    };
+  }, [hotiDetails.hotiId]);
+
   return (
     <>
       {!hotiDetails.name ? (
@@ -78,7 +103,14 @@ const HomeComponent = () => {
                 margin="8px"
                 paddingY="8px"
               >
-                <img src="/logo.jpeg" width="100px" alt="logo" />
+                <Box width="100px" height="100px">
+                  <img
+                    src="/logo.jpeg"
+                    width="100%"
+                    style={{ objectFit: "contain" }}
+                    alt="logo"
+                  />
+                </Box>
                 <Box paddingLeft="16px">
                   <Typography variant="h4">LJNM Shikharji Yatra</Typography>
                   <Typography margin="8px 0">Passenger details form</Typography>
@@ -137,7 +169,6 @@ const HomeComponent = () => {
           clearHotiDetails={clearHotiDetails}
           hotiDetails={hotiDetails}
           yatriDetails={yatriDetails}
-          setYatriDetails={setYatriDetails}
           hotiAllocationDetails={hotiAllocationDetails}
         />
       )}

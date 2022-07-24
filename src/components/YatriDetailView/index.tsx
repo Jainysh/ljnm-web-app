@@ -13,6 +13,7 @@ const YatriDetailView = ({ yatri }: YatriDetailViewProps) => {
   return (
     <Box
       borderBottom={`2px dashed ${LJNMColors.primary}`}
+      borderRight={`1px dashed ${LJNMColors.primary}`}
       padding="12px"
       key={yatri.yatriId}
       borderRadius="8px"

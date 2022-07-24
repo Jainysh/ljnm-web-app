@@ -18,14 +18,12 @@ type TicketFormProps = {
   hotiAllocationDetails: HotiAllocationDetail;
   yatriDetails: YatriDetails[];
   clearHotiDetails: () => void;
-  setYatriDetails: (yatriDetails: YatriDetails[]) => void;
 };
 const HotiDetailsPage = ({
   hotiDetails,
   hotiAllocationDetails,
   yatriDetails,
   clearHotiDetails,
-  setYatriDetails,
 }: TicketFormProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
@@ -120,6 +118,14 @@ const HotiDetailsPage = ({
                     ticketCount={hotiAllocationDetails.extraTicketQuota}
                   />
                 )}
+                <TicketTypeRouter
+                  label="Children tickets"
+                  yatriLength={
+                    yatriDetails.filter((yatri) => yatri.ticketType === "CHILD")
+                      ?.length || 0
+                  }
+                  clickHandler={() => confirmHotiDetails("CHILD")}
+                />
               </Box>
 
               <Box
@@ -172,7 +178,6 @@ const HotiDetailsPage = ({
             ticketType={ticketType}
             setIsDataConfirmed={setIsDataConfirmed}
             yatriDetails={yatriDetails}
-            setYatriDetails={setYatriDetails}
             hotiAllocationDetails={hotiAllocationDetails}
           />
         )}

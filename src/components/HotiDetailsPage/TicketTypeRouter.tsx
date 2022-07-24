@@ -8,13 +8,13 @@ import { LJNMColors } from "../../styles";
 type TicketTypeRouterProps = {
   label: string;
   clickHandler: () => void;
-  ticketCount: number;
+  ticketCount?: number;
   yatriLength: number;
 };
 const TicketTypeRouter = ({
   label,
   clickHandler,
-  ticketCount,
+  ticketCount = -1,
   yatriLength = 0,
 }: TicketTypeRouterProps) => {
   return (
@@ -35,15 +35,25 @@ const TicketTypeRouter = ({
     >
       <Box>
         <Typography>{label}</Typography>
-        <Typography
-          color={LJNMColors.secondary}
-          fontSize="14px"
-          fontStyle="italic"
-        >
-          {yatriLength !== ticketCount
-            ? `${yatriLength} of ${ticketCount} tickets added`
-            : `All ${yatriLength} tickets added`}
-        </Typography>
+        {ticketCount > 0 ? (
+          <Typography
+            color={LJNMColors.secondary}
+            fontSize="14px"
+            fontStyle="italic"
+          >
+            {yatriLength !== ticketCount
+              ? `${yatriLength} of ${ticketCount} tickets added`
+              : `All ${yatriLength} tickets added`}
+          </Typography>
+        ) : (
+          <Typography
+            color={LJNMColors.secondary}
+            fontSize="14px"
+            fontStyle="italic"
+          >
+            {yatriLength} tickets added
+          </Typography>
+        )}
       </Box>
       <Button onClick={clickHandler} color="secondary">
         {yatriLength !== ticketCount

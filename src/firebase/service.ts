@@ -11,7 +11,7 @@ import { getFirebaseFirestoreDB } from ".";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
-import { TicketType, YatriDetails } from "../types/yatriDetails";
+import { YatriDetails } from "../types/yatriDetails";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -135,8 +135,7 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
 
 export const addPassengerDetails = async (
   passengerDetail: YatriDetails,
-  hotiAllocationDetail: HotiAllocationDetail,
-  ticketType: TicketType
+  hotiAllocationDetail: HotiAllocationDetail
 ): Promise<YatriDetails> => {
   console.log(passengerDetail);
   const db = await getFirebaseFirestoreDB();
@@ -162,7 +161,7 @@ export const addPassengerDetails = async (
         fullName: passengerDetail.fullName || "",
         gender: passengerDetail.gender || "Male",
         mobile: passengerDetail.mobile || "",
-        ticketType: ticketType,
+        ticketType: passengerDetail.ticketType,
         dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
         idProof: passengerDetail.idProof || "",
         hotiId: hotiAllocationDetail.hotiId,
@@ -187,7 +186,7 @@ export const addPassengerDetails = async (
           fullName: passengerDetail.fullName || "",
           gender: passengerDetail.gender || "Male",
           mobile: passengerDetail.mobile || "",
-          ticketType: ticketType,
+          ticketType: passengerDetail.ticketType,
           dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
           idProof: passengerDetail.idProof || "",
           hotiId: hotiAllocationDetail.hotiId,

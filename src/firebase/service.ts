@@ -5,6 +5,7 @@ import {
   collection,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { getFirebaseFirestoreDB } from ".";
 import { labhartiDetails } from "../constants/labharti";
@@ -120,33 +121,78 @@ export const getHotiAllocationDetailById = async (id: number) => {
 
 export const getAllYatriDetailsById = async (hotiId: number) => {
   const db = await getFirebaseFirestoreDB();
-  const path =`EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
   const q = query(collection(db, path));
   const querySnapShot = await getDocs(q);
   if (querySnapShot.empty) {
     return [] as YatriDetails[];
   }
-  const passengerDetaila = querySnapShot.docs.map((doc) => doc.data()) as YatriDetails[];
+  const passengerDetaila = querySnapShot.docs.map((doc) =>
+    doc.data()
+  ) as YatriDetails[];
   return passengerDetaila;
 };
 
-export const addPassengerDetails = async (passengerDetail: YatriDetails, hotiId: number) => {
-    try {
-        const path =`EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
-        const docRef = await setDoc(
-          doc(await getFirebaseFirestoreDB(), path, `${passengerDetail.yatriId}`),
-          {
-            yatriId: passengerDetail.yatriId,
-            fulllName: passengerDetail.fullName || '',
-            gender: passengerDetail.gender || '',
-            mobile: passengerDetail.mobile || '',
-            ticketType: passengerDetail.ticketType || '',
-            // dateOfBirth: passengerDetail.dateOfBirth || new Date(),
-          }
-        );
-        console.log("Document written with ID: ", docRef);
+export const addPassengerDetails = async (
+  passengerDetail: YatriDetails,
+  hotiAllocationDetail: HotiAllocationDetail
+): Promise<YatriDetails> => {
+  console.log(passengerDetail);
+  const db = await getFirebaseFirestoreDB();
 
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiAllocationDetail.hotiId}/yatriDetails`;
+  return new Promise((resolve) => {
+    setDoc(
+      doc(
+        db,
+        path,
+        `${hotiAllocationDetail.hotiId.toString().padStart(3, "0")}-${(
+          hotiAllocationDetail.nextYatriId || 1
+        )
+          .toString()
+          .padStart(3, "0")}`
+      ),
+      {
+        yatriId: `${hotiAllocationDetail.hotiId.toString().padStart(3, "0")}-${(
+          hotiAllocationDetail.nextYatriId || 1
+        )
+          ?.toString()
+          .padStart(3, "0")}`,
+        fullName: passengerDetail.fullName || "",
+        gender: passengerDetail.gender || "Male",
+        mobile: passengerDetail.mobile || "",
+        ticketType: passengerDetail.ticketType,
+        dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
+        idProof: passengerDetail.idProof || "",
+        hotiId: hotiAllocationDetail.hotiId,
+      }
+    )
+      .then(async (data) => {
+        const hotiAllocationDocRef = doc(
+          db,
+          "EventMaster/event-1/hotiAllocation",
+          `hoti-${hotiAllocationDetail.hotiId}`
+        );
+        // update the next yatri id in hotiAllocation
+        await updateDoc(hotiAllocationDocRef, {
+          nextYatriId: (hotiAllocationDetail.nextYatriId || 1) + 1,
+        });
+        resolve({
+          yatriId: `${hotiAllocationDetail.hotiId
+            .toString()
+            .padStart(3, "0")}-${(hotiAllocationDetail.nextYatriId || 1)
+            ?.toString()
+            .padStart(3, "0")}`,
+          fullName: passengerDetail.fullName || "",
+          gender: passengerDetail.gender || "Male",
+          mobile: passengerDetail.mobile || "",
+          ticketType: passengerDetail.ticketType,
+          dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
+          idProof: passengerDetail.idProof || "",
+          hotiId: hotiAllocationDetail.hotiId,
+          profilePicture: "",
+        });
+      })
+      .catch((err) => console.log(err));
+  });
 };

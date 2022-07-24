@@ -7,7 +7,8 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { getFirebaseFirestoreDB } from ".";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getFirebaseFirestoreDB, storage } from ".";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
@@ -135,54 +136,35 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
 
 export const addPassengerDetails = async (
   passengerDetail: YatriDetails,
-  hotiAllocationDetail: HotiAllocationDetail
+  hotiAllocationDetail: HotiAllocationDetail,
+  fileDate: any
 ): Promise<YatriDetails> => {
   console.log(passengerDetail);
   const db = await getFirebaseFirestoreDB();
-
+  const storageFirebase = await storage;
   const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiAllocationDetail.hotiId}/yatriDetails`;
-  return new Promise((resolve) => {
-    setDoc(
-      doc(
-        db,
-        path,
-        `${hotiAllocationDetail.hotiId.toString().padStart(3, "0")}-${(
-          hotiAllocationDetail.nextYatriId || 1
-        )
-          .toString()
-          .padStart(3, "0")}`
-      ),
-      {
-        yatriId: `${hotiAllocationDetail.hotiId.toString().padStart(3, "0")}-${(
-          hotiAllocationDetail.nextYatriId || 1
-        )
-          ?.toString()
-          .padStart(3, "0")}`,
-        fullName: passengerDetail.fullName || "",
-        gender: passengerDetail.gender || "Male",
-        mobile: passengerDetail.mobile || "",
-        ticketType: passengerDetail.ticketType,
-        dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
-        idProof: passengerDetail.idProof || "",
-        hotiId: hotiAllocationDetail.hotiId,
-      }
-    )
-      .then(async (data) => {
-        const hotiAllocationDocRef = doc(
-          db,
-          "EventMaster/event-1/hotiAllocation",
-          `hoti-${hotiAllocationDetail.hotiId}`
+  const yatriId = `${hotiAllocationDetail.hotiId
+    .toString()
+    .padStart(3, "0")}-${(hotiAllocationDetail.nextYatriId || 1)
+    .toString()
+    .padStart(3, "0")}`;
+  return new Promise(async (resolve) => {
+    const storageRef = ref(storageFirebase, `/${path}/${yatriId}`);
+    const uploadTask = uploadBytesResumable(storageRef, fileDate);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        // update the next yatri id in hotiAllocation
-        await updateDoc(hotiAllocationDocRef, {
-          nextYatriId: (hotiAllocationDetail.nextYatriId || 1) + 1,
-        });
-        resolve({
-          yatriId: `${hotiAllocationDetail.hotiId
-            .toString()
-            .padStart(3, "0")}-${(hotiAllocationDetail.nextYatriId || 1)
-            ?.toString()
-            .padStart(3, "0")}`,
+
+        // update progress
+        console.log("percent", percent);
+      },
+      (err) => console.log(err),
+      () => {
+        setDoc(doc(db, path, yatriId), {
+          yatriId: yatriId,
           fullName: passengerDetail.fullName || "",
           gender: passengerDetail.gender || "Male",
           mobile: passengerDetail.mobile || "",
@@ -190,9 +172,37 @@ export const addPassengerDetails = async (
           dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
           idProof: passengerDetail.idProof || "",
           hotiId: hotiAllocationDetail.hotiId,
-          profilePicture: "",
+          profilePicture: `${path}/${yatriId}`,
+        })
+          .then(async (data) => {
+            const hotiAllocationDocRef = doc(
+              db,
+              "EventMaster/event-1/hotiAllocation",
+              `hoti-${hotiAllocationDetail.hotiId}`
+            );
+            // update the next yatri id in hotiAllocation
+            await updateDoc(hotiAllocationDocRef, {
+              nextYatriId: (hotiAllocationDetail.nextYatriId || 1) + 1,
+            });
+            resolve({
+              yatriId: yatriId,
+              fullName: passengerDetail.fullName || "",
+              gender: passengerDetail.gender || "Male",
+              mobile: passengerDetail.mobile || "",
+              ticketType: passengerDetail.ticketType,
+              dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
+              idProof: passengerDetail.idProof || "",
+              hotiId: hotiAllocationDetail.hotiId,
+              profilePicture: `${path}/${yatriId}`,
+            });
+          })
+          .catch((err) => console.log(err));
+        // download url
+        console.log("uploadTask", uploadTask);
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log("imageURL", url);
         });
-      })
-      .catch((err) => console.log(err));
+      }
+    );
   });
 };

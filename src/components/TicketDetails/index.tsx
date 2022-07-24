@@ -17,6 +17,10 @@ import YatriDetailView from "../YatriDetailView";
 import { Add, ArrowBackIos } from "@mui/icons-material";
 import { convertToAge, highlightDivContainer } from "../../lib/helper";
 import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import { LJNMColors } from "../../styles";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -48,15 +52,38 @@ const AddViewTicketDetails = ({
     const selectedYatriLocal = selectedYatri;
     selectedYatriLocal[e.target.name as string] = e.target.value;
     selectedYatriLocal.isDirty = true;
-    console.log(e.target.value);
     if (e.target.name === "idProof") {
       console.log((e.target.value || "").match(/^[2-9]{1}[0-9]{11}$/));
     }
     setSelectedYatri({ ...selectedYatriLocal });
   };
 
+  const [fileData, setFileData] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+
+  const uploadFile = (e: any) => {
+    console.log(e.target.files[0].size / 1000);
+    const fileSize = e.target.files[0].size / 1024;
+    if (fileSize <= 1024) {
+      setFileData(e.target.files[0] || null);
+      const image = URL.createObjectURL(e.target.files[0]);
+      setImageURL(image);
+    } else {
+      setToastMessage(
+        `File is ${(fileSize / 1024).toFixed(
+          2
+        )} MB. File size should be less than 1MB`
+      );
+      setToastSeverity("error");
+      setToastOpen(true);
+      clearFormFields();
+    }
+  };
+
   const clearFormFields = () => {
     setErrorField("");
+    setFileData(null);
+    setImageURL("");
     setSelectedYatri({
       isDirty: false,
     } as YatriFormFieldType);
@@ -99,16 +126,23 @@ const AddViewTicketDetails = ({
       case !selectedYatri.idProof || aadharValidator(selectedYatri):
         setErrorField("idProof");
         return;
+      case !fileData:
+        setToastMessage("Please upload a photo");
+        setToastSeverity("error");
+        setToastOpen(true);
+        closeToast(setToastOpen);
+        setErrorField("profilePicture");
+        return;
     }
     if (convertToAge(selectedYatri.dateOfBirth) <= 5) {
       selectedYatri.ticketType = "CHILD";
     } else {
       selectedYatri.ticketType = selectedTab;
     }
-    await addPassengerDetails(selectedYatri, hotiAllocationDetails);
+    await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
     clearFormFields();
     setToastMessage(
-      selectedYatri.ticketType === "CHILD"
+      selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
         ? "Yatri added as child successfully, Please check added details in Children ticket section"
         : "Yatri details added successfully"
     );
@@ -167,6 +201,75 @@ const AddViewTicketDetails = ({
 
             <CardContent ref={formEl}>
               <Grid container spacing={3}>
+                <Grid item md={6} xs={12}>
+                  <FormControl
+                    error={errorField === "profilePicture"}
+                    sx={{ width: "100%" }}
+                    variant="outlined"
+                  >
+                    <Box
+                      sx={{
+                        border: `1px solid ${
+                          errorField === "profilePicture"
+                            ? "#d32f2f"
+                            : "#dddddd"
+                        }`,
+                        borderRadius: "4px",
+                        width: "100%",
+                      }}
+                    >
+                      <InputLabel
+                        shrink={true}
+                        sx={{ backgroundColor: "white" }}
+                        htmlFor="component-error"
+                      >
+                        Add Passenger Photo
+                      </InputLabel>
+                      <input
+                        style={{ padding: "16px" }}
+                        onChange={uploadFile}
+                        type="file"
+                        accept="image/*"
+                      />
+                    </Box>
+                    <FormHelperText>
+                      {errorField === "profilePicture"
+                        ? "Please add a profile image (maximum upto 1MB)"
+                        : "Maximum 1MB"}
+                    </FormHelperText>
+                  </FormControl>
+                  <Box>
+                    {imageURL && (
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Typography
+                          color={LJNMColors.primary}
+                          fontSize="12px"
+                          marginRight="8px"
+                        >
+                          File size:
+                          <br />
+                          {((fileData as any)?.size / (1024 * 1024)).toFixed(
+                            2
+                          )}{" "}
+                          MB
+                        </Typography>
+                        <Box flexGrow={1} width="140px" height="140px">
+                          <img
+                            width="100%"
+                            height="100%"
+                            style={{ objectFit: "contain" }}
+                            src={imageURL}
+                            alt="profile pic"
+                          />
+                        </Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
                 <Grid item md={6} xs={12}>
                   <TextField
                     autoFocus={true}

@@ -6,8 +6,14 @@ import {
   where,
   getDocs,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { getFirebaseFirestoreDB, storage } from ".";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
@@ -204,5 +210,34 @@ export const addPassengerDetails = async (
         });
       }
     );
+  });
+};
+
+export const deleteYatriById = async (
+  hotiId: number,
+  yatriDetails: YatriDetails
+) => {
+  const db = await getFirebaseFirestoreDB();
+  const storageFirebase = await storage;
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+  return new Promise(async (resolve) => {
+    if (yatriDetails.profilePicture) {
+      const storageRef = ref(storageFirebase, yatriDetails.profilePicture);
+      deleteObject(storageRef).then(async () => {
+        console.log("asset deleted");
+        const yatriDocRef = doc(db, path, yatriDetails.yatriId);
+        await deleteDoc(yatriDocRef);
+        resolve({
+          success: true,
+        });
+      });
+    } else {
+      console.log("asset not found");
+      const yatriDocRef = doc(db, path, yatriDetails.yatriId);
+      await deleteDoc(yatriDocRef);
+      resolve({
+        success: true,
+      });
+    }
   });
 };

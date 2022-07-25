@@ -13,18 +13,20 @@ import InfoOutlined from "@mui/icons-material/InfoOutlined";
 import TicketTypeRouter from "./TicketTypeRouter";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 
-type TicketFormProps = {
+type HotiDetailsPageProps = {
   hotiDetails: Hoti;
   hotiAllocationDetails: HotiAllocationDetail;
   yatriDetails: YatriDetails[];
   clearHotiDetails: () => void;
+  setYatriDetails: (yariDetails: YatriDetails[]) => void;
 };
 const HotiDetailsPage = ({
   hotiDetails,
   hotiAllocationDetails,
   yatriDetails,
   clearHotiDetails,
-}: TicketFormProps) => {
+  setYatriDetails,
+}: HotiDetailsPageProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
   const confirmHotiDetails = (type: TicketType) => {
@@ -175,6 +177,7 @@ const HotiDetailsPage = ({
           </>
         ) : (
           <AddViewTicketDetails
+            setYatriDetails={setYatriDetails}
             ticketType={ticketType}
             setIsDataConfirmed={setIsDataConfirmed}
             yatriDetails={yatriDetails}

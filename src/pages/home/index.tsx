@@ -166,6 +166,7 @@ const HomeComponent = () => {
         </Box>
       ) : (
         <HotiDetailsPage
+          setYatriDetails={setYatriDetails}
           clearHotiDetails={clearHotiDetails}
           hotiDetails={hotiDetails}
           yatriDetails={yatriDetails}

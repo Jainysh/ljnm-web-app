@@ -9,7 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import React, { useEffect, useRef, useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import { addPassengerDetails } from "../../firebase/service";
+import { addPassengerDetails, deleteYatriById } from "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { FormFields } from "./constant";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
@@ -21,17 +21,21 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import { LJNMColors } from "../../styles";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Modal from "@mui/material/Modal";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
   [key: string]: any;
 };
 
-type TicketDetailsProps = {
+type AddViewTicketDetailsProps = {
   hotiAllocationDetails: HotiAllocationDetail;
   yatriDetails: YatriDetails[];
   ticketType: TicketType;
   setIsDataConfirmed: (data: boolean) => void;
+  setYatriDetails: (data: YatriDetails[]) => void;
 };
 
 const AddViewTicketDetails = ({
@@ -39,7 +43,8 @@ const AddViewTicketDetails = ({
   ticketType,
   setIsDataConfirmed,
   yatriDetails,
-}: TicketDetailsProps) => {
+  setYatriDetails,
+}: AddViewTicketDetailsProps) => {
   const selectedTab: TicketType = ticketType;
   const [toastMessage, setToastMessage] = useState("");
   const [toastSeverity, setToastSeverity] = useState<AlertColor>("info");
@@ -47,14 +52,22 @@ const AddViewTicketDetails = ({
     isDirty: false,
   } as YatriFormFieldType);
   const [toastOpen, setToastOpen] = useState(false);
-
+  const [showLoader, setShowLoader] = useState(false);
+  const [loaderText, setLoaderText] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedYatriForDeletion, setSelectedYatriForDeletion] =
+    useState<YatriDetails>({} as YatriDetails);
   const handleChange = (e: any) => {
     const selectedYatriLocal = selectedYatri;
     selectedYatriLocal[e.target.name as string] = e.target.value;
     selectedYatriLocal.isDirty = true;
-    if (e.target.name === "idProof") {
-      console.log((e.target.value || "").match(/^[2-9]{1}[0-9]{11}$/));
+    if (e.target.name === "idProof" && e.target.value.length > 12) {
+      selectedYatriLocal.idProof = (e.target.value as string).slice(0, 12);
     }
+    if (e.target.name === "mobile" && e.target.value.length > 10) {
+      selectedYatriLocal.mobile = (e.target.value as string).slice(0, 10);
+    }
+    setErrorField("");
     setSelectedYatri({ ...selectedYatriLocal });
   };
 
@@ -112,35 +125,18 @@ const AddViewTicketDetails = ({
       closeToast(setToastOpen);
       return;
     }
-    switch (true) {
-      case !selectedYatri.fullName:
-        setErrorField("fullName");
-        return;
-      case !selectedYatri.dateOfBirth ||
-        dateValidator(selectedYatri, ticketType, "mobile"):
-        setErrorField("dateOfBirth");
-        return;
-      case !selectedYatri.mobile || mobileValidator(selectedYatri):
-        setErrorField("mobile");
-        return;
-      case !selectedYatri.idProof || aadharValidator(selectedYatri):
-        setErrorField("idProof");
-        return;
-      case !fileData:
-        setToastMessage("Please upload a photo");
-        setToastSeverity("error");
-        setToastOpen(true);
-        closeToast(setToastOpen);
-        setErrorField("profilePicture");
-        return;
+    if (!isFormValid(selectedYatri)) {
+      return;
     }
     if (convertToAge(selectedYatri.dateOfBirth) <= 5) {
       selectedYatri.ticketType = "CHILD";
     } else {
       selectedYatri.ticketType = selectedTab;
     }
+    setShowLoader(true);
     await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
     clearFormFields();
+    setShowLoader(false);
     setToastMessage(
       selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
         ? "Yatri added as child successfully, Please check added details in Children ticket section"
@@ -165,18 +161,67 @@ const AddViewTicketDetails = ({
 
   const [showForm, setShowForm] = useState(!yatriList.length);
 
+  const deleteYatri = async () => {
+    setShowModal(false);
+    setShowLoader(true);
+    setLoaderText("Deleting Yatri...");
+    await deleteYatriById(
+      hotiAllocationDetails.hotiId,
+      selectedYatriForDeletion
+    );
+    setYatriDetails(
+      yatriDetails.filter(
+        (yatri) => yatri.yatriId !== selectedYatriForDeletion.yatriId
+      )
+    );
+    setToastMessage("Yatri deleted successfully");
+    setToastSeverity("success");
+    setToastOpen(true);
+    closeToast(setToastOpen);
+    setShowLoader(false);
+  };
+
+  function isFormValid(selectedYatri: YatriFormFieldType) {
+    switch (true) {
+      case !selectedYatri.fullName:
+        setErrorField("fullName");
+        return false;
+      case !selectedYatri.dateOfBirth ||
+        dateValidator(selectedYatri, ticketType, "mobile"):
+        setErrorField("dateOfBirth");
+        return false;
+      case !selectedYatri.mobile || mobileValidator(selectedYatri):
+        setErrorField("mobile");
+        return false;
+      case !selectedYatri.idProof || aadharValidator(selectedYatri):
+        setErrorField("idProof");
+        return false;
+      case !fileData:
+        setToastMessage("Please upload a photo");
+        setToastSeverity("error");
+        setToastOpen(true);
+        closeToast(setToastOpen);
+        setErrorField("profilePicture");
+        return false;
+      default:
+        setErrorField("");
+        return true;
+    }
+  }
+
   return (
     <>
       <Box display="flex" justifyContent="space-between" marginBottom="8px">
-        {(yatriList?.length <
-          FormFields(hotiAllocationDetails)[ticketType].seatQuota &&
-          !!yatriList.length) ||
-          (ticketType === "CHILD" && (
-            <Button color="secondary" onClick={goToForm}>
-              <Add />
-              Add Passenger
-            </Button>
-          ))}
+        {(!yatriList.length ||
+          yatriList?.length <
+            FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
+          !yatriList.length ||
+          ticketType === "CHILD") && (
+          <Button color="secondary" onClick={goToForm}>
+            <Add />
+            Add Passenger
+          </Button>
+        )}
         <Button color="secondary" onClick={() => setIsDataConfirmed(false)}>
           <ArrowBackIos fontSize="small" />
           Go back
@@ -430,20 +475,41 @@ const AddViewTicketDetails = ({
           </Card>
         )}
       {!!yatriList.length && (
-        <Box padding="8px" borderRadius="4px" mb={2} bgcolor="#ffffff3b">
+        <Box
+          padding="12px"
+          borderRadius="4px"
+          margin="0 -12px"
+          bgcolor="#0000004d"
+        >
           <Typography mb={1} color="white" sx={{ textTransform: "capitalize" }}>
             {ticketType.toLowerCase()} passenger details
           </Typography>
 
           <Grid container>
             {yatriList.map((yatri) => (
-              <Grid key={yatri.yatriId} item xs={12} md={6} lg={6}>
-                <YatriDetailView key={yatri.yatriId} yatri={yatri} />
+              <Grid key={yatri.yatriId} item xs={12} sm={6}>
+                <YatriDetailView
+                  key={yatri.yatriId}
+                  yatri={yatri}
+                  handleDelete={() => {
+                    setSelectedYatriForDeletion(yatri);
+                    setShowModal(true);
+                  }}
+                />
               </Grid>
             ))}
           </Grid>
         </Box>
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showLoader}
+      >
+        <CircularProgress color="secondary" />
+        <Typography paddingLeft="8px" color="secondary">
+          {loaderText}
+        </Typography>
+      </Backdrop>
 
       {/* <Box display="flex" alignItems="center" justifyContent="space-between">
         {!!hotiAllocationDetails.extraTicketQuota && (
@@ -457,6 +523,58 @@ const AddViewTicketDetails = ({
           </Button>
         )}
       </Box> */}
+
+      <Modal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            left: "2%",
+            right: "2%",
+            top: "40%",
+            transform: "translateY(-50%)",
+            boxShadow: 24,
+            p: 1,
+            px: 2,
+            bgcolor: "#341219",
+            borderRadius: "12px",
+            "@media (min-width:480px)": {
+              left: "50%",
+              right: "auto",
+              top: "20%",
+              transform: "translateX(-50%)",
+              maxWidth: "500px",
+            },
+          }}
+        >
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            mb={2}
+            mt={1}
+          >
+            Do you want to delete details of this yatri?
+          </Typography>
+          <YatriDetailView yatri={selectedYatriForDeletion} />
+          <Box mt={3} display="flex" justifyContent="space-between">
+            <Button variant="outlined" color="secondary" onClick={deleteYatri}>
+              Yes, confirm
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
 
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}

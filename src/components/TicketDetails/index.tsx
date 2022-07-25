@@ -529,6 +529,7 @@ const AddViewTicketDetails = ({
         onClose={() => setShowModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        disableEnforceFocus
       >
         <Box
           sx={{

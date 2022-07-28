@@ -7,6 +7,7 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  Firestore,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -134,10 +135,14 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
   if (querySnapShot.empty) {
     return [] as YatriDetails[];
   }
-  const passengerDetaila = querySnapShot.docs.map((doc) =>
+  const passengerDetailRaw = querySnapShot.docs.map((doc) =>
     doc.data()
   ) as YatriDetails[];
-  return passengerDetaila;
+  const passengerDetails = passengerDetailRaw.map((passenger) => ({
+    ...passenger,
+    dateOfBirth: passenger.dateOfBirth.toDate(),
+  }));
+  return passengerDetails;
 };
 
 export const addPassengerDetails = async (
@@ -169,17 +174,13 @@ export const addPassengerDetails = async (
       },
       (err) => console.log(err),
       () => {
-        setDoc(doc(db, path, yatriId), {
-          yatriId: yatriId,
-          fullName: passengerDetail.fullName || "",
-          gender: passengerDetail.gender || "Male",
-          mobile: passengerDetail.mobile || "",
-          ticketType: passengerDetail.ticketType,
-          dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
-          idProof: passengerDetail.idProof || "",
-          hotiId: hotiAllocationDetail.hotiId,
-          profilePicture: `${path}/${yatriId}`,
-        })
+        submitYatriDetails(
+          db,
+          path,
+          yatriId,
+          passengerDetail,
+          hotiAllocationDetail.hotiId
+        )
           .then(async (data) => {
             const hotiAllocationDocRef = doc(
               db,
@@ -213,6 +214,24 @@ export const addPassengerDetails = async (
   });
 };
 
+export const editYatriById = async (
+  yatriDetails: YatriDetails
+): Promise<YatriDetails> => {
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${yatriDetails.hotiId}/yatriDetails`;
+  return new Promise(async (resolve) => {
+    submitYatriDetails(
+      db,
+      path,
+      yatriDetails.yatriId,
+      yatriDetails,
+      yatriDetails.hotiId
+    ).then(async (data) => {
+      resolve(yatriDetails);
+    });
+  });
+};
+
 export const deleteYatriById = async (
   hotiId: number,
   yatriDetails: YatriDetails
@@ -240,4 +259,30 @@ export const deleteYatriById = async (
       });
     }
   });
+};
+
+function submitYatriDetails(
+  db: Firestore,
+  path: string,
+  yatriId: string,
+  passengerDetail: YatriDetails,
+  hotiId: number
+) {
+  return setDoc(doc(db, path, yatriId), {
+    yatriId: yatriId,
+    fullName: passengerDetail.fullName || "",
+    gender: passengerDetail.gender || "Male",
+    mobile: passengerDetail.mobile || "",
+    ticketType: passengerDetail.ticketType,
+    dateOfBirth: new Date(passengerDetail.dateOfBirth) || new Date(),
+    idProof: passengerDetail.idProof || "",
+    hotiId: hotiId,
+    profilePicture: `${path}/${yatriId}`,
+  });
+}
+
+export const getImageDownloadUrl = async (refUrl: string) => {
+  const imageRef = ref(await storage, refUrl);
+  const image = await getDownloadURL(imageRef);
+  return image;
 };

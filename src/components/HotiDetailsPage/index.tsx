@@ -110,7 +110,7 @@ const HotiDetailsPage = ({
                 )}
                 {!!hotiAllocationDetails.extraTicketQuota && (
                   <TicketTypeRouter
-                    label="Extra tickets"
+                    label="Extra Tickets"
                     yatriLength={
                       yatriDetails.filter(
                         (yatri) => yatri.ticketType === "EXTRA"
@@ -121,7 +121,7 @@ const HotiDetailsPage = ({
                   />
                 )}
                 <TicketTypeRouter
-                  label="Children tickets"
+                  label="Children below 5 yrs"
                   yatriLength={
                     yatriDetails.filter((yatri) => yatri.ticketType === "CHILD")
                       ?.length || 0

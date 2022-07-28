@@ -9,7 +9,11 @@ import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import React, { useEffect, useRef, useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import { addPassengerDetails, deleteYatriById } from "../../firebase/service";
+import {
+  addPassengerDetails,
+  deleteYatriById,
+  editYatriById,
+} from "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { FormFields } from "./constant";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
@@ -24,6 +28,7 @@ import { LJNMColors } from "../../styles";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
+import ImageDisplayContainer from "../ImageDisplay";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -55,7 +60,7 @@ const AddViewTicketDetails = ({
   const [showLoader, setShowLoader] = useState(false);
   const [loaderText, setLoaderText] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [selectedYatriForDeletion, setSelectedYatriForDeletion] =
+  const [selectedYatriForModification, setSelectedYatriForModification] =
     useState<YatriDetails>({} as YatriDetails);
   const handleChange = (e: any) => {
     const selectedYatriLocal = selectedYatri;
@@ -73,15 +78,17 @@ const AddViewTicketDetails = ({
 
   const [fileData, setFileData] = useState(null);
   const [imageURL, setImageURL] = useState("");
+  const [isEditting, setIsEditting] = useState(false);
 
   const uploadFile = (e: any) => {
-    console.log(e.target.files[0].size / 1000);
     const fileSize = e.target.files[0].size / 1024;
     if (fileSize <= 1024) {
       setFileData(e.target.files[0] || null);
       const image = URL.createObjectURL(e.target.files[0]);
       setImageURL(image);
+      setErrorField("");
     } else {
+      setErrorField("profilePicture");
       setToastMessage(
         `File is ${(fileSize / 1024).toFixed(
           2
@@ -89,7 +96,7 @@ const AddViewTicketDetails = ({
       );
       setToastSeverity("error");
       setToastOpen(true);
-      clearFormFields();
+      closeToast();
     }
   };
 
@@ -107,7 +114,6 @@ const AddViewTicketDetails = ({
   );
 
   useEffect(() => {
-    console.log("yatrid etails updated", yatriDetails);
     setYatriList(
       yatriDetails.filter((yatri) => yatri.ticketType === ticketType)
     );
@@ -122,7 +128,7 @@ const AddViewTicketDetails = ({
       setToastMessage("Please fill all the fields");
       setToastSeverity("error");
       setToastOpen(true);
-      closeToast(setToastOpen);
+      closeToast();
       return;
     }
     if (!isFormValid(selectedYatri)) {
@@ -134,7 +140,21 @@ const AddViewTicketDetails = ({
       selectedYatri.ticketType = selectedTab;
     }
     setShowLoader(true);
-    await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
+    setLoaderText("Adding Yatri Details...");
+    if (isEditting) {
+      const updatedYatri = await editYatriById(selectedYatri);
+      if (updatedYatri) {
+        setYatriList([
+          ...yatriList.filter(
+            (yatri) => yatri.yatriId !== updatedYatri.yatriId
+          ),
+          updatedYatri,
+        ]);
+      }
+      setIsEditting(false);
+    } else {
+      await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
+    }
     clearFormFields();
     setShowLoader(false);
     setToastMessage(
@@ -144,12 +164,12 @@ const AddViewTicketDetails = ({
     );
     setToastSeverity("success");
     setToastOpen(true);
-    if (!addMore) {
+    if (!addMore || isEditting) {
       setShowForm(false);
     } else {
       setShowForm(true);
     }
-    closeToast(setToastOpen);
+    closeToast();
   };
 
   const goToForm = () => {
@@ -167,17 +187,17 @@ const AddViewTicketDetails = ({
     setLoaderText("Deleting Yatri...");
     await deleteYatriById(
       hotiAllocationDetails.hotiId,
-      selectedYatriForDeletion
+      selectedYatriForModification
     );
     setYatriDetails(
       yatriDetails.filter(
-        (yatri) => yatri.yatriId !== selectedYatriForDeletion.yatriId
+        (yatri) => yatri.yatriId !== selectedYatriForModification.yatriId
       )
     );
     setToastMessage("Yatri deleted successfully");
     setToastSeverity("success");
     setToastOpen(true);
-    closeToast(setToastOpen);
+    closeToast();
     setShowLoader(false);
   };
 
@@ -196,11 +216,11 @@ const AddViewTicketDetails = ({
       case !selectedYatri.idProof || aadharValidator(selectedYatri):
         setErrorField("idProof");
         return false;
-      case !fileData:
+      case !fileData && !isEditting:
         setToastMessage("Please upload a photo");
         setToastSeverity("error");
         setToastOpen(true);
-        closeToast(setToastOpen);
+        closeToast();
         setErrorField("profilePicture");
         return false;
       default:
@@ -209,6 +229,29 @@ const AddViewTicketDetails = ({
     }
   }
 
+  function closeToast() {
+    setTimeout(() => {
+      setToastOpen(false);
+    }, 5000);
+  }
+
+  const handleGoBack = () => {
+    if (isEditting) {
+      setIsEditting(false);
+      setShowForm(false);
+      setSelectedYatriForModification({} as YatriDetails);
+      clearFormFields();
+    } else {
+      setIsDataConfirmed(false);
+    }
+  };
+
+  const handleModalClose = () => {
+    setSelectedYatriForModification({} as YatriDetails);
+    setIsEditting(false);
+    setShowModal(false);
+  };
+
   return (
     <>
       <Box display="flex" justifyContent="space-between" marginBottom="8px">
@@ -216,13 +259,14 @@ const AddViewTicketDetails = ({
           yatriList?.length <
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
           !yatriList.length ||
-          ticketType === "CHILD") && (
-          <Button color="secondary" onClick={goToForm}>
-            <Add />
-            Add Passenger
-          </Button>
-        )}
-        <Button color="secondary" onClick={() => setIsDataConfirmed(false)}>
+          ticketType === "CHILD") &&
+          !isEditting && (
+            <Button color="secondary" onClick={goToForm}>
+              <Add />
+              Add Passenger
+            </Button>
+          )}
+        <Button color="secondary" onClick={handleGoBack}>
           <ArrowBackIos fontSize="small" />
           Go back
         </Button>
@@ -233,7 +277,7 @@ const AddViewTicketDetails = ({
           ticketType === "CHILD") && (
           <Card sx={{ marginBottom: "8px" }}>
             <CardHeader
-              title={`Add ${
+              title={`${isEditting ? "Edit" : "Add"} ${
                 FormFields(hotiAllocationDetails)[selectedTab].title
               } passenger details`}
               subheader={
@@ -246,75 +290,77 @@ const AddViewTicketDetails = ({
 
             <CardContent ref={formEl}>
               <Grid container spacing={3}>
-                <Grid item md={6} xs={12}>
-                  <FormControl
-                    error={errorField === "profilePicture"}
-                    sx={{ width: "100%" }}
-                    variant="outlined"
-                  >
-                    <Box
-                      sx={{
-                        border: `1px solid ${
-                          errorField === "profilePicture"
-                            ? "#d32f2f"
-                            : "#dddddd"
-                        }`,
-                        borderRadius: "4px",
-                        width: "100%",
-                      }}
+                {!isEditting && (
+                  <Grid item md={6} xs={12}>
+                    <FormControl
+                      error={errorField === "profilePicture"}
+                      sx={{ width: "100%" }}
+                      variant="outlined"
                     >
-                      <InputLabel
-                        shrink={true}
-                        sx={{ backgroundColor: "white" }}
-                        htmlFor="component-error"
-                      >
-                        Add Passenger Photo
-                      </InputLabel>
-                      <input
-                        style={{ padding: "16px" }}
-                        onChange={uploadFile}
-                        type="file"
-                        accept="image/*"
-                      />
-                    </Box>
-                    <FormHelperText>
-                      {errorField === "profilePicture"
-                        ? "Please add a profile image (maximum upto 1MB)"
-                        : "Maximum 1MB"}
-                    </FormHelperText>
-                  </FormControl>
-                  <Box>
-                    {imageURL && (
                       <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
+                        sx={{
+                          border: `1px solid ${
+                            errorField === "profilePicture"
+                              ? "#d32f2f"
+                              : "#dddddd"
+                          }`,
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
                       >
-                        <Typography
-                          color={LJNMColors.primary}
-                          fontSize="12px"
-                          marginRight="8px"
+                        <InputLabel
+                          shrink={true}
+                          sx={{ backgroundColor: "white" }}
+                          htmlFor="component-error"
                         >
-                          File size:
-                          <br />
-                          {((fileData as any)?.size / (1024 * 1024)).toFixed(
-                            2
-                          )}{" "}
-                          MB
-                        </Typography>
-                        <Box flexGrow={1} width="140px" height="140px">
-                          <img
-                            width="100%"
-                            height="100%"
-                            style={{ objectFit: "contain" }}
-                            src={imageURL}
-                            alt="profile pic"
-                          />
-                        </Box>
+                          Add Passenger Photo
+                        </InputLabel>
+                        <input
+                          style={{ padding: "16px" }}
+                          onChange={uploadFile}
+                          type="file"
+                          accept="image/*"
+                        />
                       </Box>
-                    )}
-                  </Box>
-                </Grid>
+                      <FormHelperText>
+                        {errorField === "profilePicture"
+                          ? "Please add a profile image (maximum upto 1MB)"
+                          : "Maximum 1MB"}
+                      </FormHelperText>
+                    </FormControl>
+                    <Box>
+                      {imageURL && (
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Typography
+                            color={LJNMColors.primary}
+                            fontSize="12px"
+                            marginRight="8px"
+                          >
+                            File size:
+                            <br />
+                            {((fileData as any)?.size / (1024 * 1024)).toFixed(
+                              2
+                            )}{" "}
+                            MB
+                          </Typography>
+                          <Box flexGrow={1} width="140px" height="140px">
+                            <img
+                              width="100%"
+                              height="100%"
+                              style={{ objectFit: "contain" }}
+                              src={imageURL}
+                              alt="profile pic"
+                            />
+                          </Box>
+                        </Box>
+                      )}
+                    </Box>
+                  </Grid>
+                )}
                 <Grid item md={6} xs={12}>
                   <TextField
                     autoFocus={true}
@@ -362,7 +408,13 @@ const AddViewTicketDetails = ({
                     }}
                     onChange={handleChange}
                     required
-                    value={selectedYatri.dateOfBirth || ""}
+                    value={
+                      isEditting
+                        ? new Date(selectedYatri.dateOfBirth)
+                            .toJSON()
+                            .split("T")[0]
+                        : selectedYatri.dateOfBirth || ""
+                    }
                     variant="outlined"
                     error={dateValidator(selectedYatri, ticketType, errorField)}
                     helperText={
@@ -456,15 +508,17 @@ const AddViewTicketDetails = ({
                 Clear
               </Button>
 
-              <Button
-                sx={{ marginRight: "8px" }}
-                variant="outlined"
-                onClick={() => addYatriDetails(false)}
-              >
-                Save & exit
-              </Button>
+              {!isEditting && (
+                <Button
+                  sx={{ marginRight: "8px" }}
+                  variant="outlined"
+                  onClick={() => addYatriDetails(false)}
+                >
+                  Save & exit
+                </Button>
+              )}
               <Button variant="contained" onClick={() => addYatriDetails(true)}>
-                Save & Add More
+                {isEditting ? "Save" : "Save & Add More"}
               </Button>
               {/* {!selectedYatri.isDirty && (
             <Button sx={{ marginX: "8px" }}>
@@ -474,7 +528,7 @@ const AddViewTicketDetails = ({
             </Box>
           </Card>
         )}
-      {!!yatriList.length && (
+      {!!yatriList.length && !isEditting && (
         <Box
           padding="12px"
           borderRadius="4px"
@@ -492,7 +546,13 @@ const AddViewTicketDetails = ({
                   key={yatri.yatriId}
                   yatri={yatri}
                   handleDelete={() => {
-                    setSelectedYatriForDeletion(yatri);
+                    setIsEditting(false);
+                    setSelectedYatriForModification(yatri);
+                    setShowModal(true);
+                  }}
+                  handleEdit={() => {
+                    setIsEditting(true);
+                    setSelectedYatriForModification(yatri);
                     setShowModal(true);
                   }}
                 />
@@ -526,7 +586,7 @@ const AddViewTicketDetails = ({
 
       <Modal
         open={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         disableEnforceFocus
@@ -552,28 +612,65 @@ const AddViewTicketDetails = ({
             },
           }}
         >
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            mb={2}
-            mt={1}
-          >
-            Do you want to delete details of this yatri?
-          </Typography>
-          <YatriDetailView yatri={selectedYatriForDeletion} />
-          <Box mt={3} display="flex" justifyContent="space-between">
-            <Button variant="outlined" color="secondary" onClick={deleteYatri}>
-              Yes, confirm
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => setShowModal(false)}
+          {isEditting ? (
+            <Box
+              width="100%"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              Cancel
-            </Button>
-          </Box>
+              <ImageDisplayContainer
+                imageRef={selectedYatriForModification.profilePicture}
+                altText={selectedYatriForModification.fullName}
+              />
+              <Box>
+                {/* <Button color="secondary">Update profile picture</Button> */}
+
+                <Button
+                  color="secondary"
+                  onClick={() => {
+                    setShowForm(true);
+                    setSelectedYatri({
+                      isDirty: true,
+                      ...selectedYatriForModification,
+                    });
+                    setShowModal(false);
+                  }}
+                >
+                  Update Yatri details
+                </Button>
+              </Box>
+            </Box>
+          ) : (
+            <>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                mb={2}
+                mt={1}
+              >
+                Do you want to delete details of this yatri?
+              </Typography>
+              <YatriDetailView yatri={selectedYatriForModification} />
+              <Box mt={3} display="flex" justifyContent="space-between">
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={deleteYatri}
+                >
+                  Yes, confirm
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  No
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
 
@@ -622,11 +719,4 @@ function dateValidator(
   );
 }
 
-function closeToast(
-  setToastOpen: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  setTimeout(() => {
-    setToastOpen(false);
-  }, 5000);
-}
 // add id for each yatri, retrieving from hotiAllocationDetails.nextYatriId

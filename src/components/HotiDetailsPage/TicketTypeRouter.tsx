@@ -25,6 +25,7 @@ const TicketTypeRouter = ({
       borderRight="none"
       borderLeft="none"
       sx={{
+        cursor: "pointer",
         ":first-of-type": {
           borderTop: "1px solid #7f5435",
         },
@@ -32,6 +33,7 @@ const TicketTypeRouter = ({
       display="flex"
       justifyContent="space-between"
       alignItems="center"
+      onClick={clickHandler}
     >
       <Box>
         <Typography>{label}</Typography>
@@ -55,7 +57,7 @@ const TicketTypeRouter = ({
           </Typography>
         )}
       </Box>
-      <Button onClick={clickHandler} color="secondary">
+      <Button color="secondary">
         {yatriLength !== ticketCount
           ? `Add ${yatriLength > 0 ? "/ View" : ""}`
           : "View"}

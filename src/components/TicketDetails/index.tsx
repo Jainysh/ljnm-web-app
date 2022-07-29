@@ -269,6 +269,7 @@ const AddViewTicketDetails = ({
       setShowForm(false);
       setSelectedYatriForModification({} as YatriDetails);
       clearFormFields();
+      setIsUpdatingProfilePic(false);
     } else {
       setIsDataConfirmed(false);
     }
@@ -318,7 +319,7 @@ const AddViewTicketDetails = ({
 
             <CardContent ref={formEl}>
               <Grid container spacing={3}>
-                {isEditting && isUpdatingProfilePic && (
+                {!(isEditting && !isUpdatingProfilePic) && (
                   <Grid item md={6} xs={12}>
                     <FormControl
                       error={errorField === "profilePicture"}
@@ -393,14 +394,20 @@ const AddViewTicketDetails = ({
                       )}
                     </Box>
                     {isUpdatingProfilePic && (
-                      <Box>
+                      <Box display="flex" alignItems="center" marginTop="8px">
                         <Typography fontSize="12px" color={LJNMColors.primary}>
-                          Previous Image
+                          Previous Image &gt;
                         </Typography>
-                        <ImageDisplayContainer
-                          imageRef={selectedYatri.profilePicture}
-                          altText={selectedYatri.fullName}
-                        />
+                        <Box
+                          width="140px"
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          <ImageDisplayContainer
+                            imageRef={selectedYatri.profilePicture}
+                            altText={selectedYatri.fullName}
+                          />
+                        </Box>
                       </Box>
                     )}
                   </Grid>

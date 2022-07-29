@@ -1,5 +1,8 @@
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
+export const LocalStorageKeys = {
+  termsAccepted: "termsAccepted",
+};
 export const FormFields = (hotiAllocationDetail: HotiAllocationDetail) => {
   return {
     CHILD: {

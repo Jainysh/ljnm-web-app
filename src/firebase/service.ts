@@ -140,7 +140,7 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
   ) as YatriDetails[];
   const passengerDetails = passengerDetailRaw.map((passenger) => ({
     ...passenger,
-    dateOfBirth: passenger.dateOfBirth.toDate(),
+    dateOfBirth: passenger.dateOfBirth?.toDate(),
   }));
   return passengerDetails;
 };

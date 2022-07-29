@@ -13,6 +13,7 @@ import {
   addPassengerDetails,
   deleteYatriById,
   editYatriById,
+  updateProfilePicService,
 } from "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { FormFields } from "./constant";
@@ -79,7 +80,7 @@ const AddViewTicketDetails = ({
   const [fileData, setFileData] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const [isEditting, setIsEditting] = useState(false);
-
+  const [isUpdatingProfilePic, setIsUpdatingProfilePic] = useState(false);
   const uploadFile = (e: any) => {
     const fileSize = e.target.files[0].size / 1024;
     if (fileSize <= 1024) {
@@ -123,6 +124,32 @@ const AddViewTicketDetails = ({
 
   const formEl = useRef<HTMLDivElement>(null);
 
+  const updateProfilePic = async () => {
+    if (isUpdatingProfilePic && !fileData) {
+      setToastMessage("Please upload a photo");
+      setToastSeverity("error");
+      setToastOpen(true);
+      closeToast();
+      setErrorField("profilePicture");
+      return;
+    }
+    setShowLoader(true);
+    setLoaderText("Updating profile picture...");
+    await updateProfilePicService(selectedYatri, fileData);
+    setIsEditting(false);
+    clearFormFields();
+    setShowLoader(false);
+    setToastMessage(
+      selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
+        ? "Yatri added as child successfully, Please check added details in Children ticket section"
+        : "Yatri details added successfully"
+    );
+    setToastSeverity("success");
+    setToastOpen(true);
+    setShowForm(false);
+    closeToast();
+  };
+
   const addYatriDetails = async (addMore = false) => {
     if (!selectedYatri.isDirty) {
       setToastMessage("Please fill all the fields");
@@ -134,6 +161,7 @@ const AddViewTicketDetails = ({
     if (!isFormValid(selectedYatri)) {
       return;
     }
+
     if (convertToAge(selectedYatri.dateOfBirth) <= 5) {
       selectedYatri.ticketType = "CHILD";
     } else {
@@ -241,6 +269,7 @@ const AddViewTicketDetails = ({
       setShowForm(false);
       setSelectedYatriForModification({} as YatriDetails);
       clearFormFields();
+      setIsUpdatingProfilePic(false);
     } else {
       setIsDataConfirmed(false);
     }
@@ -290,7 +319,7 @@ const AddViewTicketDetails = ({
 
             <CardContent ref={formEl}>
               <Grid container spacing={3}>
-                {!isEditting && (
+                {!(isEditting && !isUpdatingProfilePic) && (
                   <Grid item md={6} xs={12}>
                     <FormControl
                       error={errorField === "profilePicture"}
@@ -340,6 +369,11 @@ const AddViewTicketDetails = ({
                             fontSize="12px"
                             marginRight="8px"
                           >
+                            {isUpdatingProfilePic && (
+                              <>
+                                New Image &gt; <br />
+                              </>
+                            )}
                             File size:
                             <br />
                             {((fileData as any)?.size / (1024 * 1024)).toFixed(
@@ -359,137 +393,169 @@ const AddViewTicketDetails = ({
                         </Box>
                       )}
                     </Box>
+                    {isUpdatingProfilePic && (
+                      <Box display="flex" alignItems="center" marginTop="8px">
+                        <Typography fontSize="12px" color={LJNMColors.primary}>
+                          Previous Image &gt;
+                        </Typography>
+                        <Box
+                          width="140px"
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          <ImageDisplayContainer
+                            imageRef={selectedYatri.profilePicture}
+                            altText={selectedYatri.fullName}
+                          />
+                        </Box>
+                      </Box>
+                    )}
                   </Grid>
                 )}
-                <Grid item md={6} xs={12}>
-                  <TextField
-                    autoFocus={true}
-                    fullWidth
-                    label="Enter full name"
-                    name="fullName"
-                    onChange={handleChange}
-                    required
-                    value={selectedYatri.fullName || ""}
-                    variant="outlined"
-                    error={errorField === "fullName"}
-                    helperText={
-                      errorField === "fullName" ? "Please enter full name" : " "
-                    }
-                  />
-                </Grid>
-                <Grid item md={6} xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Gender"
-                    name="gender"
-                    onChange={handleChange}
-                    required
-                    select
-                    SelectProps={{ native: true }}
-                    value={selectedYatri.gender}
-                    variant="outlined"
-                    helperText=" "
-                  >
-                    {["Male", "Female"].map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item md={6} xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Date of birth"
-                    name="dateOfBirth"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleChange}
-                    required
-                    value={
-                      isEditting
-                        ? new Date(selectedYatri.dateOfBirth)
-                            .toJSON()
-                            .split("T")[0]
-                        : selectedYatri.dateOfBirth || ""
-                    }
-                    variant="outlined"
-                    error={dateValidator(selectedYatri, ticketType, errorField)}
-                    helperText={
-                      new Date(selectedYatri.dateOfBirth).getTime() >
-                      new Date().getTime()
-                        ? `Please enter date before ${new Date().toLocaleDateString()}`
-                        : new Date(selectedYatri.dateOfBirth).getFullYear() <
-                          1922
-                        ? "Please enter date after 01/01/1922"
-                        : ticketType === "CHILD" &&
-                          convertToAge(selectedYatri.dateOfBirth) > 5
-                        ? "Age should be less than 5 years for child tickets"
-                        : convertToAge(selectedYatri.dateOfBirth) <= 5
-                        ? `${
-                            convertToAge(selectedYatri.dateOfBirth)
-                              ? "Age " +
-                                convertToAge(selectedYatri.dateOfBirth) +
-                                " years. "
-                              : ""
-                          }This will be added as a child passenger, no fares will be charged and no berth shall be alotted`
-                        : selectedYatri.dateOfBirth
-                        ? `Age ${convertToAge(selectedYatri.dateOfBirth)}years`
-                        : errorField === "dateOfBirth"
-                        ? "Please enter date of birth"
-                        : " "
-                    }
-                  />
-                </Grid>
-                <Grid item md={6} xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Mobile Number"
-                    type="phone"
-                    name="mobile"
-                    onChange={handleChange}
-                    required
-                    value={selectedYatri.mobile || ""}
-                    variant="outlined"
-                    error={
-                      mobileValidator(selectedYatri) || errorField === "mobile"
-                    }
-                    helperText={
-                      mobileValidator(selectedYatri)
-                        ? "Mobile number should be 10 digits"
-                        : errorField === "mobile"
-                        ? "Please enter mobile number"
-                        : " "
-                    }
-                  />
-                </Grid>
-                <Grid item md={6} xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Aadhar Card number"
-                    name="idProof"
-                    onChange={handleChange}
-                    required
-                    value={selectedYatri.idProof || ""}
-                    variant="outlined"
-                    error={
-                      aadharValidator(selectedYatri) || errorField === "idProof"
-                    }
-                    helperText={
-                      selectedYatri.idProof?.length !== 12
-                        ? "Please enter 12 digit Aadhar number"
-                        : !(selectedYatri.idProof || "").match(
-                            /^[2-9]{1}[0-9]{11}$/
-                          )
-                        ? "Please enter valid Aadhar number"
-                        : errorField === "idProof"
-                        ? "Please enter a valid Aadhar Card number"
-                        : ""
-                    }
-                  />
-                </Grid>
+                {!isUpdatingProfilePic && (
+                  <>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Enter full name"
+                        name="fullName"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.fullName || ""}
+                        variant="outlined"
+                        error={errorField === "fullName"}
+                        helperText={
+                          errorField === "fullName"
+                            ? "Please enter full name"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Gender"
+                        name="gender"
+                        onChange={handleChange}
+                        required
+                        select
+                        SelectProps={{ native: true }}
+                        value={selectedYatri.gender}
+                        variant="outlined"
+                        helperText=" "
+                      >
+                        {["Male", "Female"].map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Date of birth"
+                        name="dateOfBirth"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        onChange={handleChange}
+                        required
+                        value={
+                          isEditting
+                            ? new Date(selectedYatri.dateOfBirth)
+                                .toJSON()
+                                .split("T")[0]
+                            : selectedYatri.dateOfBirth || ""
+                        }
+                        variant="outlined"
+                        error={dateValidator(
+                          selectedYatri,
+                          ticketType,
+                          errorField
+                        )}
+                        helperText={
+                          new Date(selectedYatri.dateOfBirth).getTime() >
+                          new Date().getTime()
+                            ? `Please enter date before ${new Date().toLocaleDateString()}`
+                            : new Date(
+                                selectedYatri.dateOfBirth
+                              ).getFullYear() < 1922
+                            ? "Please enter date after 01/01/1922"
+                            : ticketType === "CHILD" &&
+                              convertToAge(selectedYatri.dateOfBirth) > 5
+                            ? "Age should be less than 5 years for child tickets"
+                            : convertToAge(selectedYatri.dateOfBirth) <= 5
+                            ? `${
+                                convertToAge(selectedYatri.dateOfBirth)
+                                  ? "Age " +
+                                    convertToAge(selectedYatri.dateOfBirth) +
+                                    " years. "
+                                  : ""
+                              }This will be added as a child passenger, no fares will be charged and no berth shall be alotted`
+                            : selectedYatri.dateOfBirth
+                            ? `Age ${convertToAge(
+                                selectedYatri.dateOfBirth
+                              )}years`
+                            : errorField === "dateOfBirth"
+                            ? "Please enter date of birth"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Mobile Number"
+                        type="phone"
+                        name="mobile"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.mobile || ""}
+                        variant="outlined"
+                        error={
+                          mobileValidator(selectedYatri) ||
+                          errorField === "mobile"
+                        }
+                        helperText={
+                          mobileValidator(selectedYatri)
+                            ? "Mobile number should be 10 digits"
+                            : errorField === "mobile"
+                            ? "Please enter mobile number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Aadhar Card number"
+                        name="idProof"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.idProof || ""}
+                        variant="outlined"
+                        error={
+                          aadharValidator(selectedYatri) ||
+                          errorField === "idProof"
+                        }
+                        helperText={
+                          selectedYatri.idProof?.length !== 12
+                            ? "Please enter 12 digit Aadhar number"
+                            : !(selectedYatri.idProof || "").match(
+                                /^[2-9]{1}[0-9]{11}$/
+                              )
+                            ? "Please enter valid Aadhar number"
+                            : errorField === "idProof"
+                            ? "Please enter a valid Aadhar Card number"
+                            : ""
+                        }
+                      />
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </CardContent>
             <Divider />
@@ -517,7 +583,14 @@ const AddViewTicketDetails = ({
                   Save & exit
                 </Button>
               )}
-              <Button variant="contained" onClick={() => addYatriDetails(true)}>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  isUpdatingProfilePic
+                    ? updateProfilePic()
+                    : addYatriDetails(true)
+                }
+              >
                 {isEditting ? "Save" : "Save & Add More"}
               </Button>
               {/* {!selectedYatri.isDirty && (
@@ -614,19 +687,22 @@ const AddViewTicketDetails = ({
         >
           {isEditting ? (
             <Box
-              width="100%"
               display="flex"
               justifyContent="space-between"
               alignItems="center"
+              paddingY="20px"
             >
               <ImageDisplayContainer
                 imageRef={selectedYatriForModification.profilePicture}
                 altText={selectedYatriForModification.fullName}
               />
-              <Box>
-                {/* <Button color="secondary">Update profile picture</Button> */}
-
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-around"
+              >
                 <Button
+                  sx={{ marginBottom: "8px" }}
                   color="secondary"
                   onClick={() => {
                     setShowForm(true);
@@ -638,6 +714,20 @@ const AddViewTicketDetails = ({
                   }}
                 >
                   Update Yatri details
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowForm(true);
+                    setIsUpdatingProfilePic(true);
+                    setSelectedYatri({
+                      isDirty: true,
+                      ...selectedYatriForModification,
+                    });
+                    setShowModal(false);
+                  }}
+                  color="secondary"
+                >
+                  Update profile picture
                 </Button>
               </Box>
             </Box>

@@ -232,6 +232,35 @@ export const editYatriById = async (
   });
 };
 
+export const updateProfilePicService = async (
+  yatriDetails: YatriDetails,
+  fileData: any
+) => {
+  return new Promise(async (resolve) => {
+    const storageFirebase = await storage;
+    const path = `EventMaster/event-1/hotiAllocation/hoti-${yatriDetails.hotiId}/yatriDetails`;
+
+    const storageRef = ref(storageFirebase, `/${path}/${yatriDetails.yatriId}`);
+    const uploadTask = uploadBytesResumable(storageRef, fileData);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        // update progress
+        console.log("percent", percent);
+      },
+      (err) => console.log(err),
+      () => {
+        console.log("pic updated");
+        resolve(yatriDetails);
+      }
+    );
+  });
+};
+
 export const deleteYatriById = async (
   hotiId: number,
   yatriDetails: YatriDetails

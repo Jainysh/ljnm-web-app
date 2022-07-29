@@ -99,11 +99,12 @@ const HomeComponent = () => {
                 borderLeft="none"
                 borderRight="none"
                 display="flex"
-                alignItems="start"
+                flexDirection="column"
+                alignItems="center"
                 margin="8px"
                 paddingY="8px"
               >
-                <Box width="100px" height="100px">
+                <Box width="100px" height="100px" mb={4}>
                   <img
                     src="/logo.jpeg"
                     width="100%"
@@ -111,7 +112,7 @@ const HomeComponent = () => {
                     alt="logo"
                   />
                 </Box>
-                <Box paddingLeft="16px">
+                <Box paddingLeft="16px" textAlign="center">
                   <Typography variant="h4">LJNM Shikharji Yatra</Typography>
                   <Typography margin="8px 0">Passenger details form</Typography>
                 </Box>

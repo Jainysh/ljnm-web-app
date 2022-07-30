@@ -25,3 +25,23 @@ export const highlightDivContainer = (
     }, 1000);
   }
 };
+
+export const getHumanErrorMessage = (errorCode: string) => {
+  let humanErrorMessage = "";
+  switch (errorCode) {
+    case "auth/too-many-requests":
+      humanErrorMessage =
+        "We have received too many request from this number. Please try again later.";
+      break;
+    case "auth/code-expired":
+      humanErrorMessage = "OTP expired. Please try again.";
+      break;
+    case "auth/invalid-verification-code":
+      humanErrorMessage = "Invalid OTP";
+      break;
+    default:
+      humanErrorMessage =
+        "Something went wrong with your request. Please try again later.";
+  }
+  return humanErrorMessage;
+};

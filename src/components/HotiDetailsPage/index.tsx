@@ -161,7 +161,7 @@ const HotiDetailsPage = ({
                     color="secondary"
                     variant="outlined"
                   >
-                    Enter a Different Hoti Number
+                    Sign Out {hotiDetails.mobile}
                   </Button>
                   <Box
                     padding="8px"

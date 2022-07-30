@@ -98,9 +98,16 @@ export const addHotiAllocationDetails = () => {
   console.log("here");
 };
 
-export const getHotiDetailById = async (id: number) => {
+export const getHotiDetailById = async (
+  mobile: string,
+  id = -1,
+  getByMobile = false
+) => {
   const db = await getFirebaseFirestoreDB();
-  const constraints = [where("hotiId", "==", id)];
+  const constraints = [where("mobile", "==", mobile)];
+  if (!getByMobile) {
+    constraints.push(where("hotiId", "==", id));
+  }
   const q = query(collection(db, "hotiMaster"), ...constraints);
   const querySnapShot = await getDocs(q);
   if (querySnapShot.empty) {

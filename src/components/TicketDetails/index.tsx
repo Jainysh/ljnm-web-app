@@ -238,7 +238,7 @@ const AddViewTicketDetails = ({
         dateValidator(selectedYatri, ticketType, "mobile"):
         setErrorField("dateOfBirth");
         return false;
-      case !selectedYatri.mobile || mobileValidator(selectedYatri):
+      case !selectedYatri.mobile || isMobileInvalidNumber(selectedYatri.mobile):
         setErrorField("mobile");
         return false;
       case !selectedYatri.idProof || aadharValidator(selectedYatri):
@@ -516,11 +516,11 @@ const AddViewTicketDetails = ({
                         value={selectedYatri.mobile || ""}
                         variant="outlined"
                         error={
-                          mobileValidator(selectedYatri) ||
+                          isMobileInvalidNumber(selectedYatri.mobile) ||
                           errorField === "mobile"
                         }
                         helperText={
-                          mobileValidator(selectedYatri)
+                          isMobileInvalidNumber(selectedYatri.mobile)
                             ? "Mobile number should be 10 digits"
                             : errorField === "mobile"
                             ? "Please enter mobile number"
@@ -788,12 +788,10 @@ function aadharValidator(
   );
 }
 
-function mobileValidator(
-  selectedYatri: YatriFormFieldType
+export function isMobileInvalidNumber(
+  mobileNumber: string
 ): boolean | undefined {
-  return (
-    selectedYatri.mobile?.length > 0 && selectedYatri.mobile?.length !== 10
-  );
+  return mobileNumber?.length > 0 && mobileNumber?.length !== 10;
 }
 
 function dateValidator(

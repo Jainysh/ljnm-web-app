@@ -108,6 +108,10 @@ const AddViewTicketDetails = ({
     setSelectedYatri({
       isDirty: false,
     } as YatriFormFieldType);
+    if (isEditting) {
+      setShowForm(false);
+      setIsEditting(false);
+    }
   };
 
   const [yatriList, setYatriList] = useState<YatriDetails[]>(
@@ -308,7 +312,7 @@ const AddViewTicketDetails = ({
             <CardHeader
               title={`${isEditting ? "Edit" : "Add"} ${
                 FormFields(hotiAllocationDetails)[selectedTab].title
-              } passenger details`}
+              } yatri details`}
               subheader={
                 FormFields(hotiAllocationDetails)[selectedTab].subtitle
               }

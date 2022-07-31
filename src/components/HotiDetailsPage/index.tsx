@@ -9,11 +9,13 @@ import AddViewTicketDetails from "../TicketDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
-import InfoOutlined from "@mui/icons-material/InfoOutlined";
 import TicketTypeRouter from "./TicketTypeRouter";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { LocalStorageKeys } from "../TicketDetails/constant";
 import TnCPage from "../TnCPage";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import RuleIcon from "@mui/icons-material/Rule";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 type HotiDetailsPageProps = {
   hotiDetails: Hoti;
@@ -50,7 +52,7 @@ const HotiDetailsPage = ({
       container
       margin={0}
       width="100%"
-      height="100vh"
+      minHeight="100vh"
       justifyContent="center"
       alignItems="center"
     >
@@ -74,7 +76,7 @@ const HotiDetailsPage = ({
                 justifyContent="space-between"
                 borderRadius="4px"
               >
-                <Box margin="24px">
+                <Box margin="24px 24px 0">
                   <Typography
                     fontSize="20px"
                     sx={{ textTransform: "capitalize", mb: 2 }}
@@ -143,26 +145,6 @@ const HotiDetailsPage = ({
                     }
                     clickHandler={() => confirmHotiDetails("CHILD")}
                   />
-                </Box>
-
-                <Box
-                  margin="24px"
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Button
-                    sx={{
-                      marginTop: 3,
-                      fontSize: "14px",
-                    }}
-                    onClick={clearHotiDetails}
-                    color="secondary"
-                    variant="outlined"
-                  >
-                    Sign Out {hotiDetails.mobile}
-                  </Button>
                   <Box
                     padding="8px"
                     display="flex"
@@ -171,19 +153,60 @@ const HotiDetailsPage = ({
                     marginTop={2}
                     sx={{ background: "#00000045" }}
                   >
-                    <InfoOutlined color="secondary" fontSize="small" />
+                    {/* <InfoOutlined color="secondary" fontSize="small" /> */}
+                    <TipsAndUpdatesIcon color="secondary" fontSize="small" />
                     <Typography fontSize="14px" marginLeft="8px">
-                      If you find your Hoti details or ticket information
-                      incorrect, please contact us at
+                      All the yatri details added, edited or deleted by you will
+                      be saved. No additional <strong>Submit</strong> is
+                      required
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box
+                  margin="0 24px"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Button
+                    sx={{
+                      marginTop: 5,
+                      fontSize: "14px",
+                    }}
+                    onClick={clearHotiDetails}
+                    color="secondary"
+                    variant="outlined"
+                  >
+                    <PowerSettingsNewIcon
+                      fontSize="small"
+                      sx={{ marginRight: "8px" }}
+                    />{" "}
+                    Logout
+                  </Button>
+                  <Box
+                    padding="8px"
+                    display="flex"
+                    alignItems="center"
+                    borderRadius="8px"
+                    marginY={1}
+                    sx={{ background: "#00000045" }}
+                  >
+                    {/* <InfoOutlined color="secondary" fontSize="small" /> */}
+                    <RuleIcon color="secondary" fontSize="small" />
+                    <Typography fontSize="14px" marginLeft="8px">
+                      If you find your Hoti or ticket details incorrect, please
+                      contact us at{" "}
                       <a
                         style={{
                           textDecoration: "none",
                           color: LJNMColors.secondary,
+                          whiteSpace: "nowrap",
                         }}
                         href="tel:+919422045027"
                       >
-                        {" "}
-                        +91 9422045027
+                        +91-9422045027
                       </a>
                     </Typography>
                   </Box>

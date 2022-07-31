@@ -22,13 +22,13 @@ export const FormFields = (hotiAllocationDetail: HotiAllocationDetail) => {
     },
     HOTI: {
       title: "Hoti ticket",
-      subtitle: "",
+      subtitle: "Rs. 5,400 only",
       seatQuota: hotiAllocationDetail.hotiTicketQuota,
       next: "extraTickets",
     },
     EXTRA: {
       title: "Extra ticket",
-      subtitle: "",
+      subtitle: "Rs. 11,115 only",
       seatQuota: hotiAllocationDetail.extraTicketQuota,
       next: null,
     },

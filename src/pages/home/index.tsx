@@ -58,6 +58,7 @@ const HomeComponent = () => {
   const [OTPState, setOTPState] = useState<
     "NOT_SENT" | "SENDING" | "SENT" | "ERROR"
   >("NOT_SENT");
+
   const getHotiDetails = async () => {
     if (firebaseAuth.currentUser) {
       console.log("user", firebaseAuth.currentUser);
@@ -276,12 +277,6 @@ const HomeComponent = () => {
                     height="40px"
                   />
                   <Skeleton
-                    sx={{ bgcolor: "#853a4bad", marginBottom: "32px" }}
-                    variant="rectangular"
-                    width="80%"
-                    height="40px"
-                  />
-                  <Skeleton
                     sx={{ bgcolor: "#853a4bad" }}
                     variant="rectangular"
                     width="200px"
@@ -419,8 +414,8 @@ const HomeComponent = () => {
                       color={LJNMColors.primary}
                     >
                       An OTP will be sent to{" "}
-                      <strong>{hotiDetails.mobile}</strong> to add, view or edit
-                      passenger details.
+                      <strong>{hotiDetails.mobile}</strong> to proceed with
+                      yatri details.
                     </Typography>
                     <Typography color={LJNMColors.primary}>
                       {errorField === "authError" ? (
@@ -436,7 +431,7 @@ const HomeComponent = () => {
                         onClick={() => setShowModal(false)}
                         sx={{ marginRight: "8px" }}
                       >
-                        Close
+                        Cancel
                       </Button>
                       <Button
                         variant="contained"
@@ -533,8 +528,23 @@ const HomeComponent = () => {
                     )}
                   </Button>
                 </Box>
+              ) : OTPState === "ERROR" && errorField === "authError" ? (
+                <>
+                  {phoneNumberErrorMessage}
+                  <Button
+                    variant="outlined"
+                    sx={{ marginTop: "16px" }}
+                    onClick={() => {
+                      setOTPState("NOT_SENT");
+                      setErrorField("");
+                      setShowModal(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </>
               ) : (
-                <></>
+                <>&nbsp;</>
               )}
             </Box>
           </Modal>

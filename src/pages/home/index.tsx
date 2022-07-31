@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   getHotiDetailById,
   getAllYatriDetailsById,
+  getHotiDetailsByMobileNumber,
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
 import HotiDetailsPage from "../../components/HotiDetailsPage";
@@ -28,13 +29,12 @@ import {
   getInvisibleRecaptchaVerifier,
   getSignInWithPhoneNumber,
 } from "../../firebase";
-import { isMobileInvalidNumber } from "../../components/TicketDetails";
 import { getHumanErrorMessage } from "../../lib/helper";
 import { onAuthStateChanged, User } from "firebase/auth";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const HomeComponent = () => {
   const [hotiNumber, setHotiNumber] = useState(-1);
-  const [mobile, setMobile] = useState("");
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
   const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>(
     [] as YatriDetails[]
@@ -50,6 +50,14 @@ const HomeComponent = () => {
   const [otpRequestObject, setOtpRequestObject] = useState<any>({});
   const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+
+  const [otpNumber, setOtpNumber] = useState("");
+  const [validatingOTP, setValidatingOTP] = useState(false);
+
+  const [OTPState, setOTPState] = useState<
+    "NOT_SENT" | "SENDING" | "SENT" | "ERROR"
+  >("NOT_SENT");
   const getHotiDetails = async () => {
     if (firebaseAuth.currentUser) {
       console.log("user", firebaseAuth.currentUser);
@@ -59,32 +67,17 @@ const HomeComponent = () => {
       setErrorField("hotiNumber");
       return;
     }
-    console.log(mobile, isMobileInvalidNumber(mobile));
-    if (!mobile || isMobileInvalidNumber(mobile)) {
-      setErrorField("mobile");
-      return;
-    }
+    // console.log(mobile, isMobileInvalidNumber(mobile));
+    // if (!mobile || isMobileInvalidNumber(mobile)) {
+    //   setErrorField("mobile");
+    //   return;
+    // }
     setShowLoader(true);
 
-    const hotiDetails = await getHotiDetailById(mobile, hotiNumber);
+    const hotiDetails = await getHotiDetailById(hotiNumber);
     if (hotiDetails.hotiId) {
-      const invisibleRecaptchaVerifier = getInvisibleRecaptchaVerifier();
-      try {
-        const otpRequest = await getSignInWithPhoneNumber(
-          `+91${mobile}`,
-          invisibleRecaptchaVerifier
-        );
-        setOtpRequestObject(otpRequest);
-        setPhoneNumberErrorMessage("");
-        console.log(otpRequest);
-        setShowModal(true);
-      } catch (error: any) {
-        const errorMessageToShow = getHumanErrorMessage(error.code);
-        // TODO: handle error message
-        setPhoneNumberErrorMessage(errorMessageToShow);
-        setErrorField("authError");
-        console.log(error);
-      }
+      setHotiDetails(hotiDetails);
+      setShowModal(true);
       // setHotiDetails(hotiDetails);
     } else {
       setErrorField("noData");
@@ -92,8 +85,28 @@ const HomeComponent = () => {
     setShowLoader(false);
   };
 
-  const [otpNumber, setOtpNumber] = useState("");
-  const [validatingOTP, setValidatingOTP] = useState(false);
+  const sendOTP = async () => {
+    setOTPState("SENDING");
+    const invisibleRecaptchaVerifier = getInvisibleRecaptchaVerifier();
+    try {
+      const otpRequest = await getSignInWithPhoneNumber(
+        `+91${hotiDetails.mobile}`,
+        invisibleRecaptchaVerifier
+      );
+      setOTPState("SENT");
+      setOtpRequestObject(otpRequest);
+      setPhoneNumberErrorMessage("");
+      console.log(otpRequest);
+      setShowModal(true);
+    } catch (error: any) {
+      setOTPState("ERROR");
+      const errorMessageToShow = getHumanErrorMessage(error.code);
+      // TODO: handle error message
+      setPhoneNumberErrorMessage(errorMessageToShow);
+      setErrorField("authError");
+      console.log(error);
+    }
+  };
 
   const validateOTP = async () => {
     setValidatingOTP(true);
@@ -102,11 +115,10 @@ const HomeComponent = () => {
       const user = result.user;
       if (user) {
         console.log(user, result);
-        await loadHotiDetailsByMobileNumber(user, setHotiDetails);
+        await loadHotiDetailsByMobileNumber(user);
       }
       setValidatingOTP(false);
       setShowModal(false);
-      setMobile("");
       setOtpNumber("");
     } catch (error: any) {
       console.log("error", error);
@@ -122,6 +134,8 @@ const HomeComponent = () => {
   const clearHotiDetails = () => {
     firebaseAuth.signOut();
     setHotiDetails({} as Hoti);
+    setIsVerified(false);
+    setOTPState("NOT_SENT");
   };
 
   const updateHotiDetails = (e: any) => {
@@ -140,29 +154,18 @@ const HomeComponent = () => {
     }
   };
 
-  const updatePhoneNumber = (e: any) => {
-    if (e.target.value.length > 10) {
-      return;
-    }
-    setErrorField("");
-    setMobile(e.target.value);
-  };
-
   useEffect(() => {
     let authUnsubscribe: Unsubscribe;
     const doExecute = async () => {
       if (firebaseAuth.currentUser?.phoneNumber) {
-        await loadHotiDetailsByMobileNumber(
-          firebaseAuth.currentUser,
-          setHotiDetails
-        );
+        await loadHotiDetailsByMobileNumber(firebaseAuth.currentUser);
         setLoadingUserInfo(false);
       } else {
         authUnsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
           if (user) {
             // User is signed in
             if (user.phoneNumber) {
-              await loadHotiDetailsByMobileNumber(user, setHotiDetails);
+              await loadHotiDetailsByMobileNumber(user);
             }
             setLoadingUserInfo(false);
           } else {
@@ -213,9 +216,21 @@ const HomeComponent = () => {
     };
   }, [hotiDetails.hotiId]);
 
+  async function loadHotiDetailsByMobileNumber(user: User) {
+    if (user.phoneNumber) {
+      const hotiData = await getHotiDetailsByMobileNumber(
+        user.phoneNumber.substring(3)
+      );
+      if (hotiData.hotiId) {
+        setHotiDetails(hotiData);
+        setIsVerified(true);
+      }
+    }
+  }
+
   return (
     <>
-      {!hotiDetails.name ? (
+      {!isVerified || !hotiDetails.name ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -309,51 +324,7 @@ const HomeComponent = () => {
                         : " "
                     }
                   />
-                  <TextField
-                    fullWidth
-                    focused
-                    label="Mobile Number"
-                    sx={{
-                      width: "80%",
-                      color: "fff",
-                      input: { color: "white" },
-                    }}
-                    color="secondary"
-                    type="phone"
-                    name="mobile"
-                    onKeyUp={handleSubmit}
-                    onChange={updatePhoneNumber}
-                    required
-                    value={mobile || ""}
-                    variant="outlined"
-                    error={
-                      isMobileInvalidNumber(mobile) || errorField === "mobile"
-                    }
-                    helperText={
-                      isMobileInvalidNumber(mobile)
-                        ? "Mobile number should be 10 digits"
-                        : errorField === "mobile"
-                        ? "Please enter mobile number"
-                        : " "
-                    }
-                  />
 
-                  <Typography
-                    paddingX="12px"
-                    fontSize="14px"
-                    textAlign="center"
-                  >
-                    {errorField === "noData" ? (
-                      <>
-                        No data found for hoti {hotiNumber} and mobile {mobile}.
-                        Please check the number and try again.
-                      </>
-                    ) : errorField === "authError" ? (
-                      <>{phoneNumberErrorMessage}</>
-                    ) : (
-                      <>&nbsp;</>
-                    )}
-                  </Typography>
                   <IconButton
                     color="secondary"
                     disabled={showLoader}
@@ -377,7 +348,7 @@ const HomeComponent = () => {
             </Grid>
           </Grid>
           <Modal
-            open={showModal}
+            open={showModal && !!hotiDetails.name}
             // onClose={handleModalClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
@@ -387,16 +358,16 @@ const HomeComponent = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              padding="24px"
+              padding="16px"
               sx={{
                 position: "absolute" as "absolute",
                 left: "2%",
                 right: "2%",
                 top: "40%",
                 transform: "translateY(-50%)",
-                boxShadow: 24,
-
-                bgcolor: "#341219",
+                boxShadow: 50,
+                bgcolor: "white",
+                color: LJNMColors.primary,
                 borderRadius: "12px",
                 "@media (min-width:480px)": {
                   left: "50%",
@@ -407,46 +378,164 @@ const HomeComponent = () => {
                 },
               }}
             >
-              <Typography marginBottom="16px">
-                Enter OTP received on{" "}
-                <span style={{ color: LJNMColors.secondary }}> {mobile}</span>
-              </Typography>
+              {hotiDetails.name &&
+              (OTPState === "NOT_SENT" || OTPState === "SENDING") ? (
+                <Box>
+                  <Box
+                    border="1px solid #ea8da1a8"
+                    padding="16px"
+                    borderRadius="8px"
+                  >
+                    <Typography color={LJNMColors.primary} fontWeight={700}>
+                      Hoti Details
+                    </Typography>
+                    <Typography
+                      marginTop="12px"
+                      marginBottom="1px"
+                      color={LJNMColors.primary}
+                      textTransform="capitalize"
+                    >
+                      {hotiDetails.name.toLocaleLowerCase()} Family
+                    </Typography>
+                    <Typography
+                      color={LJNMColors.primary}
+                      sx={{
+                        textTransform: "capitalize",
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{ marginRight: "2px" }}
+                        fontSize="small"
+                      />
+                      {hotiDetails.city.toLocaleLowerCase()}
+                    </Typography>
+                    <Typography
+                      fontSize="15px"
+                      marginY="24px"
+                      textAlign="center"
+                      color={LJNMColors.primary}
+                    >
+                      An OTP will be sent to{" "}
+                      <strong>{hotiDetails.mobile}</strong> to add, view or edit
+                      passenger details.
+                    </Typography>
+                    <Typography color={LJNMColors.primary}>
+                      {errorField === "authError" ? (
+                        <>{phoneNumberErrorMessage}</>
+                      ) : (
+                        <>&nbsp;</>
+                      )}
+                    </Typography>
 
-              <TextField
-                sx={{
-                  color: "fff",
-                  input: { color: "white" },
-                }}
-                autoFocus
-                color="secondary"
-                onChange={handleOTPChange}
-                value={otpNumber}
-                label="OTP"
-              />
-              <Typography>
-                {errorField === "authError" ? (
-                  <>{phoneNumberErrorMessage}</>
-                ) : (
-                  <>&nbsp;</>
-                )}
-              </Typography>
+                    <Box display="flex" justifyContent="center">
+                      <Button
+                        variant="outlined"
+                        onClick={() => setShowModal(false)}
+                        sx={{ marginRight: "8px" }}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        variant="contained"
+                        disabled={OTPState === "SENDING"}
+                        onClick={sendOTP}
+                      >
+                        Send OTP &nbsp;
+                        {OTPState === "SENDING" ? (
+                          <CircularProgress size={18} />
+                        ) : (
+                          <ArrowForwardIos
+                            sx={{ fontSize: "14px" }}
+                          ></ArrowForwardIos>
+                        )}
+                      </Button>
+                    </Box>
+                  </Box>
+                  <Typography
+                    border="1px solid #ea8da1a8"
+                    textAlign="center"
+                    padding="8px"
+                    borderRadius="8px"
+                    marginTop="24px"
+                    color={LJNMColors.primary}
+                    fontSize="14px"
+                  >
+                    If you wish to change the mobile number for this Hoti,
+                    please contact us at
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        fontWeight: 600,
+                        color: LJNMColors.primary,
+                      }}
+                      href="tel:+919422045027"
+                    >
+                      {" "}
+                      +91-9422045027
+                    </a>
+                  </Typography>
+                </Box>
+              ) : OTPState === "SENT" ? (
+                <Box
+                  border="1px solid #ea8da1a8"
+                  textAlign="center"
+                  padding="16px"
+                  borderRadius="8px"
+                  color={LJNMColors.primary}
+                  fontSize="14px"
+                >
+                  <Typography
+                    color={LJNMColors.primary}
+                    textAlign="center"
+                    marginBottom="16px"
+                  >
+                    Enter 6 digit OTP received on {hotiDetails.mobile}
+                  </Typography>
 
-              <Button
-                disabled={otpNumber.length < 6 || validatingOTP}
-                sx={{
-                  marginTop: "16px",
-                  "&.Mui-disabled": { color: "#ffffff87" },
-                }}
-                color="secondary"
-                onClick={validateOTP}
-              >
-                Submit
-                {validatingOTP ? (
-                  <CircularProgress size={20} color="secondary" />
-                ) : (
-                  <ArrowForwardIos></ArrowForwardIos>
-                )}
-              </Button>
+                  <TextField
+                    sx={{
+                      color: "fff",
+                      marginTop: "16px",
+                    }}
+                    autoFocus
+                    color="secondary"
+                    onChange={handleOTPChange}
+                    value={otpNumber}
+                    label="OTP"
+                  />
+                  <Typography color={LJNMColors.primary}>
+                    {errorField === "authError" ? (
+                      <>{phoneNumberErrorMessage}</>
+                    ) : (
+                      <>&nbsp;</>
+                    )}
+                  </Typography>
+
+                  <Button
+                    disabled={otpNumber.length < 6 || validatingOTP}
+                    sx={{
+                      marginTop: "16px",
+                      // "&.Mui-disabled": { color: "#ffffff87" },
+                    }}
+                    variant="outlined"
+                    onClick={validateOTP}
+                  >
+                    Submit &nbsp;
+                    {validatingOTP ? (
+                      <CircularProgress size={16} />
+                    ) : (
+                      <ArrowForwardIos
+                        sx={{ fontSize: "14px" }}
+                      ></ArrowForwardIos>
+                    )}
+                  </Button>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Box>
           </Modal>
         </Box>
@@ -463,18 +552,3 @@ const HomeComponent = () => {
   );
 };
 export default HomeComponent;
-async function loadHotiDetailsByMobileNumber(
-  user: User,
-  setHotiDetails: React.Dispatch<React.SetStateAction<Hoti>>
-) {
-  if (user.phoneNumber) {
-    const hotiData = await getHotiDetailById(
-      user.phoneNumber.substring(3),
-      -1,
-      true
-    );
-    if (hotiData.hotiId) {
-      setHotiDetails(hotiData);
-    }
-  }
-}

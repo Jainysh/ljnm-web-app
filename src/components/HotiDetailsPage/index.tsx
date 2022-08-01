@@ -52,24 +52,26 @@ const HotiDetailsPage = ({
       container
       margin={0}
       width="100%"
-      minHeight="100vh"
+      display="flex"
+      height="100vh"
+      flexDirection="column"
       justifyContent="center"
       alignItems="center"
     >
       {termsAcceptedStatus ? (
         <Grid
           item
-          padding="24px"
           width="100%"
-          height="100%"
+          height="90vh"
           lg={6}
           md={8}
           xs={12}
+          overflow="auto"
+          padding="24px"
         >
           {!isDataConfirmed ? (
             <>
               <Box
-                height="100%"
                 border={`1px solid ${LJNMColors.secondary}`}
                 display="flex"
                 flexDirection="column"
@@ -164,7 +166,7 @@ const HotiDetailsPage = ({
                 </Box>
 
                 <Box
-                  margin="0 24px"
+                  margin="0 24px 12px"
                   display="flex"
                   flexDirection="column"
                   justifyContent="center"
@@ -172,7 +174,7 @@ const HotiDetailsPage = ({
                 >
                   <Button
                     sx={{
-                      marginTop: 5,
+                      marginTop: 7,
                       fontSize: "14px",
                     }}
                     onClick={clearHotiDetails}

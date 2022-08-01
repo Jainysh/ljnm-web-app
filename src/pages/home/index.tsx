@@ -32,6 +32,7 @@ import {
 import { getHumanErrorMessage } from "../../lib/helper";
 import { onAuthStateChanged, User } from "firebase/auth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { isHotiInvalid } from "../../components/TicketDetails";
 
 const HomeComponent = () => {
   const [hotiNumber, setHotiNumber] = useState(-1);
@@ -64,7 +65,7 @@ const HomeComponent = () => {
       console.log("user", firebaseAuth.currentUser);
       return;
     }
-    if (!hotiNumber || hotiNumber <= 0 || hotiNumber >= 224) {
+    if (isHotiInvalid(hotiNumber) || !hotiNumber) {
       setErrorField("hotiNumber");
       return;
     }
@@ -97,7 +98,6 @@ const HomeComponent = () => {
       setOTPState("SENT");
       setOtpRequestObject(otpRequest);
       setPhoneNumberErrorMessage("");
-      console.log(otpRequest);
       setShowModal(true);
     } catch (error: any) {
       setOTPState("ERROR");
@@ -105,7 +105,6 @@ const HomeComponent = () => {
       // TODO: handle error message
       setPhoneNumberErrorMessage(errorMessageToShow);
       setErrorField("authError");
-      console.log(error);
     }
   };
 
@@ -115,14 +114,12 @@ const HomeComponent = () => {
       const result = await otpRequestObject.confirm(otpNumber);
       const user = result.user;
       if (user) {
-        console.log(user, result);
         await loadHotiDetailsByMobileNumber(user);
       }
       setValidatingOTP(false);
       setShowModal(false);
       setOtpNumber("");
     } catch (error: any) {
-      console.log("error", error);
       const errorMessageToShow = getHumanErrorMessage(error.code);
       // TODO: handle error message
       setPhoneNumberErrorMessage(errorMessageToShow);
@@ -141,7 +138,7 @@ const HomeComponent = () => {
 
   const updateHotiDetails = (e: any) => {
     const hotiNumber = e.target.value;
-    if (hotiNumber <= 0 || hotiNumber >= 224) {
+    if (isHotiInvalid(hotiNumber) || !hotiNumber) {
       setErrorField("hotiNumber");
     } else {
       setErrorField("");
@@ -305,17 +302,13 @@ const HomeComponent = () => {
                     focused
                     onKeyUp={handleSubmit}
                     error={
-                      hotiNumber === 0 ||
-                      hotiNumber > 225 ||
-                      errorField === "hotiNumber"
+                      isHotiInvalid(hotiNumber) || errorField === "hotiNumber"
                     }
                     onChange={updateHotiDetails}
                     type="number"
                     helperText={
-                      hotiNumber === 0 ||
-                      hotiNumber > 225 ||
-                      errorField === "hotiNumber"
-                        ? "Please enter Hoti number between 1 and 224"
+                      isHotiInvalid(hotiNumber) || errorField === "hotiNumber"
+                        ? "Please enter a valid Hoti Number"
                         : " "
                     }
                   />

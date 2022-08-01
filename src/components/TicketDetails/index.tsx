@@ -502,7 +502,7 @@ const AddViewTicketDetails = ({
                             : selectedYatri.dateOfBirth
                             ? `Age ${convertToAge(
                                 selectedYatri.dateOfBirth
-                              )}years`
+                              )} years`
                             : errorField === "dateOfBirth"
                             ? "Please enter date of birth"
                             : " "
@@ -796,6 +796,16 @@ export function isMobileInvalidNumber(
   mobileNumber: string
 ): boolean | undefined {
   return mobileNumber?.length > 0 && mobileNumber?.length !== 10;
+}
+
+export function isHotiInvalid(hotiNumber: number) {
+  const newlyAddedHotiIds = [301, 302];
+
+  return (
+    hotiNumber &&
+    (hotiNumber <= 0 ||
+      (hotiNumber > 224 && !newlyAddedHotiIds.includes(hotiNumber)))
+  );
 }
 
 function dateValidator(

@@ -53,7 +53,6 @@ const HotiDetailsPage = ({
       margin={0}
       width="100%"
       display="flex"
-      height="100vh"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
@@ -62,7 +61,6 @@ const HotiDetailsPage = ({
         <Grid
           item
           width="100%"
-          height="90vh"
           lg={6}
           md={8}
           xs={12}

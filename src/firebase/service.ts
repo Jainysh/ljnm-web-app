@@ -24,22 +24,22 @@ import { YatriDetails } from "../types/yatriDetails";
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
 //   hotiDetails.forEach(async (data) => {
-//     try {
-//       const docRef = await setDoc(
-//         doc(await getFirebaseFirestoreDB(), "hotiMaster", `hoti-${data.id}`),
-//         {
-//           city: data.city,
-//           hindiName: data.hindiName,
-//           mobile: data.phone,
-//           name: data.name,
-//           hotiId: data.id,
-//         }
-//       );
-//       console.log("Document written with ID: ", docRef);
-//     } catch (e) {
-//       console.error("Error adding document: ", e);
-//     }
-//   });
+//       try {
+//         const docRef = await setDoc(
+//           doc(await getFirebaseFirestoreDB(), "hotiMaster", `hoti-${data.id}`),
+//           {
+//             city: data.city,
+//             hindiName: data.hindiName,
+//             mobile: data.phone,
+//             name: data.name,
+//             hotiId: +data.id,
+//           }
+//         );
+//         console.log("Document written with ID: ", docRef);
+//       } catch (e) {
+//         console.error("Error adding document: ", e);
+//       }
+//     });
 //   console.log("here");
 // };
 
@@ -55,13 +55,14 @@ export const addLabhartiDetails = () => {
           doc(
             await getFirebaseFirestoreDB(),
             "EventMaster/event-1/labhartiDetails",
-            `hoti-${data.hotiNo}`
+            `hoti-${data.hotiId}`
           ),
           {
-            labhartiType: data.labhartiType ?? "",
+            labhartiType: data.labhartiType || "",
             hotiName: data.hotiName,
             seatsQuota: data.labhartiTicketQuota,
-            contributionInRupees: data.contributionInRupees,
+            contributionInRupees: data.contributionInRupees || 0,
+            hotiId: data.hotiId,
           }
         );
         console.log("Document written with ID: ", docRef);
@@ -81,13 +82,13 @@ export const addHotiAllocationDetails = () => {
         doc(
           await getFirebaseFirestoreDB(),
           "EventMaster/event-1/hotiAllocation",
-          `hoti-${data.hotiNo}`
+          `hoti-${data.hotiId}`
         ),
         {
-          hotiId: data.hotiNo.toString(),
-          extraTicketQuota: 0,
-          hotiTicketQuota: 2,
-          labhartiTicketQuota: data.labhartiTicketQuota ?? 0,
+          hotiId: data.hotiId,
+          extraTicketQuota: data.extraTicketQuota,
+          hotiTicketQuota: data.hotiTicketQuota,
+          labhartiTicketQuota: data.labhartiTicketQuota,
         }
       );
       console.log("Document written with ID: ", docRef);

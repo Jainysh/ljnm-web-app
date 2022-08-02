@@ -65,7 +65,7 @@ const HomeComponent = () => {
       console.log("user", firebaseAuth.currentUser);
       return;
     }
-    if (isHotiInvalid(hotiNumber) || !hotiNumber) {
+    if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
       setErrorField("hotiNumber");
       return;
     }
@@ -138,7 +138,7 @@ const HomeComponent = () => {
 
   const updateHotiDetails = (e: any) => {
     const hotiNumber = e.target.value;
-    if (isHotiInvalid(hotiNumber) || !hotiNumber) {
+    if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
       setErrorField("hotiNumber");
     } else {
       setErrorField("");
@@ -493,6 +493,7 @@ const HomeComponent = () => {
                     onChange={handleOTPChange}
                     value={otpNumber}
                     label="OTP"
+                    type="tel"
                   />
                   <Typography color={LJNMColors.primary}>
                     {errorField === "authError" ? (

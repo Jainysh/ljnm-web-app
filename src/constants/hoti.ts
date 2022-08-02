@@ -1208,7 +1208,7 @@ export const hotiDetails = [
     hindiName: "संघवी शा गुलाबचंद जवेरजी",
     name: "SANGHVI  GULABCHANDJI JAVERJI",
     city: "JAYSINGPUR",
-    phone: "9371922555",
+    phone: "9422045027",
   },
   {
     id: "174",
@@ -1566,5 +1566,19 @@ export const hotiDetails = [
     name: "VIRCHANDJI BHUBAJI",
     city: "SURAT",
     phone: "8141889830",
+  },
+  {
+    id: "301",
+    hindiName: "शा चंपालालजी बाड़मेरीया",
+    name: "CHAMPALALJI BADMERIYA",
+    city: "JASWANTPURA",
+    phone: "7757994451",
+  },
+  {
+    id: "302",
+    hindiName: "शा राजू बाड़मेरीया",
+    name: "RAJU BADMERIYA",
+    city: "JASWANTPURA",
+    phone: "9422583414",
   },
 ];

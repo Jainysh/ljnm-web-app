@@ -800,11 +800,9 @@ export function isMobileInvalidNumber(
 
 export function isHotiInvalid(hotiNumber: number) {
   const newlyAddedHotiIds = [301, 302];
-
   return (
-    hotiNumber &&
-    (hotiNumber <= 0 ||
-      (hotiNumber > 224 && !newlyAddedHotiIds.includes(hotiNumber)))
+    +hotiNumber === 0 ||
+    (+hotiNumber > 224 && !newlyAddedHotiIds.includes(+hotiNumber))
   );
 }
 

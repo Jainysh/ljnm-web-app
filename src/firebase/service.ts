@@ -19,7 +19,7 @@ import { getFirebaseFirestoreDB, storage } from ".";
 import { labhartiDetails } from "../constants/labharti";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
-import { YatriDetails } from "../types/yatriDetails";
+import { YatriDetails, TicketType } from "../types/yatriDetails";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -156,6 +156,56 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
     dateOfBirth: passenger.dateOfBirth?.toDate(),
   }));
   return passengerDetails;
+};
+type BookingSummary = {
+  hotiAllocation: HotiAllocationDetail,
+  extraTicketBooked: number;
+  hotiTicketBooked: number;
+  labhartiTicketBooked: number;
+  childTicketBooked: number;
+
+}
+export const getBookingSummaryForAllHoti = async () => {
+  const db = await getFirebaseFirestoreDB();
+  var path = `EventMaster/event-1/hotiAllocation`;
+  var t0 = performance.now();
+  console.log(`Start getBookingSummaryForAllHoti at ${t0}`);
+  var q = query(collection(db, path));
+  var querySnapShot = await getDocs(q);
+  var bookingSummary = [] as BookingSummary[];
+  if (!querySnapShot.empty) {
+    const hotiAllocations = querySnapShot.docs.map((doc) =>
+    doc.data()
+  ) as HotiAllocationDetail[];
+  
+  for (const hotiAllocation of hotiAllocations) {
+    var summary={} as BookingSummary;
+    summary.hotiAllocation = hotiAllocation;
+    if(hotiAllocation.nextYatriId !== undefined)
+    {
+      path = `EventMaster/event-1/hotiAllocation/hoti-${hotiAllocation.hotiId}/yatriDetails`;
+      q = query(collection(db, path));
+      querySnapShot = await getDocs(q);
+      if (!querySnapShot.empty) {
+        const yatriDetails = querySnapShot.docs.map((doc) =>
+        doc.data()
+      ) as YatriDetails[];
+
+      summary.hotiTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='HOTI').length;
+      summary.extraTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='EXTRA').length;
+      summary.childTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='CHILD').length;
+      summary.labhartiTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='LABHARTI').length; 
+      }  
+    }        
+    bookingSummary.push(summary); 
+  }  
+  }
+  var t1 = performance.now();
+  console.log(`Count ${bookingSummary.length}`);
+  console.log(`Count ${ bookingSummary.toString()}`);
+  console.log(`End getBookingSummaryForAllHoti at ${t1}`);
+  console.log("Call to getBookingSummaryForAllHoti took " + (t1 - t0) + " milliseconds.");
+  return bookingSummary;
 };
 
 export const addPassengerDetails = async (

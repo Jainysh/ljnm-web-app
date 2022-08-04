@@ -17,9 +17,10 @@ import {
 } from "firebase/storage";
 import { getFirebaseFirestoreDB, storage } from ".";
 import { labhartiDetails } from "../constants/labharti";
+import { BookingSummary } from "../types/bookingSummary";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
-import { YatriDetails, TicketType } from "../types/yatriDetails";
+import { YatriDetails } from "../types/yatriDetails";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -157,14 +158,7 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
   }));
   return passengerDetails;
 };
-type BookingSummary = {
-  hotiAllocation: HotiAllocationDetail,
-  extraTicketBooked: number;
-  hotiTicketBooked: number;
-  labhartiTicketBooked: number;
-  childTicketBooked: number;
 
-}
 export const getBookingSummaryForAllHoti = async () => {
   const db = await getFirebaseFirestoreDB();
   var path = `EventMaster/event-1/hotiAllocation`;

@@ -2,6 +2,8 @@ import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
 export const LocalStorageKeys = {
   termsAccepted: "termsAccepted",
+  bookingDetailsLastUpdated: "bookingDetailsLastUpdated",
+  bookingSummaryCache: "bookingSummaryCache",
 };
 export const FormFields = (hotiAllocationDetail: HotiAllocationDetail) => {
   return {

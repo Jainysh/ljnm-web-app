@@ -4,6 +4,8 @@ import { createTheme } from "@mui/material/styles";
 import React from "react";
 import { ThemeProvider } from "@mui/material";
 import { LJNMColors } from "./styles";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import AdminPage from "./pages/admin";
 // import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 
 // use default theme
@@ -29,7 +31,12 @@ const theme = createTheme({
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <HomeComponent />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomeComponent />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   </ThemeProvider>
 );
 

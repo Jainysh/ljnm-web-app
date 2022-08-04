@@ -8,6 +8,7 @@ import {
   updateDoc,
   deleteDoc,
   Firestore,
+  collectionGroup,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -16,10 +17,10 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { getFirebaseFirestoreDB, storage } from ".";
-import { labhartiDetails } from "../constants/labharti";
+import { BookingSummary } from "../types/bookingSummary";
 import { Hoti } from "../types/hoti";
 import { HotiAllocationDetail } from "../types/hotiAllocationDetail";
-import { YatriDetails, TicketType } from "../types/yatriDetails";
+import { YatriDetails } from "../types/yatriDetails";
 
 // refernce function to add any new doc to firestore
 // export const addHotiDetails = () => {
@@ -44,60 +45,60 @@ import { YatriDetails, TicketType } from "../types/yatriDetails";
 // };
 
 // refernce function to add labharti details to firestore
-export const addLabhartiDetails = () => {
-  labhartiDetails.forEach(async (data) => {
-    try {
-      if (
-        typeof data.labhartiTicketQuota !== "undefined" &&
-        data.labhartiTicketQuota !== null
-      ) {
-        const docRef = await setDoc(
-          doc(
-            await getFirebaseFirestoreDB(),
-            "EventMaster/event-1/labhartiDetails",
-            `hoti-${data.hotiId}`
-          ),
-          {
-            labhartiType: data.labhartiType || "",
-            hotiName: data.hotiName,
-            seatsQuota: data.labhartiTicketQuota,
-            contributionInRupees: data.contributionInRupees || 0,
-            hotiId: data.hotiId,
-          }
-        );
-        console.log("Document written with ID: ", docRef);
-      }
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  });
-  console.log("here");
-};
+// export const addLabhartiDetails = () => {
+//   labhartiDetails.forEach(async (data) => {
+//     try {
+//       if (
+//         typeof data.labhartiTicketQuota !== "undefined" &&
+//         data.labhartiTicketQuota !== null
+//       ) {
+//         const docRef = await setDoc(
+//           doc(
+//             await getFirebaseFirestoreDB(),
+//             "EventMaster/event-1/labhartiDetails",
+//             `hoti-${data.hotiId}`
+//           ),
+//           {
+//             labhartiType: data.labhartiType || "",
+//             hotiName: data.hotiName,
+//             seatsQuota: data.labhartiTicketQuota,
+//             contributionInRupees: data.contributionInRupees || 0,
+//             hotiId: data.hotiId,
+//           }
+//         );
+//         console.log("Document written with ID: ", docRef);
+//       }
+//     } catch (e) {
+//       console.error("Error adding document: ", e);
+//     }
+//   });
+//   console.log("here");
+// };
 
 // refernce function to add labharti details to firestore
-export const addHotiAllocationDetails = () => {
-  labhartiDetails.forEach(async (data) => {
-    try {
-      const docRef = await setDoc(
-        doc(
-          await getFirebaseFirestoreDB(),
-          "EventMaster/event-1/hotiAllocation",
-          `hoti-${data.hotiId}`
-        ),
-        {
-          hotiId: data.hotiId,
-          extraTicketQuota: data.extraTicketQuota,
-          hotiTicketQuota: data.hotiTicketQuota,
-          labhartiTicketQuota: data.labhartiTicketQuota,
-        }
-      );
-      console.log("Document written with ID: ", docRef);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  });
-  console.log("here");
-};
+// export const addHotiAllocationDetails = () => {
+//   labhartiDetails.forEach(async (data) => {
+//     try {
+//       const docRef = await setDoc(
+//         doc(
+//           await getFirebaseFirestoreDB(),
+//           "EventMaster/event-1/hotiAllocation",
+//           `hoti-${data.hotiId}`
+//         ),
+//         {
+//           hotiId: data.hotiId,
+//           extraTicketQuota: data.extraTicketQuota,
+//           hotiTicketQuota: data.hotiTicketQuota,
+//           labhartiTicketQuota: data.labhartiTicketQuota,
+//         }
+//       );
+//       console.log("Document written with ID: ", docRef);
+//     } catch (e) {
+//       console.error("Error adding document: ", e);
+//     }
+//   });
+//   console.log("here");
+// };
 
 export const getHotiDetailsByMobileNumber = async (mobile: string) => {
   const constraints = [where("mobile", "==", mobile)];
@@ -112,15 +113,19 @@ export const getHotiDetailsByMobileNumber = async (mobile: string) => {
 };
 
 export const getHotiDetailById = async (id: number) => {
-  const db = await getFirebaseFirestoreDB();
-  const constraints = [where("hotiId", "==", id)];
-  const q = query(collection(db, "hotiMaster"), ...constraints);
-  const querySnapShot = await getDocs(q);
-  if (querySnapShot.empty) {
+  try {
+    const db = await getFirebaseFirestoreDB();
+    const constraints = [where("hotiId", "==", id)];
+    const q = query(collection(db, "hotiMaster"), ...constraints);
+    const querySnapShot = await getDocs(q);
+    if (querySnapShot.empty) {
+      return {} as Hoti;
+    }
+    const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data()) as Hoti[];
+    return hotiDetails;
+  } catch (error) {
     return {} as Hoti;
   }
-  const [hotiDetails] = querySnapShot.docs.map((doc) => doc.data()) as Hoti[];
-  return hotiDetails;
 };
 
 export const getHotiAllocationDetailById = async (id: number) => {
@@ -140,6 +145,53 @@ export const getHotiAllocationDetailById = async (id: number) => {
   return hotiAllocationDetail;
 };
 
+export const getBookingSummary = async (): Promise<BookingSummary[]> => {
+  let bookingSummary: BookingSummary[] = [];
+  let hotiAllocation: HotiAllocationDetail[] = [];
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/hotiAllocation`;
+  const q = query(collection(db, path), where("hotiTicketQuota", ">", 0));
+  const querySnapShot = await getDocs(q);
+  if (querySnapShot.empty) {
+    return bookingSummary;
+  } else {
+    const data = querySnapShot.docs.map((doc) =>
+      doc.data()
+    ) as HotiAllocationDetail[];
+    hotiAllocation = data;
+  }
+  const yQ = query(collectionGroup(db, "yatriDetails"));
+  const yQuerySnapShot = await getDocs(yQ);
+  if (yQuerySnapShot.empty) {
+    return hotiAllocation as BookingSummary[];
+  } else {
+    const yatriDetails = yQuerySnapShot.docs.map((doc) =>
+      doc.data()
+    ) as YatriDetails[];
+    bookingSummary = hotiAllocation.map((hotiAllocation) => ({
+      childTicketYatri: yatriDetails.filter(
+        (yatri) =>
+          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "CHILD"
+      ),
+      extraTicketYatri: yatriDetails.filter(
+        (yatri) =>
+          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "EXTRA"
+      ),
+      hotiTicketYatri: yatriDetails.filter(
+        (yatri) =>
+          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "HOTI"
+      ),
+      labhartiTicketYatri: yatriDetails.filter(
+        (yatri) =>
+          yatri.hotiId === hotiAllocation.hotiId &&
+          yatri.ticketType === "LABHARTI"
+      ),
+      ...hotiAllocation,
+    }));
+  }
+  return bookingSummary;
+};
+
 export const getAllYatriDetailsById = async (hotiId: number) => {
   const db = await getFirebaseFirestoreDB();
   const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
@@ -157,56 +209,60 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
   }));
   return passengerDetails;
 };
-type BookingSummary = {
-  hotiAllocation: HotiAllocationDetail,
-  extraTicketBooked: number;
-  hotiTicketBooked: number;
-  labhartiTicketBooked: number;
-  childTicketBooked: number;
 
-}
-export const getBookingSummaryForAllHoti = async () => {
-  const db = await getFirebaseFirestoreDB();
-  var path = `EventMaster/event-1/hotiAllocation`;
-  var t0 = performance.now();
-  console.log(`Start getBookingSummaryForAllHoti at ${t0}`);
-  var q = query(collection(db, path));
-  var querySnapShot = await getDocs(q);
-  var bookingSummary = [] as BookingSummary[];
-  if (!querySnapShot.empty) {
-    const hotiAllocations = querySnapShot.docs.map((doc) =>
-    doc.data()
-  ) as HotiAllocationDetail[];
-  
-  for (const hotiAllocation of hotiAllocations) {
-    var summary={} as BookingSummary;
-    summary.hotiAllocation = hotiAllocation;
-    if(hotiAllocation.nextYatriId !== undefined)
-    {
-      path = `EventMaster/event-1/hotiAllocation/hoti-${hotiAllocation.hotiId}/yatriDetails`;
-      q = query(collection(db, path));
-      querySnapShot = await getDocs(q);
-      if (!querySnapShot.empty) {
-        const yatriDetails = querySnapShot.docs.map((doc) =>
-        doc.data()
-      ) as YatriDetails[];
+// export const getBookingSummaryForAllHoti = async () => {
+//   const db = await getFirebaseFirestoreDB();
+//   var path = `EventMaster/event-1/hotiAllocation`;
+//   var t0 = performance.now();
+//   console.log(`Start getBookingSummaryForAllHoti at ${t0}`);
+//   const constraints = [where("hotiId", "==", 171)];
 
-      summary.hotiTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='HOTI').length;
-      summary.extraTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='EXTRA').length;
-      summary.childTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='CHILD').length;
-      summary.labhartiTicketBooked=yatriDetails.filter(yatriDetail=>yatriDetail.ticketType==='LABHARTI').length; 
-      }  
-    }        
-    bookingSummary.push(summary); 
-  }  
-  }
-  var t1 = performance.now();
-  console.log(`Count ${bookingSummary.length}`);
-  console.log(`Count ${ bookingSummary.toString()}`);
-  console.log(`End getBookingSummaryForAllHoti at ${t1}`);
-  console.log("Call to getBookingSummaryForAllHoti took " + (t1 - t0) + " milliseconds.");
-  return bookingSummary;
-};
+//   var q = query(collection(db, path), ...constraints);
+//   var querySnapShot = await getDocs(q);
+//   var bookingSummary = [] as BookingSummary[];
+//   if (!querySnapShot.empty) {
+//     const hotiAllocations = querySnapShot.docs.map((doc) =>
+//       doc.data()
+//     ) as HotiAllocationDetail[];
+
+//     for (const hotiAllocation of hotiAllocations) {
+//       var summary = {} as BookingSummary;
+//       summary.hotiAllocation = hotiAllocation;
+//       if (hotiAllocation.nextYatriId !== undefined) {
+//         path = `EventMaster/event-1/hotiAllocation/hoti-${hotiAllocation.hotiId}/yatriDetails`;
+//         q = query(collection(db, path));
+//         querySnapShot = await getDocs(q);
+//         if (!querySnapShot.empty) {
+//           const yatriDetails = querySnapShot.docs.map((doc) =>
+//             doc.data()
+//           ) as YatriDetails[];
+
+//           summary.hotiTicketYatri = yatriDetails.filter(
+//             (yatriDetail) => yatriDetail.ticketType === "HOTI"
+//           ).length;
+//           summary.extraTicketYatri = yatriDetails.filter(
+//             (yatriDetail) => yatriDetail.ticketType === "EXTRA"
+//           ).length;
+//           summary.childTicketYatri = yatriDetails.filter(
+//             (yatriDetail) => yatriDetail.ticketType === "CHILD"
+//           ).length;
+//           summary.labhartiTicketYatri = yatriDetails.filter(
+//             (yatriDetail) => yatriDetail.ticketType === "LABHARTI"
+//           ).length;
+//         }
+//       }
+//       bookingSummary.push(summary);
+//     }
+//   }
+//   var t1 = performance.now();
+//   console.log(`Count ${bookingSummary.length}`);
+//   console.log(`Count ${bookingSummary.toString()}`);
+//   console.log(`End getBookingSummaryForAllHoti at ${t1}`);
+//   console.log(
+//     "Call to getBookingSummaryForAllHoti took " + (t1 - t0) + " milliseconds."
+//   );
+//   return bookingSummary;
+// };
 
 export const addPassengerDetails = async (
   passengerDetail: YatriDetails,

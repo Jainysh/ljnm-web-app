@@ -115,7 +115,7 @@ export const getHotiDetailsByMobileNumber = async (mobile: string) => {
 export const getHotiDetailById = async (id: number) => {
   try {
     const db = await getFirebaseFirestoreDB();
-    const constraints = [where("hotiId", "==", id)];
+    const constraints = [where("hotiId", "==", id.toString())];
     const q = query(collection(db, "hotiMaster"), ...constraints);
     const querySnapShot = await getDocs(q);
     if (querySnapShot.empty) {

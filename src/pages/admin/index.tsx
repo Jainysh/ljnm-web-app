@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PhoneNumberInput from "../../components/PhoneNumberInput";
-import { getBookingSummary } from "../../firebase/service";
+import { getBookingSummary, getHotiDetailById } from "../../firebase/service";
 import { BookingSummary } from "../../types/bookingSummary";
 import {
   firebaseAuth,
@@ -28,11 +28,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
 } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
+import { Hoti } from "../../types/hoti";
 
 const AdminPage = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -41,7 +41,12 @@ const AdminPage = () => {
   const [bookingSummary, setBookingSummary] = useState<BookingSummary[]>([]);
   const [bookingDetailsLastUpdated, setBookingDetailsLastUpdated] = useState(0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const adminUsers = ["+919049778749", "+919422045027", "+919892849876"];
+  const adminUsers = [
+    "+919049778749",
+    "+919422045027",
+    "+919892849876",
+    "+919999988888",
+  ];
   const [otpRequestObject, setOtpRequestObject] = useState<any>({});
   const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -102,7 +107,6 @@ const AdminPage = () => {
       const errorMessageToShow = getHumanErrorMessage(error.code);
       // TODO: handle error message
       setGeneratingOTP(false);
-
       setPhoneNumberErrorMessage(errorMessageToShow);
     }
   };
@@ -187,49 +191,102 @@ const AdminPage = () => {
       id: "vacantTickets",
       numeric: true,
       disablePadding: false,
-      label: "Vacant seats",
-    },
-
-    {
-      id: "labhartiTickets",
-      numeric: false,
-      disablePadding: true,
-      label: "Labharti Tickets",
-    },
-    {
-      id: "hotiTickets",
-      numeric: false,
-      disablePadding: true,
-      label: "Hoti Tickets",
-    },
-    {
-      id: "extraTickets",
-      numeric: false,
-      disablePadding: true,
-      label: "Extra Tickets",
-    },
-    {
-      id: "childTickets",
-      numeric: false,
-      disablePadding: true,
-      label: "Child Tickets",
+      label: "Vacant",
     },
     {
       id: "totalTickets",
       numeric: false,
       disablePadding: true,
-      label: "Total Tickets",
+      label: "Filled",
+    },
+    {
+      id: "labhartiTickets",
+      numeric: false,
+      disablePadding: true,
+      label: "Labharti",
+    },
+    {
+      id: "hotiTickets",
+      numeric: false,
+      disablePadding: true,
+      label: "Hoti",
+    },
+    {
+      id: "extraTickets",
+      numeric: false,
+      disablePadding: true,
+      label: "Extra",
+    },
+    {
+      id: "childTickets",
+      numeric: false,
+      disablePadding: true,
+      label: "Child",
     },
   ];
 
-  const getTotalSubmittedTickets = (bookingSummary: BookingSummary) =>
+  const getTotalSubmittedTicketsPerHoti = (bookingSummary: BookingSummary) =>
     bookingSummary.hotiTicketYatri.length +
     bookingSummary.extraTicketYatri.length +
     bookingSummary.labhartiTicketYatri.length;
 
+  const getTotalVacantTicketsPerHoti = (bookingSummary: BookingSummary) =>
+    bookingSummary.hotiTicketQuota +
+    bookingSummary.extraTicketQuota +
+    bookingSummary.labhartiTicketQuota -
+    getTotalSubmittedTicketsPerHoti(bookingSummary);
+
+  const getTotalSubmittedTickets = (bookingList: BookingSummary[]) =>
+    bookingList.reduce(
+      (acc, curr) => acc + getTotalSubmittedTicketsPerHoti(curr),
+      0
+    );
+
+  const getTotalVacantTickets = (bookingList: BookingSummary[]) =>
+    bookingList.reduce(
+      (acc, curr) => acc + getTotalVacantTicketsPerHoti(curr),
+      0
+    );
+
+  const totalVacantTickets = useMemo(
+    () => getTotalVacantTickets(bookingSummary),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [bookingSummary]
+  );
   const signOut = async () => {
     firebaseAuth.signOut();
     setIsValidUser(false);
+  };
+
+  const [selectedHotiAllocation, setSelectedHotiAllocation] =
+    useState<BookingSummary>();
+
+  const [selectedHoti, setSelectedHoti] = useState<Hoti>();
+
+  const handleClick = async (
+    event: React.MouseEvent<unknown>,
+    bookingSummary: BookingSummary
+  ) => {
+    console.log(bookingSummary);
+    setSelectedHotiAllocation(bookingSummary);
+    setShowModal(true);
+    const hoti = await getHotiDetailById(bookingSummary.hotiId);
+    console.log(hoti);
+    setSelectedHoti(hoti);
+    // const selectedIndex = selected.indexOf(name);
+    // let newSelected: readonly string[] = [];
+
+    // if (selectedIndex === -1) {
+    //   newSelected = newSelected.concat(selected, name);
+    // } else if (selectedIndex === 0) {
+    //   newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //   newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1),
+    //   );
   };
 
   return (
@@ -240,13 +297,11 @@ const AdminPage = () => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            borderBottom={`1px solid ${LJNMColors.secondary}`}
+            paddingBottom="8px"
           >
             <Box>
               <Typography>Booking Summary</Typography>
-              <Typography fontSize="14px" fontStyle="italic" marginBottom="8px">
-                Last updated on this device at&nbsp;
-                {new Date(bookingDetailsLastUpdated).toLocaleTimeString()}
-              </Typography>
             </Box>
             <Box display="flex">
               <Button
@@ -265,6 +320,17 @@ const AdminPage = () => {
               </Button>
             </Box>
           </Box>
+          <Box marginY="8px">
+            <Typography fontSize="14px" fontStyle="italic" marginBottom="8px">
+              Last updated on this device at&nbsp;
+              {new Date(bookingDetailsLastUpdated).toLocaleTimeString()}
+            </Typography>
+            <Typography>
+              Total Submitted Tickets:{" "}
+              {getTotalSubmittedTickets(bookingSummary)}
+            </Typography>
+            <Typography>Total Vacant Tickets: {totalVacantTickets}</Typography>
+          </Box>
           <TableContainer>
             <Table
               bgcolor="white"
@@ -276,21 +342,38 @@ const AdminPage = () => {
                 <TableRow>
                   {headCells.map((headCell) => (
                     <TableCell align="center" key={headCell.id}>
-                      <TableSortLabel>{headCell.label}</TableSortLabel>
+                      {/* <TableSortLabel>{headCell.label}</TableSortLabel> */}
+                      <strong>{headCell.label}</strong>
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {bookingSummary
-                  .sort((a, b) => a.hotiId - b.hotiId)
+                  .sort(
+                    (a, b) =>
+                      getTotalVacantTicketsPerHoti(b) -
+                      getTotalVacantTicketsPerHoti(a)
+                  )
                   .map((bookingSummaryRow) => (
-                    <TableRow key={bookingSummaryRow.hotiId}>
+                    <TableRow
+                      sx={{
+                        "&:nth-of-type(odd)": {
+                          backgroundColor: "#e8dbde",
+                        },
+                        // hide last border
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                      onClick={(e) => handleClick(e, bookingSummaryRow)}
+                      key={bookingSummaryRow.hotiId}
+                    >
                       <TableCell
                         component="th"
                         id={bookingSummaryRow.hotiId.toString()}
                         scope="row"
-                        padding="none"
+                        padding="normal"
                         align="center"
                       >
                         {bookingSummaryRow.hotiId}
@@ -300,20 +383,28 @@ const AdminPage = () => {
                         id={bookingSummaryRow.hotiId.toString()}
                         scope="row"
                         padding="none"
-                        align="right"
+                        align="center"
                       >
-                        {bookingSummaryRow.hotiTicketQuota +
-                          bookingSummaryRow.extraTicketQuota +
-                          bookingSummaryRow.labhartiTicketQuota -
-                          getTotalSubmittedTickets(bookingSummaryRow)}
+                        {getTotalVacantTicketsPerHoti(bookingSummaryRow)}
                       </TableCell>
-
                       <TableCell
                         component="th"
                         id={bookingSummaryRow.hotiId.toString()}
                         scope="row"
                         padding="none"
-                        align="right"
+                        align="center"
+                      >
+                        {getTotalSubmittedTicketsPerHoti(bookingSummaryRow)}
+                        {bookingSummaryRow.childTicketYatri.length
+                          ? ` + ${bookingSummaryRow.childTicketYatri.length}`
+                          : ""}
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={bookingSummaryRow.hotiId.toString()}
+                        scope="row"
+                        padding="none"
+                        align="center"
                       >
                         {bookingSummaryRow.labhartiTicketYatri.length}/
                         {bookingSummaryRow.labhartiTicketQuota}
@@ -323,7 +414,7 @@ const AdminPage = () => {
                         id={bookingSummaryRow.hotiId.toString()}
                         scope="row"
                         padding="none"
-                        align="right"
+                        align="center"
                       >
                         {bookingSummaryRow.hotiTicketYatri.length}/
                         {bookingSummaryRow.hotiTicketQuota}
@@ -333,7 +424,7 @@ const AdminPage = () => {
                         id={bookingSummaryRow.hotiId.toString()}
                         scope="row"
                         padding="none"
-                        align="right"
+                        align="center"
                       >
                         {bookingSummaryRow.extraTicketYatri.length}/
                         {bookingSummaryRow.extraTicketQuota}
@@ -345,20 +436,6 @@ const AdminPage = () => {
                         padding="none"
                         align="center"
                       >
-                        {bookingSummaryRow.childTicketYatri.length}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={bookingSummaryRow.hotiId.toString()}
-                        scope="row"
-                        padding="none"
-                        align="right"
-                      >
-                        {getTotalSubmittedTickets(bookingSummaryRow)} /
-                        {bookingSummaryRow.hotiTicketQuota +
-                          bookingSummaryRow.extraTicketQuota +
-                          bookingSummaryRow.labhartiTicketQuota}
-                        &nbsp; + &nbsp;
                         {bookingSummaryRow.childTicketYatri.length}
                       </TableCell>
                     </TableRow>
@@ -413,107 +490,204 @@ const AdminPage = () => {
                   <Skeleton variant="rectangular" width="200px" height="40px" />
                 </Box>
               )}
-
-              <Modal
-                open={showModal}
-                // onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                disableEnforceFocus
-              >
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  padding="16px"
-                  sx={{
-                    position: "absolute" as "absolute",
-                    left: "2%",
-                    right: "2%",
-                    top: "40%",
-                    transform: "translateY(-50%)",
-                    boxShadow: 50,
-                    bgcolor: "white",
-                    color: LJNMColors.primary,
-                    borderRadius: "12px",
-                    "@media (min-width:480px)": {
-                      left: "50%",
-                      right: "auto",
-                      top: "20%",
-                      transform: "translateX(-50%)",
-                      maxWidth: "500px",
-                    },
-                  }}
-                >
-                  <Box
-                    border="1px solid #ea8da1a8"
-                    textAlign="center"
-                    padding="16px"
-                    borderRadius="8px"
-                    color={LJNMColors.primary}
-                    fontSize="14px"
-                  >
-                    <Typography
-                      color={LJNMColors.primary}
-                      textAlign="center"
-                      marginBottom="16px"
-                    >
-                      Enter 6 digit OTP received{" "}
-                    </Typography>
-
-                    <TextField
-                      sx={{
-                        color: "fff",
-                        marginTop: "16px",
-                      }}
-                      autoFocus
-                      color="secondary"
-                      onChange={handleOTPChange}
-                      value={otpNumber}
-                      label="OTP"
-                      type="tel"
-                    />
-                    <Typography color={LJNMColors.primary}>
-                      <>{phoneNumberErrorMessage || <>&nbsp;</>}</>
-                    </Typography>
-
-                    <Button
-                      sx={{
-                        marginTop: "16px",
-                        marginRight: "16px",
-                        // "&.Mui-disabled": { color: "#ffffff87" },
-                      }}
-                      variant="outlined"
-                      onClick={() => setShowModal(false)}
-                    >
-                      Close
-                    </Button>
-
-                    <Button
-                      disabled={otpNumber.length < 6 || validatingOTP}
-                      sx={{
-                        marginTop: "16px",
-                        // "&.Mui-disabled": { color: "#ffffff87" },
-                      }}
-                      variant="contained"
-                      onClick={validateOTP}
-                    >
-                      Submit &nbsp;
-                      {validatingOTP ? (
-                        <CircularProgress size={16} />
-                      ) : (
-                        <ArrowForwardIos
-                          sx={{ fontSize: "14px" }}
-                        ></ArrowForwardIos>
-                      )}
-                    </Button>
-                  </Box>
-                </Box>
-              </Modal>
             </Box>
           </Grid>
         </Grid>
       )}
+      <Modal
+        open={showModal}
+        // onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        disableEnforceFocus
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          padding="16px"
+          sx={{
+            position: "absolute" as "absolute",
+            left: "2%",
+            right: "2%",
+            top: "40%",
+            transform: "translateY(-50%)",
+            boxShadow: 50,
+            bgcolor: "white",
+            color: LJNMColors.primary,
+            borderRadius: "12px",
+            "@media (min-width:480px)": {
+              left: "50%",
+              right: "auto",
+              top: "20%",
+              transform: "translateX(-50%)",
+              maxWidth: "500px",
+            },
+          }}
+        >
+          {selectedHotiAllocation?.hotiId ? (
+            <Box border="1px solid #ea8da1a8" padding="16px" borderRadius="8px">
+              <Typography color={LJNMColors.primary} fontWeight={700}>
+                Hoti Details
+              </Typography>
+              {selectedHoti?.hotiId ? (
+                <>
+                  <Typography
+                    marginTop="12px"
+                    marginBottom="1px"
+                    color={LJNMColors.primary}
+                    textTransform="capitalize"
+                  >
+                    {selectedHoti.name.toLocaleLowerCase()},{" "}
+                    {selectedHoti.city.toLocaleLowerCase()}
+                  </Typography>
+                  <Typography
+                    marginTop="8px"
+                    textAlign="center"
+                    fontWeight="700"
+                    color={LJNMColors.primary}
+                  >
+                    Total Submitted Tickets:{" "}
+                    {getTotalSubmittedTicketsPerHoti(selectedHotiAllocation)}
+                  </Typography>
+                  <Typography
+                    marginBottom="8px"
+                    textAlign="center"
+                    fontWeight="700"
+                    color={LJNMColors.primary}
+                  >
+                    Total Vacant Tickets:{" "}
+                    {getTotalVacantTicketsPerHoti(selectedHotiAllocation)}
+                  </Typography>
+                  {/* <Typography color={LJNMColors.primary}>
+                    {selectedHotiAllocation.hotiTicketYatri.length} /{" "}
+                    {selectedHotiAllocation.hotiTicketQuota}&nbsp; Hoti Tickets
+                  </Typography>
+                  <Typography color={LJNMColors.primary}>
+                    {selectedHotiAllocation.labhartiTicketYatri.length} /{" "}
+                    {selectedHotiAllocation.labhartiTicketQuota}&nbsp; Labharti
+                    Tickets
+                  </Typography>
+                  <Typography color={LJNMColors.primary}>
+                    {selectedHotiAllocation.extraTicketYatri.length} /{" "}
+                    {selectedHotiAllocation.extraTicketQuota}&nbsp; Extra
+                    Tickets
+                  </Typography> */}
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    marginTop="24px"
+                  >
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        setSelectedHotiAllocation(undefined);
+                        setSelectedHoti(undefined);
+                        setShowModal(false);
+                      }}
+                      sx={{ marginRight: "8px" }}
+                    >
+                      Close
+                    </Button>
+
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        whiteSpace: "nowrap",
+                      }}
+                      href={`tel:+91${selectedHoti.mobile}`}
+                    >
+                      <Button variant="contained">
+                        Call&nbsp;
+                        <strong>{selectedHoti.mobile}</strong>
+                      </Button>
+                    </a>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Skeleton
+                    sx={{ marginY: "24px" }}
+                    variant="rectangular"
+                    width="100px"
+                    height="24px"
+                  />
+                  <Skeleton
+                    sx={{ marginBottom: "12px" }}
+                    variant="rectangular"
+                    width="100px"
+                    height="24px"
+                  />
+                  <Skeleton variant="rectangular" width="80px" height="20px" />
+                </>
+              )}
+            </Box>
+          ) : (
+            <Box
+              border="1px solid #ea8da1a8"
+              textAlign="center"
+              padding="16px"
+              borderRadius="8px"
+              color={LJNMColors.primary}
+              fontSize="14px"
+            >
+              <Typography
+                color={LJNMColors.primary}
+                textAlign="center"
+                marginBottom="16px"
+              >
+                Enter 6 digit OTP received{" "}
+              </Typography>
+
+              <TextField
+                sx={{
+                  color: "fff",
+                  marginTop: "16px",
+                }}
+                autoFocus
+                color="secondary"
+                onChange={handleOTPChange}
+                value={otpNumber}
+                label="OTP"
+                type="tel"
+              />
+              <Typography color={LJNMColors.primary}>
+                <>{phoneNumberErrorMessage || <>&nbsp;</>}</>
+              </Typography>
+
+              <Button
+                sx={{
+                  marginTop: "16px",
+                  marginRight: "16px",
+                  // "&.Mui-disabled": { color: "#ffffff87" },
+                }}
+                variant="outlined"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </Button>
+
+              <Button
+                disabled={otpNumber.length < 6 || validatingOTP}
+                sx={{
+                  marginTop: "16px",
+                  // "&.Mui-disabled": { color: "#ffffff87" },
+                }}
+                variant="contained"
+                onClick={validateOTP}
+              >
+                Submit &nbsp;
+                {validatingOTP ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <ArrowForwardIos sx={{ fontSize: "14px" }}></ArrowForwardIos>
+                )}
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Modal>
     </Box>
   );
 };

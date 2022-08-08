@@ -16,6 +16,7 @@ import TnCPage from "../TnCPage";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import InfoBanner from "../InfoBanner";
 
 type HotiDetailsPageProps = {
   hotiDetails: Hoti;
@@ -57,6 +58,7 @@ const HotiDetailsPage = ({
       justifyContent="center"
       alignItems="center"
     >
+      <InfoBanner />
       {termsAcceptedStatus ? (
         <Grid
           item

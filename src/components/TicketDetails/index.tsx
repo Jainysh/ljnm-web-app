@@ -305,8 +305,9 @@ const AddViewTicketDetails = ({
         </Button>
       </Box>
       {showForm &&
-        (yatriList.length <
-          FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
+        (isEditting ||
+          yatriList.length <
+            FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
           ticketType === "CHILD") && (
           <Card sx={{ marginBottom: "8px" }}>
             <CardHeader
@@ -647,7 +648,6 @@ const AddViewTicketDetails = ({
           {loaderText}
         </Typography>
       </Backdrop>
-
       {/* <Box display="flex" alignItems="center" justifyContent="space-between">
         {!!hotiAllocationDetails.extraTicketQuota && (
           <Button sx={{ marginX: "4px" }} color="secondary" variant="outlined">
@@ -660,7 +660,6 @@ const AddViewTicketDetails = ({
           </Button>
         )}
       </Box> */}
-
       <Modal
         open={showModal}
         onClose={handleModalClose}
@@ -767,7 +766,6 @@ const AddViewTicketDetails = ({
           )}
         </Box>
       </Modal>
-
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={toastOpen}

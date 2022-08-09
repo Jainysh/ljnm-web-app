@@ -57,18 +57,11 @@ const HotiDetailsPage = ({
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      padding="0 24px 24px 24px"
     >
       <InfoBanner />
       {termsAcceptedStatus ? (
-        <Grid
-          item
-          width="100%"
-          lg={6}
-          md={8}
-          xs={12}
-          overflow="auto"
-          padding="24px"
-        >
+        <Grid item width="100%" lg={6} md={8} xs={12} overflow="auto">
           {!isDataConfirmed ? (
             <>
               <Box

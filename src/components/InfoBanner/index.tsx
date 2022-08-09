@@ -16,7 +16,7 @@ const InfoBanner = () => {
         //   behavior: "smooth",
         //   block: "center",
         // });
-        bannerRef.current.style.color = showContent
+        bannerRef.current.style.color = !showContent
           ? LJNMColors.secondary
           : "white";
       }
@@ -30,7 +30,7 @@ const InfoBanner = () => {
       display="flex"
       alignItems="center"
       borderRadius="8px"
-      margin={2}
+      margin="16px 0"
       sx={{ background: "#00000045" }}
     >
       {/* <InfoOutlined color="secondary" fontSize="small" /> */}
@@ -42,8 +42,8 @@ const InfoBanner = () => {
         fontSize="14px"
         marginLeft="8px"
       >
-        <strong>Today 08/08/2022</strong> is last day to submit forms.
-        <br /> Empty forms shall be allocated to waiting members.
+        <strong>11/08/2022</strong> is last day to submit forms.
+        <br /> Please fill yatri details before last day.
       </Typography>
     </Box>
   );

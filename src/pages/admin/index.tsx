@@ -33,7 +33,9 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { Hoti } from "../../types/hoti";
-
+import * as excel from "exceljs";
+import { TicketType, YatriDetails } from "../../types/yatriDetails";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 const AdminPage = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isValidUser, setIsValidUser] = useState(false);
@@ -53,6 +55,106 @@ const AdminPage = () => {
   const [validatingOTP, setValidatingOTP] = useState(false);
   const [otpNumber, setOtpNumber] = useState("");
   let navigate = useNavigate();
+
+  type excelData = {
+    hotiId: number;
+    // name: string;
+    // city: string;
+    // mobile: string;
+    yatriId: string;
+    dateOfBirth: string;
+    fullName: string;
+    gender: string;
+    idProof: string;
+    yatriMobile: string;
+    ticketType: string;
+  };
+  const exportToExcel = () => {
+    const workbook = new excel.Workbook();
+    const worksheet = workbook.addWorksheet("Sheet 1");
+    worksheet.columns = [
+      { header: "Hoti Id", key: "hotiId", width: 10 },
+      // { header: "Hoti Mobile Number", key: "name"},
+      // { header: "City", key: "city"},
+      // { header: "Mobile", key: "mobile"},
+      { header: "Yatri Id", key: "yatriId", width: 15 },
+      { header: "Date Of Birth", key: "dateOfBirth", width: 30 },
+      { header: "Full Name", key: "fullName", width: 30 },
+      { header: "Gender", key: "gender", width: 15 },
+      { header: "Id Proof", key: "idProof", width: 30 },
+      { header: "Yatri Mobile", key: "yatriMobile", width: 30 },
+      { header: "Ticket Type", key: "ticketType", width: 15 },
+    ];
+    const data: excelData[] = [];
+    bookingSummary
+      .sort((a, b) => a.hotiId - b.hotiId)
+      .forEach((booking) => {
+        const extraYatris: excelData[] = booking.extraTicketYatri.map(
+          mapToExcelData()
+        );
+        const labhartiYatris: excelData[] = booking.labhartiTicketYatri.map(
+          mapToExcelData()
+        );
+        const hotiYatris: excelData[] = booking.hotiTicketYatri.map(
+          mapToExcelData()
+        );
+
+        const childYatris: excelData[] = booking.childTicketYatri.map(
+          mapToExcelData()
+        );
+        data.push(
+          ...labhartiYatris,
+          ...hotiYatris,
+          ...extraYatris,
+          ...childYatris
+        );
+
+        function mapToExcelData(): (
+          value: YatriDetails,
+          index: number,
+          array: YatriDetails[]
+        ) => {
+          hotiId: number;
+          // name: booking.hotiName,
+          // city: booking.hotiCity,
+          // mobile: booking.hotiMobile,
+          yatriId: string;
+          dateOfBirth: any;
+          fullName: string;
+          gender: "Male" | "Female";
+          idProof: string;
+          yatriMobile: string;
+          ticketType: TicketType;
+        } {
+          return (extraYatri) => {
+            return {
+              hotiId: booking.hotiId,
+              // name: booking.hotiName,
+              // city: booking.hotiCity,
+              // mobile: booking.hotiMobile,
+              yatriId: extraYatri.yatriId,
+              dateOfBirth: extraYatri.dateOfBirth.split("T")[0],
+              fullName: extraYatri.fullName,
+              gender: extraYatri.gender,
+              idProof: extraYatri.idProof,
+              yatriMobile: extraYatri.mobile,
+              ticketType: extraYatri.ticketType,
+            };
+          };
+        }
+      });
+    worksheet.addRows(data);
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `LJNMConfirmedPassengers${new Date().toISOString()}.xlsx`;
+      link.click();
+    });
+  };
 
   useEffect(() => {
     let authUnsubscribe: Unsubscribe;
@@ -304,6 +406,14 @@ const AdminPage = () => {
               <Typography>Booking Summary</Typography>
             </Box>
             <Box display="flex">
+              <Button
+                variant="outlined"
+                sx={{ marginRight: "8px" }}
+                color="secondary"
+                onClick={exportToExcel}
+              >
+                <FileDownloadIcon />
+              </Button>
               <Button
                 onClick={() => {
                   navigate("/");

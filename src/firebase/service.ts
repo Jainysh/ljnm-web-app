@@ -169,23 +169,46 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
       doc.data()
     ) as YatriDetails[];
     bookingSummary = hotiAllocation.map((hotiAllocation) => ({
-      childTicketYatri: yatriDetails.filter(
-        (yatri) =>
-          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "CHILD"
-      ),
-      extraTicketYatri: yatriDetails.filter(
-        (yatri) =>
-          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "EXTRA"
-      ),
-      hotiTicketYatri: yatriDetails.filter(
-        (yatri) =>
-          yatri.hotiId === hotiAllocation.hotiId && yatri.ticketType === "HOTI"
-      ),
-      labhartiTicketYatri: yatriDetails.filter(
-        (yatri) =>
-          yatri.hotiId === hotiAllocation.hotiId &&
-          yatri.ticketType === "LABHARTI"
-      ),
+      childTicketYatri: yatriDetails
+        .filter(
+          (yatri) =>
+            yatri.hotiId === hotiAllocation.hotiId &&
+            yatri.ticketType === "CHILD"
+        )
+        .map((passenger) => ({
+          ...passenger,
+          dateOfBirth: passenger.dateOfBirth?.toDate(),
+        })),
+      extraTicketYatri: yatriDetails
+        .filter(
+          (yatri) =>
+            yatri.hotiId === hotiAllocation.hotiId &&
+            yatri.ticketType === "EXTRA"
+        )
+        .map((passenger) => ({
+          ...passenger,
+          dateOfBirth: passenger.dateOfBirth?.toDate(),
+        })),
+      hotiTicketYatri: yatriDetails
+        .filter(
+          (yatri) =>
+            yatri.hotiId === hotiAllocation.hotiId &&
+            yatri.ticketType === "HOTI"
+        )
+        .map((passenger) => ({
+          ...passenger,
+          dateOfBirth: passenger.dateOfBirth?.toDate(),
+        })),
+      labhartiTicketYatri: yatriDetails
+        .filter(
+          (yatri) =>
+            yatri.hotiId === hotiAllocation.hotiId &&
+            yatri.ticketType === "LABHARTI"
+        )
+        .map((passenger) => ({
+          ...passenger,
+          dateOfBirth: passenger.dateOfBirth?.toDate(),
+        })),
       ...hotiAllocation,
     }));
   }

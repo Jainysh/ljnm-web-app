@@ -437,7 +437,11 @@ const AdminPage = () => {
             </Typography>
             <Typography>
               Total Submitted Tickets:{" "}
-              {getTotalSubmittedTickets(bookingSummary)}
+              {getTotalSubmittedTickets(bookingSummary)} +{" "}
+              {bookingSummary.reduce(
+                (acc, curr) => acc + curr.childTicketYatri.length,
+                0
+              )}
             </Typography>
             <Typography>Total Vacant Tickets: {totalVacantTickets}</Typography>
           </Box>

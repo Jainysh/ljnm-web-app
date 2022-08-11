@@ -471,7 +471,7 @@ const AddViewTicketDetails = ({
                         value={
                           isEditting
                             ? new Date(selectedYatri.dateOfBirth)
-                                .toJSON()
+                                .toISOString()
                                 .split("T")[0]
                             : selectedYatri.dateOfBirth || ""
                         }

@@ -177,7 +177,7 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
         )
         .map((passenger) => ({
           ...passenger,
-          dateOfBirth: passenger.dateOfBirth?.toDate(),
+          dateOfBirth: passenger.dateOfBirth?.toDate().toISOString(),
         })),
       extraTicketYatri: yatriDetails
         .filter(
@@ -187,7 +187,7 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
         )
         .map((passenger) => ({
           ...passenger,
-          dateOfBirth: passenger.dateOfBirth?.toDate(),
+          dateOfBirth: passenger.dateOfBirth?.toDate().toISOString(),
         })),
       hotiTicketYatri: yatriDetails
         .filter(
@@ -197,7 +197,7 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
         )
         .map((passenger) => ({
           ...passenger,
-          dateOfBirth: passenger.dateOfBirth?.toDate(),
+          dateOfBirth: passenger.dateOfBirth?.toDate().toISOString(),
         })),
       labhartiTicketYatri: yatriDetails
         .filter(
@@ -207,7 +207,7 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
         )
         .map((passenger) => ({
           ...passenger,
-          dateOfBirth: passenger.dateOfBirth?.toDate(),
+          dateOfBirth: passenger.dateOfBirth?.toDate().toISOString(),
         })),
       ...hotiAllocation,
     }));

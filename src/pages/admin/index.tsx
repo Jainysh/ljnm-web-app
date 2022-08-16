@@ -8,7 +8,7 @@ import {
   getInvisibleRecaptchaVerifier,
   getSignInWithPhoneNumber,
 } from "../../firebase";
-import { getHumanErrorMessage } from "../../lib/helper";
+import { convertToAge, getHumanErrorMessage } from "../../lib/helper";
 import Modal from "@mui/material/Modal";
 import { LJNMColors } from "../../styles";
 import Typography from "@mui/material/Typography";
@@ -63,6 +63,7 @@ const AdminPage = () => {
     // mobile: string;
     yatriId: string;
     dateOfBirth: string;
+    age: number;
     fullName: string;
     gender: string;
     idProof: string;
@@ -78,8 +79,9 @@ const AdminPage = () => {
       // { header: "City", key: "city"},
       // { header: "Mobile", key: "mobile"},
       { header: "Yatri Id", key: "yatriId", width: 15 },
-      { header: "Date Of Birth", key: "dateOfBirth", width: 30 },
       { header: "Full Name", key: "fullName", width: 30 },
+      { header: "Age", key: "age", width: 10 },
+      { header: "Date Of Birth", key: "dateOfBirth", width: 30 },
       { header: "Gender", key: "gender", width: 15 },
       { header: "Id Proof", key: "idProof", width: 30 },
       { header: "Yatri Mobile", key: "yatriMobile", width: 30 },
@@ -120,6 +122,7 @@ const AdminPage = () => {
           // mobile: booking.hotiMobile,
           yatriId: string;
           dateOfBirth: any;
+          age: number;
           fullName: string;
           gender: "Male" | "Female";
           idProof: string;
@@ -133,8 +136,9 @@ const AdminPage = () => {
               // city: booking.hotiCity,
               // mobile: booking.hotiMobile,
               yatriId: extraYatri.yatriId,
-              dateOfBirth: extraYatri.dateOfBirth.split("T")[0],
               fullName: extraYatri.fullName,
+              age: convertToAge(new Date(extraYatri.dateOfBirth)),
+              dateOfBirth: extraYatri.dateOfBirth.split("T")[0],
               gender: extraYatri.gender,
               idProof: extraYatri.idProof,
               yatriMobile: extraYatri.mobile,

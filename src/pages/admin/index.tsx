@@ -65,6 +65,7 @@ const AdminPage = () => {
     dateOfBirth: string;
     age: number;
     fullName: string;
+    city: string;
     gender: string;
     idProof: string;
     yatriMobile: string;
@@ -83,6 +84,7 @@ const AdminPage = () => {
       { header: "Age", key: "age", width: 10 },
       { header: "Date Of Birth", key: "dateOfBirth", width: 30 },
       { header: "Gender", key: "gender", width: 15 },
+      { header: "City", key: "city", width: 15 },
       { header: "Id Proof", key: "idProof", width: 30 },
       { header: "Yatri Mobile", key: "yatriMobile", width: 30 },
       { header: "Ticket Type", key: "ticketType", width: 15 },
@@ -128,6 +130,7 @@ const AdminPage = () => {
           idProof: string;
           yatriMobile: string;
           ticketType: TicketType;
+          city: string;
         } {
           return (extraYatri) => {
             return {
@@ -143,6 +146,7 @@ const AdminPage = () => {
               idProof: extraYatri.idProof,
               yatriMobile: extraYatri.mobile,
               ticketType: extraYatri.ticketType,
+              city: extraYatri.city,
             };
           };
         }

@@ -343,6 +343,7 @@ export const addPassengerDetails = async (
               idProof: passengerDetail.idProof || "",
               hotiId: hotiAllocationDetail.hotiId,
               profilePicture: `${path}/${yatriId}`,
+              city: passengerDetail.city || "",
             });
           })
           .catch((err) => console.log(err));
@@ -449,6 +450,7 @@ function submitYatriDetails(
     idProof: passengerDetail.idProof || "",
     hotiId: hotiId,
     profilePicture: `${path}/${yatriId}`,
+    city: passengerDetail.city || "",
   });
 }
 
@@ -457,3 +459,17 @@ export const getImageDownloadUrl = async (refUrl: string) => {
   const image = await getDownloadURL(imageRef);
   return image;
 };
+
+// export const updateCustomerData = async (
+//   yatriId: string,
+//   hotiId: string,
+//   gender: string,
+//   city: string
+// ) => {
+//   const db = await getFirebaseFirestoreDB();
+//   const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+
+//   const yatriDocRef = doc(db, path, yatriId);
+//   const result = await updateDoc(yatriDocRef, { gender, city });
+//   console.log("result", yatriId, result);
+// };

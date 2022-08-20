@@ -248,6 +248,9 @@ const AddViewTicketDetails = ({
       case !selectedYatri.idProof || aadharValidator(selectedYatri):
         setErrorField("idProof");
         return false;
+      case !selectedYatri.city:
+        setErrorField("city");
+        return false;
       case !fileData && !isEditting:
         setToastMessage("Please upload a photo");
         setToastSeverity("error");
@@ -559,6 +562,21 @@ const AddViewTicketDetails = ({
                         }
                       />
                     </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        fullWidth
+                        label="City"
+                        name="city"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.city || ""}
+                        variant="outlined"
+                        error={errorField === "city"}
+                        helperText={
+                          errorField === "city" ? "Please enter city" : " "
+                        }
+                      />
+                    </Grid>
                   </>
                 )}
               </Grid>
@@ -607,12 +625,7 @@ const AddViewTicketDetails = ({
           </Card>
         )}
       {!!yatriList.length && !isEditting && (
-        <Box
-          padding="12px"
-          borderRadius="4px"
-          margin="0 -12px"
-          bgcolor="#0000004d"
-        >
+        <Box padding="12px" borderRadius="4px" bgcolor="#0000004d">
           <Typography mb={1} color="white" sx={{ textTransform: "capitalize" }}>
             {ticketType.toLowerCase()} passenger details
           </Typography>

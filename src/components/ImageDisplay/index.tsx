@@ -27,7 +27,7 @@ const ImageDisplayContainer = ({
   return (
     <Box
       width="100px"
-      height="100px"
+      height="110px"
       border={`1px solid ${LJNMColors.primary}`}
       sx={{ overflow: "hidden", borderRadius: "8px" }}
       display="flex"

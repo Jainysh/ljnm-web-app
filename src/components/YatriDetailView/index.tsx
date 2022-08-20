@@ -6,6 +6,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { LJNMColors } from "../../styles";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import ImageDisplayContainer from "../ImageDisplay";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 type YatriDetailViewProps = {
   yatri: YatriDetails;
@@ -81,6 +82,18 @@ const YatriDetailView = ({
           >
             <FingerprintIcon sx={{ marginRight: "8px", fontSize: "16px" }} />{" "}
             {yatri.idProof.replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3")}
+          </Typography>
+          <Typography
+            color="#000"
+            fontSize="15px"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              textTransform: "capitalize",
+            }}
+          >
+            <LocationOnIcon sx={{ marginRight: "8px", fontSize: "16px" }} />
+            {yatri.city?.toLocaleLowerCase()}
           </Typography>
         </Box>
       </Box>

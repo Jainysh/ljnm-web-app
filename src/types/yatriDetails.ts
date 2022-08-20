@@ -4,6 +4,7 @@ export type YatriDetails = {
   fullName: string;
   gender: "Male" | "Female";
   idProof: string;
+  city: string;
   mobile: string;
   profilePicture: string;
   ticketType: TicketType;

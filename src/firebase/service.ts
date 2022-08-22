@@ -150,7 +150,7 @@ export const getBookingSummary = async (): Promise<BookingSummary[]> => {
   let hotiAllocation: HotiAllocationDetail[] = [];
   const db = await getFirebaseFirestoreDB();
   const path = `EventMaster/event-1/hotiAllocation`;
-  const q = query(collection(db, path), where("hotiTicketQuota", ">", 0));
+  const q = query(collection(db, path));
   const querySnapShot = await getDocs(q);
   if (querySnapShot.empty) {
     return bookingSummary;

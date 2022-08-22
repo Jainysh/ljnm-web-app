@@ -233,7 +233,13 @@ const AdminPage = () => {
     if (today.getTime() - parseInt(lastUpdatedTime) > 1000 * 60 * 60) {
       console.log("server call");
       const bookingDetails = await getBookingSummary();
-      setBookingSummary(bookingDetails);
+      const filteredBookingDetails = bookingDetails.filter(
+        (details) =>
+          !!details.hotiTicketQuota ||
+          !!details.labhartiTicketQuota ||
+          !!details.extraTicketQuota
+      );
+      setBookingSummary(filteredBookingDetails);
       localStorage.setItem(
         LocalStorageKeys.bookingSummaryCache,
         JSON.stringify(bookingDetails)

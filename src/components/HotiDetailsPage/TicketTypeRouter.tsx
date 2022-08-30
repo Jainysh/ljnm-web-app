@@ -58,10 +58,10 @@ const TicketTypeRouter = ({
         )}
       </Box>
       <Button color="secondary">
-        {yatriLength !== ticketCount
+        {/* {yatriLength !== ticketCount 
           ? `Add ${yatriLength > 0 ? "/ View" : ""}`
-          : "View"}
-        &nbsp;
+          : "View"} */}
+        View &nbsp;
         <ArrowForwardIos />
       </Button>
     </Box>

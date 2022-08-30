@@ -33,7 +33,6 @@ import { getHumanErrorMessage } from "../../lib/helper";
 import { onAuthStateChanged, User } from "firebase/auth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { isHotiInvalid } from "../../components/TicketDetails";
-import InfoBanner from "../../components/InfoBanner";
 
 const HomeComponent = () => {
   const [hotiNumber, setHotiNumber] = useState(-1);
@@ -289,7 +288,7 @@ const HomeComponent = () => {
                   flexDirection="column"
                   marginTop="40px"
                 >
-                  <InfoBanner />
+                  {/* <InfoBanner /> */}
                   <TextField
                     fullWidth
                     label="Enter Hoti Number"

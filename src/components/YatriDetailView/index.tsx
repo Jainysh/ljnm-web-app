@@ -7,6 +7,7 @@ import { LJNMColors } from "../../styles";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import ImageDisplayContainer from "../ImageDisplay";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { EDITABLE_HOTIS } from "../../constants/common";
 
 type YatriDetailViewProps = {
   yatri: YatriDetails;
@@ -40,18 +41,20 @@ const YatriDetailView = ({
             Yatri Id: {yatri.yatriId}
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center">
-          {handleEdit && (
-            <Button onClick={handleEdit} size="small" variant="text">
-              Edit
-            </Button>
-          )}
-          {handleDelete && (
-            <Button onClick={handleDelete} size="small" variant="text">
-              Delete
-            </Button>
-          )}
-        </Box>
+        {EDITABLE_HOTIS.includes(yatri.hotiId) && (
+          <Box display="flex" alignItems="center">
+            {handleEdit && (
+              <Button onClick={handleEdit} size="small" variant="text">
+                Edit
+              </Button>
+            )}
+            {handleDelete && (
+              <Button onClick={handleDelete} size="small" variant="text">
+                Delete
+              </Button>
+            )}
+          </Box>
+        )}
       </Box>
       <Box display="flex" alignItems="center">
         <ImageDisplayContainer

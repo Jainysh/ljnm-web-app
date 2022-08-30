@@ -16,7 +16,6 @@ import TnCPage from "../TnCPage";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import InfoBanner from "../InfoBanner";
 
 type HotiDetailsPageProps = {
   hotiDetails: Hoti;
@@ -59,7 +58,7 @@ const HotiDetailsPage = ({
       alignItems="center"
       padding="0 24px 24px 24px"
     >
-      <InfoBanner />
+      {/* <InfoBanner /> */}
       {termsAcceptedStatus ? (
         <Grid item width="100%" lg={6} md={8} xs={12} overflow="auto">
           {!isDataConfirmed ? (
@@ -131,15 +130,21 @@ const HotiDetailsPage = ({
                       ticketCount={hotiAllocationDetails.extraTicketQuota}
                     />
                   )}
-                  <TicketTypeRouter
-                    label="Children below 5 yrs"
-                    yatriLength={
-                      yatriDetails.filter(
-                        (yatri) => yatri.ticketType === "CHILD"
-                      )?.length || 0
-                    }
-                    clickHandler={() => confirmHotiDetails("CHILD")}
-                  />
+
+                  {!!yatriDetails.filter(
+                    (yatri) => yatri.ticketType === "CHILD"
+                  )?.length && (
+                    <TicketTypeRouter
+                      label="Children below 5 yrs"
+                      yatriLength={
+                        yatriDetails.filter(
+                          (yatri) => yatri.ticketType === "CHILD"
+                        )?.length || 0
+                      }
+                      clickHandler={() => confirmHotiDetails("CHILD")}
+                    />
+                  )}
+
                   <Box
                     padding="8px"
                     display="flex"

@@ -30,6 +30,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import ImageDisplayContainer from "../ImageDisplay";
+import { EDITABLE_HOTIS } from "../../constants/common";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -296,7 +297,8 @@ const AddViewTicketDetails = ({
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
           !yatriList.length ||
           ticketType === "CHILD") &&
-          !isEditting && (
+          !isEditting &&
+          EDITABLE_HOTIS.includes(hotiAllocationDetails.hotiId) && (
             <Button color="secondary" onClick={goToForm}>
               <Add />
               Add Passenger
@@ -308,6 +310,7 @@ const AddViewTicketDetails = ({
         </Button>
       </Box>
       {showForm &&
+        EDITABLE_HOTIS.includes(hotiAllocationDetails.hotiId) &&
         (isEditting ||
           yatriList.length <
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||

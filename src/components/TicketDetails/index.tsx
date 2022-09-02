@@ -30,7 +30,6 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import ImageDisplayContainer from "../ImageDisplay";
-import { EDITABLE_HOTIS } from "../../constants/common";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -298,7 +297,7 @@ const AddViewTicketDetails = ({
           !yatriList.length ||
           ticketType === "CHILD") &&
           !isEditting &&
-          EDITABLE_HOTIS.includes(hotiAllocationDetails.hotiId) && (
+          hotiAllocationDetails.allowChanges && (
             <Button color="secondary" onClick={goToForm}>
               <Add />
               Add Passenger
@@ -310,7 +309,7 @@ const AddViewTicketDetails = ({
         </Button>
       </Box>
       {showForm &&
-        EDITABLE_HOTIS.includes(hotiAllocationDetails.hotiId) &&
+        hotiAllocationDetails.allowChanges &&
         (isEditting ||
           yatriList.length <
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
@@ -637,6 +636,7 @@ const AddViewTicketDetails = ({
             {yatriList.map((yatri) => (
               <Grid key={yatri.yatriId} item xs={12} sm={6}>
                 <YatriDetailView
+                  hotiAllocationDetails={hotiAllocationDetails}
                   key={yatri.yatriId}
                   yatri={yatri}
                   handleDelete={() => {
@@ -761,7 +761,10 @@ const AddViewTicketDetails = ({
               >
                 Do you want to delete details of this yatri?
               </Typography>
-              <YatriDetailView yatri={selectedYatriForModification} />
+              <YatriDetailView
+                hotiAllocationDetails={hotiAllocationDetails}
+                yatri={selectedYatriForModification}
+              />
               <Box mt={3} display="flex" justifyContent="space-between">
                 <Button
                   variant="outlined"

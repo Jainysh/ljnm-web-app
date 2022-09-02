@@ -7,18 +7,20 @@ import { LJNMColors } from "../../styles";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import ImageDisplayContainer from "../ImageDisplay";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { EDITABLE_HOTIS } from "../../constants/common";
+import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 
 type YatriDetailViewProps = {
   yatri: YatriDetails;
   handleDelete?: () => void;
   handleEdit?: () => void;
+  hotiAllocationDetails: HotiAllocationDetail;
 };
 
 const YatriDetailView = ({
   yatri,
   handleDelete,
   handleEdit,
+  hotiAllocationDetails,
 }: YatriDetailViewProps) => {
   return (
     <Box
@@ -41,7 +43,7 @@ const YatriDetailView = ({
             Yatri Id: {yatri.yatriId}
           </Typography>
         </Box>
-        {EDITABLE_HOTIS.includes(yatri.hotiId) && (
+        {hotiAllocationDetails.allowChanges && (
           <Box display="flex" alignItems="center">
             {handleEdit && (
               <Button onClick={handleEdit} size="small" variant="text">

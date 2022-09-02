@@ -56,7 +56,7 @@ const HotiDetailsPage = ({
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      padding="0 24px 24px 24px"
+      padding="24px"
     >
       {/* <InfoBanner /> */}
       {termsAcceptedStatus ? (

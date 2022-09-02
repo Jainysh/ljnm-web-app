@@ -1,7 +1,11 @@
 import Box from "@mui/material/Box";
 import React, { useEffect, useMemo, useState } from "react";
 import PhoneNumberInput from "../../components/PhoneNumberInput";
-import { getBookingSummary, getHotiDetailById } from "../../firebase/service";
+import {
+  getBookingSummary,
+  getHotiDetailById,
+  getImageDownloadUrl,
+} from "../../firebase/service";
 import { BookingSummary } from "../../types/bookingSummary";
 import {
   firebaseAuth,
@@ -21,6 +25,7 @@ import { Unsubscribe } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import TableCell from "@mui/material/TableCell";
 import {
+  Backdrop,
   Grid,
   Skeleton,
   Table,
@@ -36,12 +41,14 @@ import { Hoti } from "../../types/hoti";
 import * as excel from "exceljs";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import JSZip from "jszip";
 const AdminPage = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isValidUser, setIsValidUser] = useState(false);
   const [generatingOTP, setGeneratingOTP] = useState(false);
   const [bookingSummary, setBookingSummary] = useState<BookingSummary[]>([]);
   const [bookingDetailsLastUpdated, setBookingDetailsLastUpdated] = useState(0);
+  const [showLoader, setShowLoader] = useState(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const adminUsers = [
     "+919049778749",
@@ -70,8 +77,9 @@ const AdminPage = () => {
     idProof: string;
     yatriMobile: string;
     ticketType: string;
+    profilePicture: string;
   };
-  const exportToExcel = () => {
+  const exportToExcel = async () => {
     const workbook = new excel.Workbook();
     const worksheet = workbook.addWorksheet("Sheet 1");
     worksheet.columns = [
@@ -80,11 +88,9 @@ const AdminPage = () => {
       // { header: "City", key: "city"},
       // { header: "Mobile", key: "mobile"},
       { header: "Yatri Id", key: "yatriId", width: 15 },
-      { header: "Full Name", key: "fullName", width: 30 },
-      { header: "Age", key: "age", width: 10 },
       { header: "Date Of Birth", key: "dateOfBirth", width: 30 },
+      { header: "Full Name", key: "fullName", width: 30 },
       { header: "Gender", key: "gender", width: 15 },
-      { header: "City", key: "city", width: 15 },
       { header: "Id Proof", key: "idProof", width: 30 },
       { header: "Yatri Mobile", key: "yatriMobile", width: 30 },
       { header: "Ticket Type", key: "ticketType", width: 15 },
@@ -131,6 +137,7 @@ const AdminPage = () => {
           yatriMobile: string;
           ticketType: TicketType;
           city: string;
+          profilePicture: string;
         } {
           return (extraYatri) => {
             return {
@@ -147,21 +154,83 @@ const AdminPage = () => {
               yatriMobile: extraYatri.mobile,
               ticketType: extraYatri.ticketType,
               city: extraYatri.city,
+              profilePicture: extraYatri.profilePicture,
             };
           };
         }
       });
-    worksheet.addRows(data);
-    workbook.xlsx.writeBuffer().then((buffer) => {
-      const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `LJNMConfirmedPassengers${new Date().toISOString()}.xlsx`;
-      link.click();
-    });
+    // worksheet.addRows(data);
+    // workbook.xlsx.writeBuffer().then((buffer) => {
+    //   const blob = new Blob([buffer], {
+    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    //   });
+    //   const url = window.URL.createObjectURL(blob);
+    //   const link = document.createElement("a");
+    //   link.href = url;
+    //   link.download = `LJNMConfirmedPassengers${new Date().toISOString()}.xlsx`;
+    //   link.click();
+    // });
+
+    setShowLoader(true);
+
+    console.log("started exporting");
+    const t1 = performance.now();
+    const allImagesURL = await Promise.all(
+      data.map(async (value) => ({
+        url: await getImageDownloadUrl(value.profilePicture),
+        name: value.yatriId,
+      }))
+    );
+    console.log("allIimages length", allImagesURL.length, data.length);
+
+    const zip = new JSZip();
+
+    const profileImagesZip = zip.folder("ProfileImages");
+    const allImagesBlob = await Promise.all(
+      allImagesURL.map(async (data) => {
+        const rawBlob = await fetch(data.url, {
+          method: "GET",
+          headers: {},
+        });
+        const arrayBuffer = await rawBlob.arrayBuffer();
+        const blob = new Blob([arrayBuffer], {
+          type: "image/jpeg",
+        });
+        return {
+          name: data.name,
+          blob,
+        };
+      })
+    );
+    console.log("allImagesBlob", allImagesBlob.length);
+    if (profileImagesZip) {
+      allImagesBlob.forEach((data) =>
+        profileImagesZip.file(`${data.name}.jpg`, data.blob)
+      );
+    }
+    let promise = null;
+    if (JSZip.support.uint8array) {
+      promise = await zip.generateAsync({ type: "uint8array" });
+    } else {
+      promise = await zip.generateAsync({ type: "string" });
+    }
+    console.log("promise", promise.length);
+    let blob = new Blob([promise], { type: "application/zip" });
+    const url = window.URL.createObjectURL(new Blob([blob]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "ProfileImages.zip"); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+    setShowLoader(false);
+    const t2 = performance.now();
+    console.log(
+      "Exported in",
+      t2 - t1,
+      "milliseconds",
+      allImagesURL.map((data) => data.name)
+    );
+    console.log("exported");
   };
 
   useEffect(() => {
@@ -295,6 +364,16 @@ const AdminPage = () => {
       setOtpNumber(e.target.value);
     }
   };
+
+  <Backdrop
+    sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    open={showLoader}
+  >
+    <CircularProgress color="secondary" />
+    <Typography paddingLeft="8px" color="secondary">
+      Downloading all profile images. Please wait ...
+    </Typography>
+  </Backdrop>;
 
   const headCells = [
     {

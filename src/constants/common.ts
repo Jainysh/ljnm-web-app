@@ -1,1 +1,1 @@
-export const EDITABLE_HOTIS: number[] = [];
+export const EDITABLE_HOTIS: number[] = [194,182,103];

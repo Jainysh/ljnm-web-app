@@ -548,6 +548,7 @@ const HomeComponent = () => {
         <HotiDetailsPage
           setYatriDetails={setYatriDetails}
           clearHotiDetails={clearHotiDetails}
+          setHotiDetails={setHotiDetails}
           hotiDetails={hotiDetails}
           yatriDetails={yatriDetails}
           hotiAllocationDetails={hotiAllocationDetails}

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { LJNMColors } from "../../styles";
 import { Hoti } from "../../types/hoti";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import AddViewTicketDetails from "../TicketDetails";
+import AddViewTicketDetails, { isHotiInvalid } from "../TicketDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
@@ -16,6 +16,9 @@ import TnCPage from "../TnCPage";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { TextField } from "@mui/material";
+import { getHotiDetailById } from "../../firebase/service";
+import { firebaseAuth } from "../../firebase";
 
 type HotiDetailsPageProps = {
   hotiDetails: Hoti;
@@ -23,6 +26,7 @@ type HotiDetailsPageProps = {
   yatriDetails: YatriDetails[];
   clearHotiDetails: () => void;
   setYatriDetails: (yariDetails: YatriDetails[]) => void;
+  setHotiDetails: (hotiDetails: Hoti) => void;
 };
 const HotiDetailsPage = ({
   hotiDetails,
@@ -30,9 +34,13 @@ const HotiDetailsPage = ({
   yatriDetails,
   clearHotiDetails,
   setYatriDetails,
+  setHotiDetails,
 }: HotiDetailsPageProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
+  const [currentUser, setCurrentUser] = useState(
+    firebaseAuth.currentUser?.phoneNumber
+  );
   const confirmHotiDetails = (type: TicketType) => {
     setTicketType(type);
     setIsDataConfirmed(true);
@@ -40,7 +48,24 @@ const HotiDetailsPage = ({
   const [termsAcceptedStatus, setTermsAcceptedStatus] = useState(
     localStorage.getItem(LocalStorageKeys.termsAccepted)
   );
+  // changes for updating hoti details
+  const [hotiNumber, setHotiNumber] = useState(-1);
+  const [errorField, setErrorField] = useState("");
+  const updateHotiDetails = (e: any) => {
+    const hotiNumber = e.target.value;
+    if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
+      setErrorField("hotiNumber");
+    } else {
+      setErrorField("");
+    }
+    setHotiNumber(hotiNumber);
+  };
+  const getHotiDetails = async () => {
+    const hotiDetails = await getHotiDetailById(hotiNumber);
+    setHotiDetails(hotiDetails);
+  };
 
+  // ends here
   const checkTermsStatus = () => {
     const termsStatus = localStorage.getItem(LocalStorageKeys.termsAccepted);
     if (termsStatus) {
@@ -71,12 +96,47 @@ const HotiDetailsPage = ({
                 borderRadius="4px"
               >
                 <Box margin="24px 24px 0">
-                  <Typography
-                    fontSize="20px"
-                    sx={{ textTransform: "capitalize", mb: 2 }}
-                  >
-                    {hotiDetails.name.toLocaleLowerCase()} Family
-                  </Typography>
+                  {(currentUser === "+919049778749" ||
+                    currentUser === "+919422045027") && (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="Enter Hoti Number"
+                        color="secondary"
+                        value={hotiNumber > 0 ? hotiNumber : ""}
+                        sx={{
+                          color: "fff",
+                          input: { color: "white" },
+                          marginBottom: "16px",
+                          width: "80%",
+                        }}
+                        focused
+                        error={
+                          isHotiInvalid(hotiNumber) ||
+                          errorField === "hotiNumber"
+                        }
+                        onChange={updateHotiDetails}
+                        type="number"
+                        helperText={
+                          isHotiInvalid(hotiNumber) ||
+                          errorField === "hotiNumber"
+                            ? "Please enter a valid Hoti Number"
+                            : " "
+                        }
+                      />
+                      <Button color="secondary" onClick={getHotiDetails}>
+                        Change
+                      </Button>
+                    </>
+                  )}
+                  <Box display="flex" alignItems="center" marginBottom={2}>
+                    <Typography
+                      fontSize="20px"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      {hotiDetails.name.toLocaleLowerCase()} Family
+                    </Typography>
+                  </Box>
                   <Typography fontSize="18px" sx={{ marginBottom: "10px" }}>
                     {hotiDetails.hindiName}
                   </Typography>
@@ -130,7 +190,6 @@ const HotiDetailsPage = ({
                       ticketCount={hotiAllocationDetails.extraTicketQuota}
                     />
                   )}
-
                   {!!yatriDetails.filter(
                     (yatri) => yatri.ticketType === "CHILD"
                   )?.length && (
@@ -144,7 +203,6 @@ const HotiDetailsPage = ({
                       clickHandler={() => confirmHotiDetails("CHILD")}
                     />
                   )}
-
                   <Box
                     padding="8px"
                     display="flex"

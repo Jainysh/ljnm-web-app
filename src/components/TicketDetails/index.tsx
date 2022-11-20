@@ -30,6 +30,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import ImageDisplayContainer from "../ImageDisplay";
+import { firebaseAuth } from "../../firebase";
 
 type YatriFormFieldType = YatriDetails & {
   isDirty: boolean;
@@ -76,6 +77,10 @@ const AddViewTicketDetails = ({
     setErrorField("");
     setSelectedYatri({ ...selectedYatriLocal });
   };
+
+  const [currentUser, setCurrentUser] = useState(
+    firebaseAuth.currentUser?.phoneNumber
+  );
 
   const [fileData, setFileData] = useState(null);
   const [imageURL, setImageURL] = useState("");
@@ -297,7 +302,9 @@ const AddViewTicketDetails = ({
           !yatriList.length ||
           ticketType === "CHILD") &&
           !isEditting &&
-          hotiAllocationDetails.allowChanges && (
+          (hotiAllocationDetails.allowChanges ||
+            currentUser === "+919049778749" ||
+            currentUser === "+919422045027") && (
             <Button color="secondary" onClick={goToForm}>
               <Add />
               Add Passenger
@@ -309,7 +316,9 @@ const AddViewTicketDetails = ({
         </Button>
       </Box>
       {showForm &&
-        hotiAllocationDetails.allowChanges &&
+        (hotiAllocationDetails.allowChanges ||
+          currentUser === "+919049778749" ||
+          currentUser === "+919422045027") &&
         (isEditting ||
           yatriList.length <
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||

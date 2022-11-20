@@ -38,9 +38,7 @@ const HotiDetailsPage = ({
 }: HotiDetailsPageProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
-  const [currentUser, setCurrentUser] = useState(
-    firebaseAuth.currentUser?.phoneNumber
-  );
+  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
   const confirmHotiDetails = (type: TicketType) => {
     setTicketType(type);
     setIsDataConfirmed(true);

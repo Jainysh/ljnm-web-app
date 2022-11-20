@@ -78,9 +78,7 @@ const AddViewTicketDetails = ({
     setSelectedYatri({ ...selectedYatriLocal });
   };
 
-  const [currentUser, setCurrentUser] = useState(
-    firebaseAuth.currentUser?.phoneNumber
-  );
+  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
 
   const [fileData, setFileData] = useState(null);
   const [imageURL, setImageURL] = useState("");

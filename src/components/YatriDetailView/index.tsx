@@ -23,9 +23,7 @@ const YatriDetailView = ({
   handleEdit,
   hotiAllocationDetails,
 }: YatriDetailViewProps) => {
-  const [currentUser, setCurrentUser] = useState(
-    firebaseAuth.currentUser?.phoneNumber
-  );
+  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
   return (
     <Box
       borderBottom={`3px dashed ${LJNMColors.primary}`}

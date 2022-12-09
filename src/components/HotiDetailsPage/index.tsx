@@ -188,9 +188,11 @@ const HotiDetailsPage = ({
                       ticketCount={hotiAllocationDetails.extraTicketQuota}
                     />
                   )}
-                  {!!yatriDetails.filter(
+                  {(!!yatriDetails.filter(
                     (yatri) => yatri.ticketType === "CHILD"
-                  )?.length && (
+                  )?.length ||
+                    currentUser === "+919049778749" ||
+                    currentUser === "+919422045027") && (
                     <TicketTypeRouter
                       label="Children below 5 yrs"
                       yatriLength={

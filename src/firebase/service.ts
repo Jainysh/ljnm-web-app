@@ -506,7 +506,7 @@ export const updateYatriSeats = async (
   const yatriDocRef = doc(db, path, yatriId);
   try {
     const result = await updateDoc(yatriDocRef, { trainSeat, busSeat });
-    console.log("result", yatriId);
+    console.log("result", yatriId, result);
   } catch (error) {
     console.log("failed for", yatriId);
   }
@@ -541,7 +541,7 @@ export const updateYatriRoomAllocation = async (
       bhagalpurRoom,
       shikharjiRoom,
     });
-    console.log("result", yatriId);
+    console.log("result", yatriId, result);
   } catch (error) {
     console.log("failed for", yatriId);
   }

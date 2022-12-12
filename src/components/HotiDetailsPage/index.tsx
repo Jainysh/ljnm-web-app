@@ -70,6 +70,28 @@ const HotiDetailsPage = ({
       setTermsAcceptedStatus("true");
     }
   };
+
+  // const updateDetails = () => {
+  //   // SeatDetails.forEach(async (element) => {
+  //   //   await updateYatriSeats(
+  //   //     element.yatriId,
+  //   //     +element.yatriId.split("-")[0],
+  //   //     element.trainSeat,
+  //   //     element.busSeat
+  //   //   );
+  //   // });
+  //   RoomAllocation.forEach(async (element) => {
+  //     await updateYatriRoomAllocation(
+  //       element.yatriId,
+  //       +element.yatriId.split("-")[0],
+  //       element.rajgiriRoom,
+  //       element.pawapuriRoom,
+  //       element.lachwadRoom,
+  //       element.bhagalpurRoom,
+  //       element.shikharjiRoom
+  //     );
+  //   });
+  // };
   return (
     <Grid
       container
@@ -138,6 +160,9 @@ const HotiDetailsPage = ({
                   <Typography fontSize="18px" sx={{ marginBottom: "10px" }}>
                     {hotiDetails.hindiName}
                   </Typography>
+                  {/* <Button color="secondary" onClick={updateDetails}>
+                    Update details
+                  </Button> */}
                   <Typography
                     sx={{
                       textTransform: "capitalize",

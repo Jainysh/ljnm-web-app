@@ -460,16 +460,89 @@ export const getImageDownloadUrl = async (refUrl: string) => {
   return image;
 };
 
-// export const updateCustomerData = async (
-//   yatriId: string,
-//   hotiId: string,
-//   gender: string,
-//   city: string
-// ) => {
+export const updateCustomerData = async (
+  yatriId: string,
+  hotiId: string,
+  gender: string,
+  city: string
+) => {
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+
+  const yatriDocRef = doc(db, path, yatriId);
+  const result = await updateDoc(yatriDocRef, { gender, city });
+  console.log("result", yatriId, result);
+};
+
+// export const getAllYatriDetailsById = async (hotiId: number) => {
 //   const db = await getFirebaseFirestoreDB();
 //   const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
-
-//   const yatriDocRef = doc(db, path, yatriId);
-//   const result = await updateDoc(yatriDocRef, { gender, city });
-//   console.log("result", yatriId, result);
+//   const q = query(collection(db, path));
+//   const querySnapShot = await getDocs(q);
+//   if (querySnapShot.empty) {
+//     return [] as YatriDetails[];
+//   }
+//   const passengerDetailRaw = querySnapShot.docs.map((doc) =>
+//     doc.data()
+//   ) as YatriDetails[];
+//   const passengerDetails = passengerDetailRaw.map((passenger) => ({
+//     ...passenger,
+//     dateOfBirth: passenger.dateOfBirth?.toDate(),
+//   }));
+//   return passengerDetails;
 // };
+
+export const updateYatriSeats = async (
+  yatriId: string,
+  hotiId: number,
+  trainSeat: string,
+  busSeat: string
+) => {
+  if (!trainSeat || !busSeat) {
+    console.log("no data", yatriId);
+  }
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+  const yatriDocRef = doc(db, path, yatriId);
+  try {
+    const result = await updateDoc(yatriDocRef, { trainSeat, busSeat });
+    console.log("result", yatriId);
+  } catch (error) {
+    console.log("failed for", yatriId);
+  }
+};
+
+export const updateYatriRoomAllocation = async (
+  yatriId: string,
+  hotiId: number,
+  rajgiriRoom?: string,
+  pawapuriRoom?: string,
+  lachwadRoom?: string,
+  bhagalpurRoom?: string,
+  shikharjiRoom?: string
+) => {
+  if (
+    !rajgiriRoom ||
+    !pawapuriRoom ||
+    !lachwadRoom ||
+    !bhagalpurRoom ||
+    !shikharjiRoom
+  ) {
+    console.log("no data", yatriId);
+  }
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/hotiAllocation/hoti-${hotiId}/yatriDetails`;
+  const yatriDocRef = doc(db, path, yatriId);
+  try {
+    const result = await updateDoc(yatriDocRef, {
+      rajgiriRoom,
+      pawapuriRoom,
+      lachwadRoom,
+      bhagalpurRoom,
+      shikharjiRoom,
+    });
+    console.log("result", yatriId);
+  } catch (error) {
+    console.log("failed for", yatriId);
+  }
+};

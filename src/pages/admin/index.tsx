@@ -88,6 +88,13 @@ const AdminPage = () => {
       { header: "Id Proof", key: "idProof", width: 30 },
       { header: "Yatri Mobile", key: "yatriMobile", width: 30 },
       { header: "Ticket Type", key: "ticketType", width: 15 },
+      { header: "Train Seat", key: "trainSeat", width: 15 },
+      { header: "Bus Seat", key: "busSeat", width: 15 },
+      { header: "Rajgiri", key: "rajgiriRoom", width: 15 },
+      { header: "Pawapuri", key: "pawapuriRoom", width: 15 },
+      { header: "Lachwadi", key: "lachwadRoom", width: 15 },
+      { header: "Bhagalpur", key: "bhagalpurRoom", width: 15 },
+      { header: "Shikharji", key: "shikharjiRoom", width: 15 },
     ];
     const data: excelData[] = [];
     bookingSummary
@@ -147,6 +154,13 @@ const AdminPage = () => {
               yatriMobile: extraYatri.mobile,
               ticketType: extraYatri.ticketType,
               city: extraYatri.city,
+              trainSeat: extraYatri.trainSeat,
+              busSeat: extraYatri.busSeat,
+              rajgiriRoom: extraYatri.rajgiriRoom,
+              pawapuriRoom: extraYatri.pawapuriRoom,
+              lachwadRoom: extraYatri.lachwadRoom,
+              bhagalpurRoom: extraYatri.bhagalpurRoom,
+              shikharjiRoom: extraYatri.shikharjiRoom,
             };
           };
         }

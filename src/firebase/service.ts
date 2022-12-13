@@ -515,6 +515,8 @@ export const updateYatriSeats = async (
 export const updateYatriRoomAllocation = async (
   yatriId: string,
   hotiId: number,
+  trainSeat: string,
+  busSeat: string,
   rajgiriRoom?: string,
   pawapuriRoom?: string,
   lachwadRoom?: string,
@@ -522,6 +524,8 @@ export const updateYatriRoomAllocation = async (
   shikharjiRoom?: string
 ) => {
   if (
+    !trainSeat ||
+    !busSeat ||
     !rajgiriRoom ||
     !pawapuriRoom ||
     !lachwadRoom ||
@@ -535,6 +539,8 @@ export const updateYatriRoomAllocation = async (
   const yatriDocRef = doc(db, path, yatriId);
   try {
     const result = await updateDoc(yatriDocRef, {
+      trainSeat,
+      busSeat,
       rajgiriRoom,
       pawapuriRoom,
       lachwadRoom,

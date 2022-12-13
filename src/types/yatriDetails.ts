@@ -16,6 +16,7 @@ export type YatriDetails = {
   lachwadRoom?: string;
   bhagalpurRoom?: string;
   shikharjiRoom?: string;
+  banarasRoom?: string;
 };
 
 export type TicketType = "LABHARTI" | "HOTI" | "EXTRA" | "CHILD";

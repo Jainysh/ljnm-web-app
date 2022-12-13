@@ -106,6 +106,88 @@ const YatriDetailView = ({
           </Typography>
         </Box>
       </Box>
+      <Box bgcolor={"#c38c98"} padding={1} borderRadius="4px" marginX="-8px">
+        <Box display={"flex"} justifyContent="space-between">
+          <Typography
+            color="#000"
+            fontSize="15px"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              textTransform: "capitalize",
+            }}
+          >
+            Train seat: {yatri.trainSeat}
+          </Typography>
+          <Typography
+            color="#000"
+            fontSize="15px"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              textTransform: "capitalize",
+            }}
+          >
+            Bus seat: {yatri.busSeat}
+          </Typography>
+        </Box>
+
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Rajgiri: {yatri.rajgiriRoom}
+        </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Pawapuri: {yatri.pawapuriRoom}
+        </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Lachwad: {yatri.lachwadRoom}
+        </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Bhagalpur: {yatri.bhagalpurRoom}
+        </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Shikharji: {yatri.shikharjiRoom}
+        </Typography>
+      </Box>
     </Box>
   );
 };

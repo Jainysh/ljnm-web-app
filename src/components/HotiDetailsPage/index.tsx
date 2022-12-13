@@ -17,8 +17,12 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { TextField } from "@mui/material";
-import { getHotiDetailById } from "../../firebase/service";
+import {
+  getHotiDetailById,
+  updateYatriRoomAllocation,
+} from "../../firebase/service";
 import { firebaseAuth } from "../../firebase";
+import { RoomAllocation } from "../../constants/roomDetails";
 
 type HotiDetailsPageProps = {
   hotiDetails: Hoti;
@@ -71,27 +75,29 @@ const HotiDetailsPage = ({
     }
   };
 
-  // const updateDetails = () => {
-  //   // SeatDetails.forEach(async (element) => {
-  //   //   await updateYatriSeats(
-  //   //     element.yatriId,
-  //   //     +element.yatriId.split("-")[0],
-  //   //     element.trainSeat,
-  //   //     element.busSeat
-  //   //   );
-  //   // });
-  //   RoomAllocation.forEach(async (element) => {
-  //     await updateYatriRoomAllocation(
-  //       element.yatriId,
-  //       +element.yatriId.split("-")[0],
-  //       element.rajgiriRoom,
-  //       element.pawapuriRoom,
-  //       element.lachwadRoom,
-  //       element.bhagalpurRoom,
-  //       element.shikharjiRoom
-  //     );
-  //   });
-  // };
+  const updateDetails = () => {
+    // SeatDetails.forEach(async (element) => {
+    //   await updateYatriSeats(
+    //     element.yatriId,
+    //     +element.yatriId.split("-")[0],
+    //     element.trainSeat,
+    //     element.busSeat
+    //   );
+    // });
+    RoomAllocation.forEach(async (element) => {
+      await updateYatriRoomAllocation(
+        element.yatriId,
+        +element.yatriId.split("-")[0],
+        element.trainSeat,
+        element.busSeat,
+        element.rajgiriRoom,
+        element.pawapuriRoom,
+        element.lachwadRoom,
+        element.bhagalpurRoom,
+        element.shikharjiRoom
+      );
+    });
+  };
   return (
     <Grid
       container
@@ -160,9 +166,13 @@ const HotiDetailsPage = ({
                   <Typography fontSize="18px" sx={{ marginBottom: "10px" }}>
                     {hotiDetails.hindiName}
                   </Typography>
-                  {/* <Button color="secondary" onClick={updateDetails}>
+                  <Button
+                    style={{ display: "none" }}
+                    color="secondary"
+                    onClick={updateDetails}
+                  >
                     Update details
-                  </Button> */}
+                  </Button>
                   <Typography
                     sx={{
                       textTransform: "capitalize",

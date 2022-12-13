@@ -435,6 +435,150 @@ const AddViewTicketDetails = ({
                       <TextField
                         autoFocus={true}
                         fullWidth
+                        label="Train Seat Number"
+                        name="trainSeat"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.trainSeat || ""}
+                        variant="outlined"
+                        error={errorField === "trainSeat"}
+                        helperText={
+                          errorField === "trainSeat"
+                            ? "Please enter train seat"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Bus Seat Number"
+                        name="busSeat"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.busSeat || ""}
+                        variant="outlined"
+                        error={errorField === "busSeat"}
+                        helperText={
+                          errorField === "busSeat"
+                            ? "Please enter bus seat"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Rajgiri Room"
+                        name="rajgiriRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.rajgiriRoom || ""}
+                        variant="outlined"
+                        error={errorField === "rajgiriRoom"}
+                        helperText={
+                          errorField === "rajgiriRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Pawapuri Room"
+                        name="pawapuriRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.pawapuriRoom || ""}
+                        variant="outlined"
+                        error={errorField === "pawapuriRoom"}
+                        helperText={
+                          errorField === "pawapuriRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Lachwad"
+                        name="lachwadRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.lachwadRoom || ""}
+                        variant="outlined"
+                        error={errorField === "lachwadRoom"}
+                        helperText={
+                          errorField === "lachwadRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Bhagalpur"
+                        name="bhagalpurRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.bhagalpurRoom || ""}
+                        variant="outlined"
+                        error={errorField === "bhagalpurRoom"}
+                        helperText={
+                          errorField === "bhagalpurRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Shikharji"
+                        name="shikharjiRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.shikharjiRoom || ""}
+                        variant="outlined"
+                        error={errorField === "shikharjiRoom"}
+                        helperText={
+                          errorField === "shikharjiRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
+                        label="Banaras"
+                        name="banarasRoom"
+                        onChange={handleChange}
+                        required
+                        value={selectedYatri.banarasRoom || ""}
+                        variant="outlined"
+                        error={errorField === "banarasRoom"}
+                        helperText={
+                          errorField === "banarasRoom"
+                            ? "Please enter Room number"
+                            : " "
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <TextField
+                        autoFocus={true}
+                        fullWidth
                         label="Enter full name"
                         name="fullName"
                         onChange={handleChange}

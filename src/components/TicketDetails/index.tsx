@@ -557,7 +557,7 @@ const AddViewTicketDetails = ({
                         }
                       />
                     </Grid>
-                    <Grid item md={6} xs={12}>
+                    {/* <Grid item md={6} xs={12}>
                       <TextField
                         autoFocus={true}
                         fullWidth
@@ -574,7 +574,7 @@ const AddViewTicketDetails = ({
                             : " "
                         }
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item md={6} xs={12}>
                       <TextField
                         autoFocus={true}

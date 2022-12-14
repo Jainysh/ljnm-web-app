@@ -187,6 +187,17 @@ const YatriDetailView = ({
         >
           Shikharji: {yatri.shikharjiRoom}
         </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+          }}
+        >
+          Banaras: {yatri.banarasRoom}
+        </Typography>
       </Box>
     </Box>
   );

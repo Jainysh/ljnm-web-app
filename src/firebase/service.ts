@@ -456,7 +456,7 @@ function submitYatriDetails(
     pawapuriRoom: passengerDetail.pawapuriRoom,
     bhagalpurRoom: passengerDetail.bhagalpurRoom,
     lachwadRoom: passengerDetail.lachwadRoom,
-    // banarasRoom: passengerDetail.banarasRoom,
+    banarasRoom: passengerDetail.banarasRoom,
     shikharjiRoom: passengerDetail.shikharjiRoom,
     city: passengerDetail.city || "",
   });

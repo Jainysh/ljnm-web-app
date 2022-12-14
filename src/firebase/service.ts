@@ -523,22 +523,25 @@ export const updateYatriSeats = async (
 export const updateYatriRoomAllocation = async (
   yatriId: string,
   hotiId: number,
-  trainSeat: string,
-  busSeat: string,
-  rajgiriRoom?: string,
-  pawapuriRoom?: string,
-  lachwadRoom?: string,
-  bhagalpurRoom?: string,
-  shikharjiRoom?: string
+  banarasRoom: string
+
+  // trainSeat: string,
+  // busSeat: string,
+  // rajgiriRoom?: string,
+  // pawapuriRoom?: string,
+  // lachwadRoom?: string,
+  // bhagalpurRoom?: string,
+  // shikharjiRoom?: string
 ) => {
   if (
-    !trainSeat ||
-    !busSeat ||
-    !rajgiriRoom ||
-    !pawapuriRoom ||
-    !lachwadRoom ||
-    !bhagalpurRoom ||
-    !shikharjiRoom
+    !banarasRoom
+    // !trainSeat ||
+    // !busSeat ||
+    // !rajgiriRoom ||
+    // !pawapuriRoom ||
+    // !lachwadRoom ||
+    // !bhagalpurRoom ||
+    // !shikharjiRoom
   ) {
     console.log("no data", yatriId);
   }
@@ -547,13 +550,14 @@ export const updateYatriRoomAllocation = async (
   const yatriDocRef = doc(db, path, yatriId);
   try {
     const result = await updateDoc(yatriDocRef, {
-      trainSeat,
-      busSeat,
-      rajgiriRoom,
-      pawapuriRoom,
-      lachwadRoom,
-      bhagalpurRoom,
-      shikharjiRoom,
+      banarasRoom,
+      // trainSeat,
+      // busSeat,
+      // rajgiriRoom,
+      // pawapuriRoom,
+      // lachwadRoom,
+      // bhagalpurRoom,
+      // shikharjiRoom,
     });
     console.log("result", yatriId, result);
   } catch (error) {

@@ -95,6 +95,7 @@ const AdminPage = () => {
       { header: "Lachwadi", key: "lachwadRoom", width: 15 },
       { header: "Bhagalpur", key: "bhagalpurRoom", width: 15 },
       { header: "Shikharji", key: "shikharjiRoom", width: 15 },
+      { header: "Banaras", key: "banarasRoom", width: 15 },
     ];
     const data: excelData[] = [];
     bookingSummary
@@ -161,6 +162,7 @@ const AdminPage = () => {
               lachwadRoom: extraYatri.lachwadRoom,
               bhagalpurRoom: extraYatri.bhagalpurRoom,
               shikharjiRoom: extraYatri.shikharjiRoom,
+              banarasRoom: extraYatri.banarasRoom,
             };
           };
         }

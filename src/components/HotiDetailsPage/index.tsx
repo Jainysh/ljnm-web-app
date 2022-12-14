@@ -88,13 +88,14 @@ const HotiDetailsPage = ({
       await updateYatriRoomAllocation(
         element.yatriId,
         +element.yatriId.split("-")[0],
-        element.trainSeat,
-        element.busSeat,
-        element.rajgiriRoom,
-        element.pawapuriRoom,
-        element.lachwadRoom,
-        element.bhagalpurRoom,
-        element.shikharjiRoom
+        element.banarasRoom
+        // element.trainSeat,
+        // element.busSeat,
+        // element.rajgiriRoom,
+        // element.pawapuriRoom,
+        // element.lachwadRoom,
+        // element.bhagalpurRoom,
+        // element.shikharjiRoom
       );
     });
   };

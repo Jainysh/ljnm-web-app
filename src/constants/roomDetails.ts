@@ -1,105 +1,4156 @@
 export const RoomAllocation = [
   {
-    yatriId: "142-010",
-    trainSeat: "L-09-52",
-    busSeat: "B-14-19",
-    rajgiriRoom: "Budha Retreat - R3",
-    pawapuriRoom: "R31",
-    lachwadRoom: "TV203",
-    bhagalpurRoom: "HGS6",
-    shikharjiRoom: "KV315",
+    yatriId: "028-004",
+    banarasRoom: "CH2",
   },
   {
-    yatriId: "142-011",
-    trainSeat: "L-09-53",
-    busSeat: "B-14-20",
-    rajgiriRoom: "Budha Retreat - R3",
-    pawapuriRoom: "R31",
-    lachwadRoom: "TV203",
-    bhagalpurRoom: "HGS6",
-    shikharjiRoom: "KV315",
+    yatriId: "028-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "028-003",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "070-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "070-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "089-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "089-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "089-004",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "089-005",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "089-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "116-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "116-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "116-003",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "001-003",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "116-005",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "153-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "153-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "153-003",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "153-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "153-005",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "153-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "153-007",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "166-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "166-002",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-004",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-005",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-007",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-008",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-009",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "166-010",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-011",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-012",
+    banarasRoom: "ND5",
+  },
+  {
+    yatriId: "166-013",
+    banarasRoom: "G5ND",
+  },
+  {
+    yatriId: "201-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "201-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "201-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "201-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "201-006",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "201-008",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "201-009",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "168-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "168-002",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "168-003",
+    banarasRoom: "MI",
+  },
+  {
+    yatriId: "168-004",
+    banarasRoom: "NDH",
+  },
+  {
+    yatriId: "152-001",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "009-002",
+    banarasRoom: "CH2",
+  },
+  {
+    yatriId: "009-001",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "009-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-001",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "018-012",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "018-009",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "018-010",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "018-011",
+    banarasRoom: "CH2",
+  },
+  {
+    yatriId: "018-002",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "139-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "139-003",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "039-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "039-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-016",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-017",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-003",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "018-004",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "018-005",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "018-008",
+    banarasRoom: "CH2",
+  },
+  {
+    yatriId: "018-020",
+    banarasRoom: "MI",
+  },
+  {
+    yatriId: "301-007",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "039-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "009-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-018",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "012-010",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "012-011",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "039-005",
+    banarasRoom: "ND304",
+  },
+  {
+    yatriId: "009-005",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "009-006",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "018-006",
+    banarasRoom: "MI",
+  },
+  {
+    yatriId: "018-007",
+    banarasRoom: "CH2",
+  },
+  {
+    yatriId: "018-013",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "018-014",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "018-015",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "139-004",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "039-006",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "039-008",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "039-004",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "039-009",
+    banarasRoom: "ND102",
+  },
+  {
+    yatriId: "012-012",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "009-007",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "018-019",
+    banarasRoom: "ND101",
+  },
+  {
+    yatriId: "127-002",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "127-003",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "127-011",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "127-012",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "185-011",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "185-012",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-007",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "106-002",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-009",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "040-011",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-003",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-004",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-006",
+    banarasRoom: "ND309",
+  },
+  {
+    yatriId: "040-008",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "106-001",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "125-001",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "125-002",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "125-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "125-004",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "127-004",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "127-005",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "127-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "127-007",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "127-008",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "127-009",
+    banarasRoom: "CH2",
+  },
+  {
+    yatriId: "068-001",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "068-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "068-003",
+    banarasRoom: "ND308",
+  },
+  {
+    yatriId: "068-004",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "068-005",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "301-002",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "185-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "185-002",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "185-003",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "185-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "185-008",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "185-009",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "185-010",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "040-005",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "106-003",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "106-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "068-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "125-005",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "125-006",
+    banarasRoom: "ND307",
+  },
+  {
+    yatriId: "084-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "084-002",
+    banarasRoom: "ND201",
   },
   {
     yatriId: "142-012",
-    trainSeat: "L-02-37",
-    busSeat: "B-04-03",
-    rajgiriRoom: "Sagar Inn - 301",
-    pawapuriRoom: "H2",
-    lachwadRoom: "TV6",
-    bhagalpurRoom: "CB20",
-    shikharjiRoom: "H3",
+    banarasRoom: "M1",
   },
   {
     yatriId: "142-013",
-    trainSeat: "L-02-38",
-    busSeat: "B-04-04",
-    rajgiriRoom: "Sagar Inn - 301",
-    pawapuriRoom: "R5",
-    lachwadRoom: "TV106",
-    bhagalpurRoom: "HGS1",
-    shikharjiRoom: "KV103",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "093-010",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "093-009",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "080-007",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "080-008",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "080-009",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "080-010",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "080-011",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "033-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "033-002",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "033-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "033-004",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "033-005",
+    banarasRoom: "ND201",
+  },
+  {
+    yatriId: "033-006",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "080-001",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "080-002",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "084-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "084-004",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "154-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "154-002",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "154-003",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "154-004",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "154-005",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "164-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "164-002",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "164-003",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "164-004",
+    banarasRoom: "ND202",
+  },
+  {
+    yatriId: "176-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "176-003",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "176-004",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "176-005",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "176-006",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "093-001",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "080-005",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "093-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "093-005",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "093-006",
+    banarasRoom: "ND203",
+  },
+  {
+    yatriId: "093-007",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "093-008",
+    banarasRoom: "ND203",
   },
   {
     yatriId: "142-014",
-    trainSeat: "L-02-40",
-    busSeat: "B-04-43",
-    rajgiriRoom: "Sagar Inn - 301",
-    pawapuriRoom: "H2",
-    lachwadRoom: "TV6",
-    bhagalpurRoom: "CB20",
-    shikharjiRoom: "KV103",
+    banarasRoom: "ND203",
   },
   {
-    yatriId: "160-005",
-    trainSeat: "L-15-25",
-    busSeat: "B-23-36",
-    rajgiriRoom: "Krishna Palace - 404",
-    pawapuriRoom: "R14",
-    lachwadRoom: "TV218",
-    bhagalpurRoom: "CB8",
-    shikharjiRoom: "KD316",
+    yatriId: "120-001",
+    banarasRoom: "ND204",
   },
   {
-    yatriId: "160-006",
-    trainSeat: "L-15-27",
-    busSeat: "B-23-06",
-    rajgiriRoom: "Krishna Palace - 411",
-    pawapuriRoom: "R14",
-    lachwadRoom: "TV218",
-    bhagalpurRoom: "CB8",
-    shikharjiRoom: "KD317",
+    yatriId: "196-001",
+    banarasRoom: "M1",
   },
   {
-    yatriId: "012-013",
-    trainSeat: "L-13-05",
-    busSeat: "B-19-34",
-    rajgiriRoom: "Indo Hoke - 109",
-    pawapuriRoom: "R24",
-    lachwadRoom: "MD Hall1",
-    bhagalpurRoom: "H3",
-    shikharjiRoom: "KV422",
+    yatriId: "017-005",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "017-001",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "131-001",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "131-002",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "017-006",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "017-007",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "204-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "204-002",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "204-005",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "204-006",
+    banarasRoom: "ND204",
+  },
+  {
+    yatriId: "143-015",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "048-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "074-001",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "074-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "301-022",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "301-023",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "190-001",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "190-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "136-002",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "136-003",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "136-004",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "136-005",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "017-008",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "017-009",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "190-006",
+    banarasRoom: "ND205",
+  },
+  {
+    yatriId: "190-007",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "120-002",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "196-005",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "017-002",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "017-003",
+    banarasRoom: "MI",
+  },
+  {
+    yatriId: "120-004",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "131-003",
+    banarasRoom: "CH3",
+  },
+  {
+    yatriId: "136-001",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "017-011",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "120-005",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "120-006",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "190-008",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "190-014",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "017-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "017-010",
+    banarasRoom: "ND206",
+  },
+  {
+    yatriId: "179-002",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "179-003",
+    banarasRoom: "CH4",
+  },
+  {
+    yatriId: "174-001",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "174-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "174-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "174-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "177-001",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "177-002",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "115-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "179-004",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "192-001",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "192-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "100-003",
+    banarasRoom: "ND207",
+  },
+  {
+    yatriId: "100-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "091-001",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "091-002",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "034-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "034-002",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "189-002",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "189-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "097-001",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "097-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "010-007",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "010-008",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "010-010",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "010-011",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "182-023",
+    banarasRoom: "ND208",
+  },
+  {
+    yatriId: "182-024",
+    banarasRoom: "CH4",
+  },
+  {
+    yatriId: "192-003",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "192-004",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "192-007",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "192-006",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "036-035",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "047-001",
+    banarasRoom: "CH4",
+  },
+  {
+    yatriId: "189-001",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "179-005",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "097-003",
+    banarasRoom: "CH4",
+  },
+  {
+    yatriId: "047-002",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "010-028",
+    banarasRoom: "CH4",
+  },
+  {
+    yatriId: "179-006",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "174-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "159-051",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "034-003",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "034-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-001",
+    banarasRoom: "CH5",
+  },
+  {
+    yatriId: "065-002",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "016-015",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "016-011",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-014",
+    banarasRoom: "ND106",
+  },
+  {
+    yatriId: "065-015",
+    banarasRoom: "ND106",
+  },
+  {
+    yatriId: "065-020",
+    banarasRoom: "ND106",
+  },
+  {
+    yatriId: "065-025",
+    banarasRoom: "ND105",
+  },
+  {
+    yatriId: "065-019",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-016",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "160-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "160-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "148-007",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "148-008",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "016-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "016-002",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "016-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "016-005",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "016-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "016-007",
+    banarasRoom: "ND103",
+  },
+  {
+    yatriId: "101-001",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "101-002",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "038-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "038-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "148-002",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "148-005",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "101-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "148-001",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "016-014",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-004",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "065-005",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-006",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "065-017",
+    banarasRoom: "ND104",
+  },
+  {
+    yatriId: "065-018",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "160-003",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "160-004",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "169-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "169-002",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "065-007",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "016-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "016-008",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "016-009",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "016-012",
+    banarasRoom: "ND107",
+  },
+  {
+    yatriId: "104-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "207-006",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "207-007",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "207-013",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "065-022",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "065-023",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "207-001",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "207-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "178-001",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "023-003",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "178-002",
+    banarasRoom: "CH5",
+  },
+  {
+    yatriId: "178-003",
+    banarasRoom: "ND108",
+  },
+  {
+    yatriId: "199-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "199-002",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "199-004",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-010",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-011",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-018",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-017",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "123-002",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "011-001",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "011-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "077-001",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "077-002",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "090-004",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "090-005",
+    banarasRoom: "CH5",
+  },
+  {
+    yatriId: "207-003",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "207-023",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "207-008",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "104-002",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "178-004",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "207-014",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "058-001",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "058-002",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "058-003",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "058-004",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "008-004",
+    banarasRoom: "ND404",
+  },
+  {
+    yatriId: "011-003",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "011-004",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "011-005",
+    banarasRoom: "M1",
+  },
+  {
+    yatriId: "090-006",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-019",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-020",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "207-022",
+    banarasRoom: "ND310",
+  },
+  {
+    yatriId: "143-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "143-005",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "143-004",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "143-009",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "301-024",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "143-011",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "143-012",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "138-006",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "138-009",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "138-007",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "138-010",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "138-005",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "138-011",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "124-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "002-001",
+    banarasRoom: "ND402",
+  },
+  {
+    yatriId: "002-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "099-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "099-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "099-003",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "099-004",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-002",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-005",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-008",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-009",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "124-012",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "124-013",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "124-014",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "124-015",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "143-002",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "143-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "143-006",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-010",
+    banarasRoom: "ND403",
+  },
+  {
+    yatriId: "124-011",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "099-006",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "002-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "002-004",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "099-005",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "099-007",
+    banarasRoom: "M2",
   },
   {
     yatriId: "124-017",
-    trainSeat: "L-06-22",
-    busSeat: "B-09-39",
-    rajgiriRoom: "",
-    pawapuriRoom: "",
-    lachwadRoom: "",
-    bhagalpurRoom: "",
-    shikharjiRoom: "",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "124-007",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "124-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "143-014",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "124-016",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "143-010",
+    banarasRoom: "ND109",
+  },
+  {
+    yatriId: "081-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "081-004",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "167-010",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "167-011",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "147-001",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "147-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "171-003",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "171-004",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "200-001",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "200-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "053-010",
+    banarasRoom: "ND401",
+  },
+  {
+    yatriId: "053-011",
+    banarasRoom: "CH5",
+  },
+  {
+    yatriId: "053-009",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "301-025",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "058-007",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "058-006",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "194-001",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "086-005",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "194-006",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "195-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "195-002",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "081-001",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "081-005",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "161-002",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "161-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "161-004",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "161-006",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "167-002",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "167-004",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "167-005",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "167-006",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "167-008",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "167-009",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "171-006",
+    banarasRoom: "CH5",
+  },
+  {
+    yatriId: "171-002",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "081-002",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "022-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "022-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "007-002",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "025-003",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "167-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "087-002",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "087-003",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "186-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "186-002",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "102-007",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "102-008",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "102-009",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "145-001",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "145-002",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "145-003",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "145-009",
+    banarasRoom: "ND405",
+  },
+  {
+    yatriId: "191-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "145-007",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "145-006",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "056-008",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "056-009",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "215-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "215-002",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "215-007",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "224-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "224-004",
+    banarasRoom: "ND406",
+  },
+  {
+    yatriId: "224-005",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "043-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "043-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "039-010",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "102-002",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "102-003",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "102-004",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "102-005",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "102-006",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "145-004",
+    banarasRoom: "ND407",
+  },
+  {
+    yatriId: "145-005",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "087-004",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "087-005",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "056-002",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "056-003",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "056-007",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "215-003",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "215-004",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "215-005",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "215-006",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "056-010",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "087-006",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "145-008",
+    banarasRoom: "ND410",
+  },
+  {
+    yatriId: "159-049",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-056",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "012-009",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-003",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "159-004",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-005",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-060",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-061",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-009",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-001",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-015",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-017",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-027",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-031",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-039",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-042",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "103-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "103-001",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-057",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-059",
+    banarasRoom: "ND409",
+  },
+  {
+    yatriId: "159-062",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-058",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-053",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-054",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-055",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-019",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-023",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-025",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-029",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-050",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-016",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-013",
+    banarasRoom: "ND408",
+  },
+  {
+    yatriId: "159-012",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "159-008",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-014",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "103-006",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-021",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-022",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-018",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-020",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "159-063",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-048",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "159-047",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "159-052",
+    banarasRoom: "DA12",
+  },
+  {
+    yatriId: "036-036",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-037",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-006",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "036-007",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-012",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-011",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-015",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-016",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "165-007",
+    banarasRoom: "DA13",
   },
   {
     yatriId: "165-008",
-    trainSeat: "L-09-34",
-    busSeat: "B-13-10",
-    rajgiriRoom: "",
-    pawapuriRoom: "",
-    lachwadRoom: "",
-    bhagalpurRoom: "",
-    shikharjiRoom: "",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "170-011",
+    banarasRoom: "CH6",
+  },
+  {
+    yatriId: "170-006",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-022",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-023",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "036-024",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "036-025",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-032",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "130-001",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "130-002",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "130-003",
+    banarasRoom: "DA13",
+  },
+  {
+    yatriId: "130-006",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-001",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "130-005",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "170-012",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "170-009",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "130-007",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-002",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-005",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-008",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-013",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-014",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-010",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-017",
+    banarasRoom: "DA109",
+  },
+  {
+    yatriId: "036-018",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-019",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-021",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-020",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-026",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-029",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-031",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "036-030",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-027",
+    banarasRoom: "M2",
+  },
+  {
+    yatriId: "036-028",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-033",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "036-034",
+    banarasRoom: "DA110",
+  },
+  {
+    yatriId: "119-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "119-002",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "060-001",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "060-002",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "206-001",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "206-002",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "134-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "134-002",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "211-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "211-002",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "162-001",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "162-002",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "073-003",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "173-027",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "211-003",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "211-004",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "105-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "105-002",
+    banarasRoom: "DA111",
+  },
+  {
+    yatriId: "142-010",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "142-011",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "119-003",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "119-013",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "119-007",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "073-001",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "181-001",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "149-009",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "008-001",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "008-002",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "008-003",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "119-014",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "222-001",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "222-002",
+    banarasRoom: "DA112",
+  },
+  {
+    yatriId: "119-005",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "119-008",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "073-002",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "211-005",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "211-006",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "211-007",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "211-008",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "173-028",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "179-001",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "161-001",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "167-007",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "124-004",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "173-024",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "182-015",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-016",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "053-008",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "182-017",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "069-003",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "069-004",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "133-001",
+    banarasRoom: "DA113",
+  },
+  {
+    yatriId: "133-002",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "010-015",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "133-006",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "182-019",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "133-005",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "010-024",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "010-023",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "182-026",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "182-027",
+    banarasRoom: "DA115",
+  },
+  {
+    yatriId: "182-004",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-005",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-012",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "182-013",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "053-003",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "053-004",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "053-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "053-002",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "010-021",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-022",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "010-006",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "010-009",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "010-012",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "010-014",
+    banarasRoom: "DA116",
+  },
+  {
+    yatriId: "133-003",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "133-004",
+    banarasRoom: "CH7",
+  },
+  {
+    yatriId: "053-005",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "053-006",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "098-001",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "098-002",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "010-025",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "133-008",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "133-007",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-006",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "010-018",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "010-020",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "053-007",
+    banarasRoom: "KB1",
+  },
+  {
+    yatriId: "182-007",
+    banarasRoom: "DA209",
+  },
+  {
+    yatriId: "224-001",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "224-002",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "172-002",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "172-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "172-011",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "172-012",
+    banarasRoom: "KB",
+  },
+  {
+    yatriId: "175-004",
+    banarasRoom: "CH11",
+  },
+  {
+    yatriId: "175-005",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "175-009",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "175-010",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "054-001",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "054-002",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "059-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "064-001",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "150-001",
+    banarasRoom: "DA210",
+  },
+  {
+    yatriId: "150-002",
+    banarasRoom: "D2A10",
+  },
+  {
+    yatriId: "150-005",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "150-006",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "150-007",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "150-008",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "172-004",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "172-005",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "175-002",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "175-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "064-003",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "064-002",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "064-004",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "059-002",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "096-001",
+    banarasRoom: "DA213",
+  },
+  {
+    yatriId: "096-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "114-005",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "114-006",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "150-009",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "150-010",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "172-001",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "172-006",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "172-007",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "172-009",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "172-008",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "172-010",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "175-006",
+    banarasRoom: "CH11",
+  },
+  {
+    yatriId: "175-007",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "150-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "150-004",
+    banarasRoom: "DA212",
+  },
+  {
+    yatriId: "209-001",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "209-002",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "085-001",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "085-002",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "189-005",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "085-004",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "117-001",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "117-002",
+    banarasRoom: "CH11",
+  },
+  {
+    yatriId: "052-002",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "052-001",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "112-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "208-008",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "208-006",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "208-007",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "223-001",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "223-002",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "223-003",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "223-007",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "223-005",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "030-001",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "030-002",
+    banarasRoom: "DB19",
+  },
+  {
+    yatriId: "030-005",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "044-002",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "216-001",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "216-002",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "216-003",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "216-008",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "005-001",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "050-001",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "050-002",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "050-004",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "221-001",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "221-002",
+    banarasRoom: "DB20",
+  },
+  {
+    yatriId: "221-003",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "112-004",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "216-007",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "209-003",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "030-006",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "044-001",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "216-004",
+    banarasRoom: "CH11",
+  },
+  {
+    yatriId: "085-003",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "208-001",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "208-004",
+    banarasRoom: "KB2",
+  },
+  {
+    yatriId: "301-020",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "301-026",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "190-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "190-003",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "202-008",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "202-009",
+    banarasRoom: "DB21",
+  },
+  {
+    yatriId: "202-010",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "202-006",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "068-008",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "068-009",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "121-001",
+    banarasRoom: "CH12",
+  },
+  {
+    yatriId: "121-002",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "135-002",
+    banarasRoom: "CH12",
+  },
+  {
+    yatriId: "107-002",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "095-007",
+    banarasRoom: "CH12",
+  },
+  {
+    yatriId: "095-008",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "095-001",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "095-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "095-009",
+    banarasRoom: "DB22",
+  },
+  {
+    yatriId: "095-010",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "202-001",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "202-002",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "110-002",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "110-003",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "110-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "110-004",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "095-004",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "095-005",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "113-001",
+    banarasRoom: "CH12",
+  },
+  {
+    yatriId: "113-002",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "150-011",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "150-012",
+    banarasRoom: "DB23",
+  },
+  {
+    yatriId: "095-011",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "095-012",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "095-006",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "212-007",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "202-003",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "202-004",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "121-003",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "121-006",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "135-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "003-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "032-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "107-001",
+    banarasRoom: "DB24",
+  },
+  {
+    yatriId: "173-006",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "173-009",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "173-026",
+    banarasRoom: "CH14",
+  },
+  {
+    yatriId: "001-002",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "220-002",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "092-001",
+    banarasRoom: "CH13",
+  },
+  {
+    yatriId: "173-005",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "012-001",
+    banarasRoom: "DB121",
+  },
+  {
+    yatriId: "012-006",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "196-003",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "196-004",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "012-007",
+    banarasRoom: "CH14",
+  },
+  {
+    yatriId: "012-003",
+    banarasRoom: "CH14",
+  },
+  {
+    yatriId: "042-004",
+    banarasRoom: "CH14",
+  },
+  {
+    yatriId: "042-003",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "149-001",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "149-003",
+    banarasRoom: "DB123",
+  },
+  {
+    yatriId: "149-004",
+    banarasRoom: "CH15",
+  },
+  {
+    yatriId: "149-005",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "079-001",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "079-002",
+    banarasRoom: "CH15",
+  },
+  {
+    yatriId: "149-007",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "173-003",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "027-001",
+    banarasRoom: "CH15",
+  },
+  {
+    yatriId: "029-001",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "149-006",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "220-001",
+    banarasRoom: "DB124",
+  },
+  {
+    yatriId: "173-010",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "173-015",
+    banarasRoom: "CH15",
+  },
+  {
+    yatriId: "301-006",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "301-001",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "012-008",
+    banarasRoom: "CH21",
+  },
+  {
+    yatriId: "012-013",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "220-003",
+    banarasRoom: "CH21",
+  },
+  {
+    yatriId: "220-005",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "173-011",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "042-001",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "042-002",
+    banarasRoom: "CH21",
+  },
+  {
+    yatriId: "077-003",
+    banarasRoom: "CH21",
+  },
+  {
+    yatriId: "012-002",
+    banarasRoom: "CH22",
+  },
+  {
+    yatriId: "012-004",
+    banarasRoom: "DB125",
+  },
+  {
+    yatriId: "163-001",
+    banarasRoom: "CH22",
+  },
+  {
+    yatriId: "127-001",
+    banarasRoom: "CH22",
+  },
+  {
+    yatriId: "040-010",
+    banarasRoom: "CH22",
+  },
+  {
+    yatriId: "014-003",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "014-002",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "041-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "041-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "188-001",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "188-002",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "182-020",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "182-021",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "183-002",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "183-003",
+    banarasRoom: "CH13",
+  },
+  {
+    yatriId: "014-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "094-013",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "094-001",
+    banarasRoom: "DB117",
+  },
+  {
+    yatriId: "094-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "094-006",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "094-005",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "094-003",
+    banarasRoom: "CH13",
+  },
+  {
+    yatriId: "094-007",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "094-008",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "094-009",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "055-001",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "055-002",
+    banarasRoom: "DB118",
+  },
+  {
+    yatriId: "132-001",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "132-002",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "132-003",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "132-006",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "132-008",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "183-001",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "041-003",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "041-004",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "045-002",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "045-003",
+    banarasRoom: "DB119",
+  },
+  {
+    yatriId: "045-004",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "045-001",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "197-001",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "197-002",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "094-010",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "094-011",
+    banarasRoom: "DH120",
+  },
+  {
+    yatriId: "094-012",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "094-015",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "041-005",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "041-006",
+    banarasRoom: "CH13",
+  },
+  {
+    yatriId: "132-004",
+    banarasRoom: "DH",
+  },
+  {
+    yatriId: "132-005",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "132-007",
+    banarasRoom: "DB120",
+  },
+  {
+    yatriId: "055-003",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "061-001",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "061-006",
+    banarasRoom: "CH23",
+  },
+  {
+    yatriId: "061-007",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "111-002",
+    banarasRoom: "CH23",
+  },
+  {
+    yatriId: "111-003",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "212-001",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "212-002",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "111-004",
+    banarasRoom: "CH23",
+  },
+  {
+    yatriId: "158-002",
+    banarasRoom: "DB126",
+  },
+  {
+    yatriId: "086-001",
+    banarasRoom: "CH23",
+  },
+  {
+    yatriId: "026-002",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "026-001",
+    banarasRoom: "DBCH24",
+  },
+  {
+    yatriId: "086-002",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "066-002",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "066-003",
+    banarasRoom: "CH24",
+  },
+  {
+    yatriId: "066-004",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "301-019",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "149-010",
+    banarasRoom: "DB127",
+  },
+  {
+    yatriId: "149-011",
+    banarasRoom: "CH24",
+  },
+  {
+    yatriId: "075-001",
+    banarasRoom: "CH24",
+  },
+  {
+    yatriId: "075-002",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "057-006",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "057-002",
+    banarasRoom: "CH25",
+  },
+  {
+    yatriId: "061-004",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "061-005",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "061-008",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "068-010",
+    banarasRoom: "CH25",
+  },
+  {
+    yatriId: "075-003",
+    banarasRoom: "CH25",
+  },
+  {
+    yatriId: "075-004",
+    banarasRoom: "CH25",
+  },
+  {
+    yatriId: "212-004",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "212-005",
+    banarasRoom: "DB128",
+  },
+  {
+    yatriId: "212-006",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "212-003",
+    banarasRoom: "CH26",
+  },
+  {
+    yatriId: "163-002",
+    banarasRoom: "CH26",
+  },
+  {
+    yatriId: "203-004",
+    banarasRoom: "CH26",
+  },
+  {
+    yatriId: "203-003",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "086-003",
+    banarasRoom: "CH26",
+  },
+  {
+    yatriId: "082-001",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "082-002",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "057-001",
+    banarasRoom: "CH26",
+  },
+  {
+    yatriId: "092-005",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "158-001",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "159-064",
+    banarasRoom: "DB214",
+  },
+  {
+    yatriId: "142-005",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "142-006",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "142-008",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "142-009",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "031-001",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "031-003",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "067-002",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "067-003",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "015-001",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "078-002",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "151-001",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "151-002",
+    banarasRoom: "CH27",
+  },
+  {
+    yatriId: "128-001",
+    banarasRoom: "DB218",
+  },
+  {
+    yatriId: "128-002",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "137-001",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "137-002",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "144-001",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "144-002",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "144-005",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "137-003",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "142-001",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "142-002",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "142-003",
+    banarasRoom: "DB17",
+  },
+  {
+    yatriId: "142-004",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "193-001",
+    banarasRoom: "DB217",
+  },
+  {
+    yatriId: "193-002",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "078-001",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "031-002",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "165-003",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "165-004",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "067-001",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "067-004",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "031-004",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "031-005",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "031-006",
+    banarasRoom: "DB216",
+  },
+  {
+    yatriId: "067-005",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "128-003",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "128-004",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "137-004",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "137-008",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "144-003",
+    banarasRoom: "CH29",
+  },
+  {
+    yatriId: "144-004",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "137-007",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "078-003",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "078-004",
+    banarasRoom: "DB215",
+  },
+  {
+    yatriId: "108-003",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "108-001",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "108-006",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "108-007",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "108-008",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "160-006",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "004-001",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "004-002",
+    banarasRoom: "CCH30",
+  },
+  {
+    yatriId: "301-003",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "301-018",
+    banarasRoom: "DB220",
+  },
+  {
+    yatriId: "301-016",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "301-017",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "180-001",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "024-003",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "076-001",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "076-004",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "076-005",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "076-007",
+    banarasRoom: "DB221",
+  },
+  {
+    yatriId: "006-001",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "006-002",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "006-003",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "006-004",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "076-008",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "006-005",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "004-003",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "004-005",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "108-014",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "108-015",
+    banarasRoom: "DB222",
+  },
+  {
+    yatriId: "108-013",
+    banarasRoom: "CH28",
+  },
+  {
+    yatriId: "024-004",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "108-004",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "108-005",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "024-001",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "024-002",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "108-016",
+    banarasRoom: "CH30",
+  },
+  {
+    yatriId: "160-005",
+    banarasRoom: "DB223",
+  },
+  {
+    yatriId: "301-009",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-010",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-011",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-012",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-013",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-014",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-005",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-015",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "301-004",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "068-007",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "208-005",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "010-001",
+    banarasRoom: "",
+  },
+  {
+    yatriId: "196-002",
+    banarasRoom: "",
   },
 ];
+
+// export const RoomAllocation = [
+//   {
+//     yatriId: "142-010",
+//     trainSeat: "L-09-52",
+//     busSeat: "B-14-19",
+//     rajgiriRoom: "Budha Retreat - R3",
+//     pawapuriRoom: "R31",
+//     lachwadRoom: "TV203",
+//     bhagalpurRoom: "HGS6",
+//     shikharjiRoom: "KV315",
+//   },
+//   {
+//     yatriId: "142-011",
+//     trainSeat: "L-09-53",
+//     busSeat: "B-14-20",
+//     rajgiriRoom: "Budha Retreat - R3",
+//     pawapuriRoom: "R31",
+//     lachwadRoom: "TV203",
+//     bhagalpurRoom: "HGS6",
+//     shikharjiRoom: "KV315",
+//   },
+//   {
+//     yatriId: "142-012",
+//     trainSeat: "L-02-37",
+//     busSeat: "B-04-03",
+//     rajgiriRoom: "Sagar Inn - 301",
+//     pawapuriRoom: "H2",
+//     lachwadRoom: "TV6",
+//     bhagalpurRoom: "CB20",
+//     shikharjiRoom: "H3",
+//   },
+//   {
+//     yatriId: "142-013",
+//     trainSeat: "L-02-38",
+//     busSeat: "B-04-04",
+//     rajgiriRoom: "Sagar Inn - 301",
+//     pawapuriRoom: "R5",
+//     lachwadRoom: "TV106",
+//     bhagalpurRoom: "HGS1",
+//     shikharjiRoom: "KV103",
+//   },
+//   {
+//     yatriId: "142-014",
+//     trainSeat: "L-02-40",
+//     busSeat: "B-04-43",
+//     rajgiriRoom: "Sagar Inn - 301",
+//     pawapuriRoom: "H2",
+//     lachwadRoom: "TV6",
+//     bhagalpurRoom: "CB20",
+//     shikharjiRoom: "KV103",
+//   },
+//   {
+//     yatriId: "160-005",
+//     trainSeat: "L-15-25",
+//     busSeat: "B-23-36",
+//     rajgiriRoom: "Krishna Palace - 404",
+//     pawapuriRoom: "R14",
+//     lachwadRoom: "TV218",
+//     bhagalpurRoom: "CB8",
+//     shikharjiRoom: "KD316",
+//   },
+//   {
+//     yatriId: "160-006",
+//     trainSeat: "L-15-27",
+//     busSeat: "B-23-06",
+//     rajgiriRoom: "Krishna Palace - 411",
+//     pawapuriRoom: "R14",
+//     lachwadRoom: "TV218",
+//     bhagalpurRoom: "CB8",
+//     shikharjiRoom: "KD317",
+//   },
+//   {
+//     yatriId: "012-013",
+//     trainSeat: "L-13-05",
+//     busSeat: "B-19-34",
+//     rajgiriRoom: "Indo Hoke - 109",
+//     pawapuriRoom: "R24",
+//     lachwadRoom: "MD Hall1",
+//     bhagalpurRoom: "H3",
+//     shikharjiRoom: "KV422",
+//   },
+//   {
+//     yatriId: "124-017",
+//     trainSeat: "L-06-22",
+//     busSeat: "B-09-39",
+//     rajgiriRoom: "",
+//     pawapuriRoom: "",
+//     lachwadRoom: "",
+//     bhagalpurRoom: "",
+//     shikharjiRoom: "",
+//   },
+//   {
+//     yatriId: "165-008",
+//     trainSeat: "L-09-34",
+//     busSeat: "B-13-10",
+//     rajgiriRoom: "",
+//     pawapuriRoom: "",
+//     lachwadRoom: "",
+//     bhagalpurRoom: "",
+//     shikharjiRoom: "",
+//   },
+// ];
 
 // export const RoomAllocation = [
 //   {

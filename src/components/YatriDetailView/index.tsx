@@ -7,9 +7,12 @@ import { LJNMColors } from "../../styles";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import ImageDisplayContainer from "../ImageDisplay";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import TrainIcon from "@mui/icons-material/Train";
 // import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 // import { firebaseAuth } from "../../firebase";
-
+// import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 type YatriDetailViewProps = {
   yatri: YatriDetails;
   // handleDelete?: () => void;
@@ -106,32 +109,52 @@ YatriDetailViewProps) => {
           </Typography>
         </Box>
       </Box>
-      <Box bgcolor={"#c38c98"} padding={1} borderRadius="4px" marginX="-8px">
-        <Box display={"flex"} justifyContent="space-between">
-          <Typography
-            color="#000"
-            fontSize="15px"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textTransform: "capitalize",
-            }}
-          >
-            Train seat: {yatri.trainSeat}
-          </Typography>
-          <Typography
-            color="#000"
-            fontSize="15px"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textTransform: "capitalize",
-            }}
-          >
-            Bus seat: {yatri.busSeat}
-          </Typography>
-        </Box>
-
+      <Box
+        bgcolor={"#c38c98"}
+        padding={1}
+        margin="4px"
+        borderRadius="4px"
+        marginX="-4px"
+        display="flex"
+        justifyContent="space-between"
+      >
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+            width: "100%",
+            borderRight: "1px solid white",
+          }}
+        >
+          <TrainIcon />
+          &nbsp; {yatri.trainSeat}
+        </Typography>
+        <Typography
+          color="#000"
+          fontSize="15px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textTransform: "capitalize",
+            width: "100%",
+            paddingLeft: "8px",
+            textAlign: "right",
+          }}
+        >
+          <AirportShuttleIcon />
+          &nbsp; {yatri.busSeat}
+        </Typography>
+      </Box>
+      <Box
+        bgcolor={"#c38c98"}
+        padding={1}
+        margin="4px"
+        borderRadius="4px"
+        marginX="-4px"
+      >
         <Typography
           color="#000"
           fontSize="15px"
@@ -141,7 +164,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Rajgiri: {yatri.rajgiriRoom}
+          <b>Rajgiri:</b> &nbsp; {yatri.rajgiriRoom}
         </Typography>
         <Typography
           color="#000"
@@ -152,7 +175,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Pawapuri: {yatri.pawapuriRoom}
+          <b>Pawapuri:</b> &nbsp; {yatri.pawapuriRoom}
         </Typography>
         <Typography
           color="#000"
@@ -163,7 +186,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Lachwad: {yatri.lachwadRoom}
+          <b>Lachwad: </b> &nbsp;{yatri.lachwadRoom}
         </Typography>
         <Typography
           color="#000"
@@ -174,7 +197,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Bhagalpur: {yatri.bhagalpurRoom}
+          <b>Bhagalpur: </b> &nbsp;{yatri.bhagalpurRoom}
         </Typography>
         <Typography
           color="#000"
@@ -185,7 +208,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Shikharji: {yatri.shikharjiRoom}
+          <b>Shikharji: </b> &nbsp;{yatri.shikharjiRoom}
         </Typography>
         <Typography
           color="#000"
@@ -196,7 +219,7 @@ YatriDetailViewProps) => {
             textTransform: "capitalize",
           }}
         >
-          Banaras: {yatri.banarasRoom}
+          <b>Banaras: </b> &nbsp;{yatri.banarasRoom}
         </Typography>
       </Box>
     </Box>

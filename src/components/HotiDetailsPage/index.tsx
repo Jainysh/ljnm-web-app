@@ -13,7 +13,7 @@ import TicketTypeRouter from "./TicketTypeRouter";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
 import { LocalStorageKeys } from "../TicketDetails/constant";
 import TnCPage from "../TnCPage";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+// import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 // import { TextField } from "@mui/material";
@@ -240,7 +240,7 @@ HotiDetailsPageProps) => {
                       clickHandler={() => confirmHotiDetails("CHILD")}
                     />
                   )}
-                  <Box
+                  {/* <Box
                     padding="8px"
                     display="flex"
                     alignItems="center"
@@ -248,14 +248,13 @@ HotiDetailsPageProps) => {
                     marginTop={2}
                     sx={{ background: "#00000045" }}
                   >
-                    {/* <InfoOutlined color="secondary" fontSize="small" /> */}
                     <TipsAndUpdatesIcon color="secondary" fontSize="small" />
                     <Typography fontSize="14px" marginLeft="8px">
                       All the yatri details added, edited or deleted by you will
                       be saved. No additional <strong>Submit</strong> is
                       required
                     </Typography>
-                  </Box>
+                  </Box> */}
                 </Box>
 
                 <Box

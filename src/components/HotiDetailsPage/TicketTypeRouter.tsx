@@ -43,9 +43,10 @@ const TicketTypeRouter = ({
             fontSize="14px"
             fontStyle="italic"
           >
-            {yatriLength !== ticketCount
+            {yatriLength} {yatriLength === 1 ? "ticket" : "tickets"}
+            {/* {yatriLength !== ticketCount
               ? `${yatriLength} of ${ticketCount} tickets added`
-              : `All ${yatriLength} tickets added`}
+              : `All ${yatriLength} tickets added`} */}
           </Typography>
         ) : (
           <Typography

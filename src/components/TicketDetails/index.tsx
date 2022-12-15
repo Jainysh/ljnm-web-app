@@ -1,41 +1,40 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import Divider from "@mui/material/Divider";
+// import Card from "@mui/material/Card";
+// import CardContent from "@mui/material/CardContent";
+// import CardHeader from "@mui/material/CardHeader";
+// import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import Snackbar from "@mui/material/Snackbar";
-import TextField from "@mui/material/TextField";
-import React, { useEffect, useRef, useState } from "react";
+// import Snackbar from "@mui/material/Snackbar";
+// import TextField from "@mui/material/TextField";
+import React, { useEffect, useState } from "react";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import {
-  addPassengerDetails,
-  deleteYatriById,
-  editYatriById,
-  updateProfilePicService,
-} from "../../firebase/service";
+// import // addPassengerDetails,
+// // deleteYatriById,
+// // editYatriById,
+// // updateProfilePicService,
+// "../../firebase/service";
 import { TicketType, YatriDetails } from "../../types/yatriDetails";
-import { FormFields } from "./constant";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
+// import { FormFields } from "./constant";
+// import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import YatriDetailView from "../YatriDetailView";
-import { Add, ArrowBackIos } from "@mui/icons-material";
-import { convertToAge, highlightDivContainer } from "../../lib/helper";
+import { ArrowBackIos } from "@mui/icons-material";
+// import { convertToAge } from "../../lib/helper";
 import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import FormHelperText from "@mui/material/FormHelperText";
-import { LJNMColors } from "../../styles";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import Modal from "@mui/material/Modal";
-import ImageDisplayContainer from "../ImageDisplay";
-import { firebaseAuth } from "../../firebase";
+// import FormControl from "@mui/material/FormControl";
+// import InputLabel from "@mui/material/InputLabel";
+// import FormHelperText from "@mui/material/FormHelperText";
+// import { LJNMColors } from "../../styles";
+// import Backdrop from "@mui/material/Backdrop";
+// import CircularProgress from "@mui/material/CircularProgress";
+// import Modal from "@mui/material/Modal";
+// import ImageDisplayContainer from "../ImageDisplay";
+// import { firebaseAuth } from "../../firebase";
 
-type YatriFormFieldType = YatriDetails & {
-  isDirty: boolean;
-  [key: string]: any;
-};
+// type YatriFormFieldType = YatriDetails & {
+//   isDirty: boolean;
+//   [key: string]: any;
+// };
 
 type AddViewTicketDetailsProps = {
   hotiAllocationDetails: HotiAllocationDetail;
@@ -50,72 +49,72 @@ const AddViewTicketDetails = ({
   ticketType,
   setIsDataConfirmed,
   yatriDetails,
-  setYatriDetails,
-}: AddViewTicketDetailsProps) => {
-  const selectedTab: TicketType = ticketType;
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastSeverity, setToastSeverity] = useState<AlertColor>("info");
-  const [selectedYatri, setSelectedYatri] = useState<YatriFormFieldType>({
-    isDirty: false,
-  } as YatriFormFieldType);
-  const [toastOpen, setToastOpen] = useState(false);
-  const [showLoader, setShowLoader] = useState(false);
-  const [loaderText, setLoaderText] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [selectedYatriForModification, setSelectedYatriForModification] =
-    useState<YatriDetails>({} as YatriDetails);
-  const handleChange = (e: any) => {
-    const selectedYatriLocal = selectedYatri;
-    selectedYatriLocal[e.target.name as string] = e.target.value;
-    selectedYatriLocal.isDirty = true;
-    if (e.target.name === "idProof" && e.target.value.length > 12) {
-      selectedYatriLocal.idProof = (e.target.value as string).slice(0, 12);
-    }
-    if (e.target.name === "mobile" && e.target.value.length > 10) {
-      selectedYatriLocal.mobile = (e.target.value as string).slice(0, 10);
-    }
-    setErrorField("");
-    setSelectedYatri({ ...selectedYatriLocal });
-  };
+}: // setYatriDetails,
+AddViewTicketDetailsProps) => {
+  // const selectedTab: TicketType = ticketType;
+  // const [toastMessage, setToastMessage] = useState("");
+  // const [toastSeverity, setToastSeverity] = useState<AlertColor>("info");
+  // const [selectedYatri, setSelectedYatri] = useState<YatriFormFieldType>({
+  //   isDirty: false,
+  // } as YatriFormFieldType);
+  // const [toastOpen, setToastOpen] = useState(false);
+  // const [showLoader, setShowLoader] = useState(false);
+  // const [loaderText, setLoaderText] = useState("");
+  // const [showModal, setShowModal] = useState(false);
+  // const [selectedYatriForModification, setSelectedYatriForModification] =
+  //   useState<YatriDetails>({} as YatriDetails);
+  // const handleChange = (e: any) => {
+  //   const selectedYatriLocal = selectedYatri;
+  //   selectedYatriLocal[e.target.name as string] = e.target.value;
+  //   selectedYatriLocal.isDirty = true;
+  //   if (e.target.name === "idProof" && e.target.value.length > 12) {
+  //     selectedYatriLocal.idProof = (e.target.value as string).slice(0, 12);
+  //   }
+  //   if (e.target.name === "mobile" && e.target.value.length > 10) {
+  //     selectedYatriLocal.mobile = (e.target.value as string).slice(0, 10);
+  //   }
+  //   setErrorField("");
+  //   setSelectedYatri({ ...selectedYatriLocal });
+  // };
 
-  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
+  // const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
 
-  const [fileData, setFileData] = useState(null);
-  const [imageURL, setImageURL] = useState("");
-  const [isEditting, setIsEditting] = useState(false);
-  const [isUpdatingProfilePic, setIsUpdatingProfilePic] = useState(false);
-  const uploadFile = (e: any) => {
-    const fileSize = e.target.files[0].size / 1024;
-    if (fileSize <= 1024) {
-      setFileData(e.target.files[0] || null);
-      const image = URL.createObjectURL(e.target.files[0]);
-      setImageURL(image);
-      setErrorField("");
-    } else {
-      setErrorField("profilePicture");
-      setToastMessage(
-        `File is ${(fileSize / 1024).toFixed(
-          2
-        )} MB. File size should be less than 1MB`
-      );
-      setToastSeverity("error");
-      setToastOpen(true);
-      closeToast();
-    }
-  };
+  // const [fileData, setFileData] = useState(null);
+  // const [imageURL, setImageURL] = useState("");
+  // const [isEditting, setIsEditting] = useState(false);
+  // const [isUpdatingProfilePic, setIsUpdatingProfilePic] = useState(false);
+  // const uploadFile = (e: any) => {
+  //   const fileSize = e.target.files[0].size / 1024;
+  //   if (fileSize <= 1024) {
+  //     setFileData(e.target.files[0] || null);
+  //     const image = URL.createObjectURL(e.target.files[0]);
+  //     setImageURL(image);
+  //     setErrorField("");
+  //   } else {
+  //     setErrorField("profilePicture");
+  //     setToastMessage(
+  //       `File is ${(fileSize / 1024).toFixed(
+  //         2
+  //       )} MB. File size should be less than 1MB`
+  //     );
+  //     setToastSeverity("error");
+  //     setToastOpen(true);
+  //     closeToast();
+  //   }
+  // };
 
-  const clearFormFields = () => {
-    setErrorField("");
-    setFileData(null);
-    setImageURL("");
-    setSelectedYatri({
-      isDirty: false,
-    } as YatriFormFieldType);
-    if (isEditting) {
-      setShowForm(false);
-      setIsEditting(false);
-    }
-  };
+  // const clearFormFields = () => {
+  //   setErrorField("");
+  //   setFileData(null);
+  //   setImageURL("");
+  //   setSelectedYatri({
+  //     isDirty: false,
+  //   } as YatriFormFieldType);
+  //   if (isEditting) {
+  //     setShowForm(false);
+  //     setIsEditting(false);
+  //   }
+  // };
 
   const [yatriList, setYatriList] = useState<YatriDetails[]>(
     yatriDetails.filter((yatri) => yatri.ticketType === ticketType)
@@ -127,174 +126,174 @@ const AddViewTicketDetails = ({
     );
   }, [yatriDetails, ticketType]);
 
-  const [errorField, setErrorField] = useState<string>();
+  // const [errorField, setErrorField] = useState<string>();
 
-  const formEl = useRef<HTMLDivElement>(null);
+  // const formEl = useRef<HTMLDivElement>(null);
 
-  const updateProfilePic = async () => {
-    if (isUpdatingProfilePic && !fileData) {
-      setToastMessage("Please upload a photo");
-      setToastSeverity("error");
-      setToastOpen(true);
-      closeToast();
-      setErrorField("profilePicture");
-      return;
-    }
-    setShowLoader(true);
-    setLoaderText("Updating profile picture...");
-    await updateProfilePicService(selectedYatri, fileData);
-    setIsEditting(false);
-    clearFormFields();
-    setShowLoader(false);
-    setToastMessage(
-      selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
-        ? "Yatri added as child successfully, Please check added details in Children ticket section"
-        : "Yatri details added successfully"
-    );
-    setToastSeverity("success");
-    setToastOpen(true);
-    setShowForm(false);
-    closeToast();
-  };
+  // const updateProfilePic = async () => {
+  //   if (isUpdatingProfilePic && !fileData) {
+  //     setToastMessage("Please upload a photo");
+  //     setToastSeverity("error");
+  //     setToastOpen(true);
+  //     closeToast();
+  //     setErrorField("profilePicture");
+  //     return;
+  //   }
+  //   setShowLoader(true);
+  //   setLoaderText("Updating profile picture...");
+  //   await updateProfilePicService(selectedYatri, fileData);
+  //   setIsEditting(false);
+  //   clearFormFields();
+  //   setShowLoader(false);
+  //   setToastMessage(
+  //     selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
+  //       ? "Yatri added as child successfully, Please check added details in Children ticket section"
+  //       : "Yatri details added successfully"
+  //   );
+  //   setToastSeverity("success");
+  //   setToastOpen(true);
+  //   setShowForm(false);
+  //   closeToast();
+  // };
 
-  const addYatriDetails = async (addMore = false) => {
-    if (!selectedYatri.isDirty) {
-      setToastMessage("Please fill all the fields");
-      setToastSeverity("error");
-      setToastOpen(true);
-      closeToast();
-      return;
-    }
-    if (!isFormValid(selectedYatri)) {
-      return;
-    }
+  // const addYatriDetails = async (addMore = false) => {
+  //   if (!selectedYatri.isDirty) {
+  //     setToastMessage("Please fill all the fields");
+  //     setToastSeverity("error");
+  //     setToastOpen(true);
+  //     closeToast();
+  //     return;
+  //   }
+  //   if (!isFormValid(selectedYatri)) {
+  //     return;
+  //   }
 
-    if (convertToAge(selectedYatri.dateOfBirth) <= 5) {
-      selectedYatri.ticketType = "CHILD";
-    } else {
-      selectedYatri.ticketType = selectedTab;
-    }
-    setShowLoader(true);
-    setLoaderText("Adding Yatri Details...");
-    if (isEditting) {
-      const updatedYatri = await editYatriById(selectedYatri);
-      if (updatedYatri) {
-        setYatriList([
-          ...yatriList.filter(
-            (yatri) => yatri.yatriId !== updatedYatri.yatriId
-          ),
-          updatedYatri,
-        ]);
-      }
-      setIsEditting(false);
-    } else {
-      await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
-    }
-    clearFormFields();
-    setShowLoader(false);
-    setToastMessage(
-      selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
-        ? "Yatri added as child successfully, Please check added details in Children ticket section"
-        : "Yatri details added successfully"
-    );
-    setToastSeverity("success");
-    setToastOpen(true);
-    if (!addMore || isEditting) {
-      setShowForm(false);
-    } else {
-      setShowForm(true);
-    }
-    closeToast();
-  };
+  //   if (convertToAge(selectedYatri.dateOfBirth) <= 5) {
+  //     selectedYatri.ticketType = "CHILD";
+  //   } else {
+  //     selectedYatri.ticketType = selectedTab;
+  //   }
+  //   setShowLoader(true);
+  //   setLoaderText("Adding Yatri Details...");
+  //   if (isEditting) {
+  //     const updatedYatri = await editYatriById(selectedYatri);
+  //     if (updatedYatri) {
+  //       setYatriList([
+  //         ...yatriList.filter(
+  //           (yatri) => yatri.yatriId !== updatedYatri.yatriId
+  //         ),
+  //         updatedYatri,
+  //       ]);
+  //     }
+  //     setIsEditting(false);
+  //   } else {
+  //     await addPassengerDetails(selectedYatri, hotiAllocationDetails, fileData);
+  //   }
+  //   clearFormFields();
+  //   setShowLoader(false);
+  //   setToastMessage(
+  //     selectedYatri.ticketType === "CHILD" && ticketType !== "CHILD"
+  //       ? "Yatri added as child successfully, Please check added details in Children ticket section"
+  //       : "Yatri details added successfully"
+  //   );
+  //   setToastSeverity("success");
+  //   setToastOpen(true);
+  //   if (!addMore || isEditting) {
+  //     setShowForm(false);
+  //   } else {
+  //     setShowForm(true);
+  //   }
+  //   closeToast();
+  // };
 
-  const goToForm = () => {
-    setShowForm(true);
-    if (formEl.current) {
-      highlightDivContainer(formEl);
-    }
-  };
+  // const goToForm = () => {
+  //   setShowForm(true);
+  //   if (formEl.current) {
+  //     highlightDivContainer(formEl);
+  //   }
+  // };
 
-  const [showForm, setShowForm] = useState(!yatriList.length);
+  // const [showForm, setShowForm] = useState(!yatriList.length);
 
-  const deleteYatri = async () => {
-    setShowModal(false);
-    setShowLoader(true);
-    setLoaderText("Deleting Yatri...");
-    await deleteYatriById(
-      hotiAllocationDetails.hotiId,
-      selectedYatriForModification
-    );
-    setYatriDetails(
-      yatriDetails.filter(
-        (yatri) => yatri.yatriId !== selectedYatriForModification.yatriId
-      )
-    );
-    setToastMessage("Yatri deleted successfully");
-    setToastSeverity("success");
-    setToastOpen(true);
-    closeToast();
-    setShowLoader(false);
-  };
+  // const deleteYatri = async () => {
+  //   setShowModal(false);
+  //   setShowLoader(true);
+  //   setLoaderText("Deleting Yatri...");
+  //   await deleteYatriById(
+  //     hotiAllocationDetails.hotiId,
+  //     selectedYatriForModification
+  //   );
+  //   setYatriDetails(
+  //     yatriDetails.filter(
+  //       (yatri) => yatri.yatriId !== selectedYatriForModification.yatriId
+  //     )
+  //   );
+  //   setToastMessage("Yatri deleted successfully");
+  //   setToastSeverity("success");
+  //   setToastOpen(true);
+  //   closeToast();
+  //   setShowLoader(false);
+  // };
 
-  function isFormValid(selectedYatri: YatriFormFieldType) {
-    switch (true) {
-      case !selectedYatri.fullName:
-        setErrorField("fullName");
-        return false;
-      case !selectedYatri.dateOfBirth ||
-        dateValidator(selectedYatri, ticketType, "mobile"):
-        setErrorField("dateOfBirth");
-        return false;
-      case !selectedYatri.mobile || isMobileInvalidNumber(selectedYatri.mobile):
-        setErrorField("mobile");
-        return false;
-      case !selectedYatri.idProof || aadharValidator(selectedYatri):
-        setErrorField("idProof");
-        return false;
-      case !selectedYatri.city:
-        setErrorField("city");
-        return false;
-      case !fileData && !isEditting:
-        setToastMessage("Please upload a photo");
-        setToastSeverity("error");
-        setToastOpen(true);
-        closeToast();
-        setErrorField("profilePicture");
-        return false;
-      default:
-        setErrorField("");
-        return true;
-    }
-  }
+  // function isFormValid(selectedYatri: YatriFormFieldType) {
+  //   switch (true) {
+  //     case !selectedYatri.fullName:
+  //       setErrorField("fullName");
+  //       return false;
+  //     case !selectedYatri.dateOfBirth ||
+  //       dateValidator(selectedYatri, ticketType, "mobile"):
+  //       setErrorField("dateOfBirth");
+  //       return false;
+  //     case !selectedYatri.mobile || isMobileInvalidNumber(selectedYatri.mobile):
+  //       setErrorField("mobile");
+  //       return false;
+  //     case !selectedYatri.idProof || aadharValidator(selectedYatri):
+  //       setErrorField("idProof");
+  //       return false;
+  //     case !selectedYatri.city:
+  //       setErrorField("city");
+  //       return false;
+  //     case !fileData && !isEditting:
+  //       setToastMessage("Please upload a photo");
+  //       setToastSeverity("error");
+  //       setToastOpen(true);
+  //       closeToast();
+  //       setErrorField("profilePicture");
+  //       return false;
+  //     default:
+  //       setErrorField("");
+  //       return true;
+  //   }
+  // }
 
-  function closeToast() {
-    setTimeout(() => {
-      setToastOpen(false);
-    }, 5000);
-  }
+  // function closeToast() {
+  //   setTimeout(() => {
+  //     setToastOpen(false);
+  //   }, 5000);
+  // }
 
   const handleGoBack = () => {
-    if (isEditting) {
-      setIsEditting(false);
-      setShowForm(false);
-      setSelectedYatriForModification({} as YatriDetails);
-      clearFormFields();
-      setIsUpdatingProfilePic(false);
-    } else {
-      setIsDataConfirmed(false);
-    }
+    //   // if (isEditting) {
+    //   //   setIsEditting(false);
+    //   //   setShowForm(false);
+    //   //   setSelectedYatriForModification({} as YatriDetails);
+    //   //   // clearFormFields();
+    //   //   // setIsUpdatingProfilePic(false);
+    //   // } else {
+    setIsDataConfirmed(false);
+    //   }
   };
 
-  const handleModalClose = () => {
-    setSelectedYatriForModification({} as YatriDetails);
-    setIsEditting(false);
-    setShowModal(false);
-  };
+  // const handleModalClose = () => {
+  //   setSelectedYatriForModification({} as YatriDetails);
+  //   setIsEditting(false);
+  //   setShowModal(false);
+  // };
 
   return (
     <>
       <Box display="flex" justifyContent="space-between" marginBottom="8px">
-        {(!yatriList.length ||
+        {/* {(!yatriList.length ||
           yatriList?.length <
             FormFields(hotiAllocationDetails)[ticketType].seatQuota ||
           !yatriList.length ||
@@ -307,13 +306,13 @@ const AddViewTicketDetails = ({
               <Add />
               Add Passenger
             </Button>
-          )}
+          )} */}
         <Button color="secondary" onClick={handleGoBack}>
           <ArrowBackIos fontSize="small" />
           Go back
         </Button>
       </Box>
-      {showForm &&
+      {/* {showForm &&
         (hotiAllocationDetails.allowChanges ||
           currentUser === "+919049778749" ||
           currentUser === "+919422045027") &&
@@ -769,15 +768,15 @@ const AddViewTicketDetails = ({
               >
                 {isEditting ? "Save" : "Save & Add More"}
               </Button>
-              {/* {!selectedYatri.isDirty && (
+              {!selectedYatri.isDirty && (
             <Button sx={{ marginX: "8px" }}>
               Enter to {FormFields(hotiAllocationDetails)[selectedTab].next}
             </Button>
-          )} */}
+          )} 
             </Box>
           </Card>
-        )}
-      {!!yatriList.length && !isEditting && (
+        )} */}
+      {!!yatriList.length && (
         <Box padding="12px" borderRadius="4px" bgcolor="#0000004d">
           <Typography mb={1} color="white" sx={{ textTransform: "capitalize" }}>
             {ticketType.toLowerCase()} passenger details
@@ -787,26 +786,26 @@ const AddViewTicketDetails = ({
             {yatriList.map((yatri) => (
               <Grid key={yatri.yatriId} item xs={12} sm={6}>
                 <YatriDetailView
-                  hotiAllocationDetails={hotiAllocationDetails}
+                  // hotiAllocationDetails={hotiAllocationDetails}
                   key={yatri.yatriId}
                   yatri={yatri}
-                  handleDelete={() => {
-                    setIsEditting(false);
-                    setSelectedYatriForModification(yatri);
-                    setShowModal(true);
-                  }}
-                  handleEdit={() => {
-                    setIsEditting(true);
-                    setSelectedYatriForModification(yatri);
-                    setShowModal(true);
-                  }}
+                  // handleDelete={() => {
+                  //   setIsEditting(false);
+                  //   setSelectedYatriForModification(yatri);
+                  //   setShowModal(true);
+                  // }}
+                  // handleEdit={() => {
+                  //   setIsEditting(true);
+                  //   setSelectedYatriForModification(yatri);
+                  //   setShowModal(true);
+                  // }}
                 />
               </Grid>
             ))}
           </Grid>
         </Box>
       )}
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={showLoader}
       >
@@ -814,7 +813,7 @@ const AddViewTicketDetails = ({
         <Typography paddingLeft="8px" color="secondary">
           {loaderText}
         </Typography>
-      </Backdrop>
+      </Backdrop> */}
       {/* <Box display="flex" alignItems="center" justifyContent="space-between">
         {!!hotiAllocationDetails.extraTicketQuota && (
           <Button sx={{ marginX: "4px" }} color="secondary" variant="outlined">
@@ -827,7 +826,7 @@ const AddViewTicketDetails = ({
           </Button>
         )}
       </Box> */}
-      <Modal
+      {/* <Modal
         open={showModal}
         onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
@@ -933,10 +932,10 @@ const AddViewTicketDetails = ({
                 </Button>
               </Box>
             </>
-          )}
+          )} 
         </Box>
-      </Modal>
-      <Snackbar
+      </Modal> */}
+      {/* <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={toastOpen}
         onClose={() => setToastOpen(false)}
@@ -944,21 +943,21 @@ const AddViewTicketDetails = ({
         message="Please fill this form first!"
       >
         <MuiAlert severity={toastSeverity}>{toastMessage}</MuiAlert>
-      </Snackbar>
+      </Snackbar> */}
     </>
   );
 };
 
 export default AddViewTicketDetails;
 
-function aadharValidator(
-  selectedYatri: YatriFormFieldType
-): boolean | undefined {
-  return (
-    selectedYatri.idProof?.length > 0 &&
-    !(selectedYatri.idProof || "").match(/^[2-9]{1}[0-9]{11}$/)
-  );
-}
+// function aadharValidator(
+//   selectedYatri: YatriFormFieldType
+// ): boolean | undefined {
+//   return (
+//     selectedYatri.idProof?.length > 0 &&
+//     !(selectedYatri.idProof || "").match(/^[2-9]{1}[0-9]{11}$/)
+//   );
+// }
 
 export function isMobileInvalidNumber(
   mobileNumber: string
@@ -974,17 +973,17 @@ export function isHotiInvalid(hotiNumber: number) {
   );
 }
 
-function dateValidator(
-  selectedYatri: YatriFormFieldType,
-  ticketType: string,
-  errorField: string | undefined
-): boolean | undefined {
-  return (
-    new Date(selectedYatri.dateOfBirth).getTime() > new Date().getTime() ||
-    new Date(selectedYatri.dateOfBirth).getFullYear() < 1922 ||
-    (ticketType === "CHILD" && convertToAge(selectedYatri.dateOfBirth) > 5) ||
-    errorField === "dateOfBirth"
-  );
-}
+// function dateValidator(
+//   selectedYatri: YatriFormFieldType,
+//   ticketType: string,
+//   errorField: string | undefined
+// ): boolean | undefined {
+//   return (
+//     new Date(selectedYatri.dateOfBirth).getTime() > new Date().getTime() ||
+//     new Date(selectedYatri.dateOfBirth).getFullYear() < 1922 ||
+//     (ticketType === "CHILD" && convertToAge(selectedYatri.dateOfBirth) > 5) ||
+//     errorField === "dateOfBirth"
+//   );
+// }
 
 // add id for each yatri, retrieving from hotiAllocationDetails.nextYatriId

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { LJNMColors } from "../../styles";
 import { Hoti } from "../../types/hoti";
 import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import AddViewTicketDetails, { isHotiInvalid } from "../TicketDetails";
+import AddViewTicketDetails from "../TicketDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Button from "@mui/material/Button";
@@ -16,12 +16,12 @@ import TnCPage from "../TnCPage";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import RuleIcon from "@mui/icons-material/Rule";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { TextField } from "@mui/material";
+// import { TextField } from "@mui/material";
 import {
-  getHotiDetailById,
+  // getHotiDetailById,
   updateYatriRoomAllocation,
 } from "../../firebase/service";
-import { firebaseAuth } from "../../firebase";
+// import { firebaseAuth } from "../../firebase";
 import { RoomAllocation } from "../../constants/roomDetails";
 
 type HotiDetailsPageProps = {
@@ -38,11 +38,11 @@ const HotiDetailsPage = ({
   yatriDetails,
   clearHotiDetails,
   setYatriDetails,
-  setHotiDetails,
-}: HotiDetailsPageProps) => {
+}: // setHotiDetails,
+HotiDetailsPageProps) => {
   const [isDataConfirmed, setIsDataConfirmed] = useState(false);
   const [ticketType, setTicketType] = useState<TicketType>("CHILD");
-  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
+  // const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
   const confirmHotiDetails = (type: TicketType) => {
     setTicketType(type);
     setIsDataConfirmed(true);
@@ -51,21 +51,21 @@ const HotiDetailsPage = ({
     localStorage.getItem(LocalStorageKeys.termsAccepted)
   );
   // changes for updating hoti details
-  const [hotiNumber, setHotiNumber] = useState(-1);
-  const [errorField, setErrorField] = useState("");
-  const updateHotiDetails = (e: any) => {
-    const hotiNumber = e.target.value;
-    if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
-      setErrorField("hotiNumber");
-    } else {
-      setErrorField("");
-    }
-    setHotiNumber(hotiNumber);
-  };
-  const getHotiDetails = async () => {
-    const hotiDetails = await getHotiDetailById(hotiNumber);
-    setHotiDetails(hotiDetails);
-  };
+  // const [hotiNumber, setHotiNumber] = useState(-1);
+  // const [errorField, setErrorField] = useState("");
+  // const updateHotiDetails = (e: any) => {
+  //   const hotiNumber = e.target.value;
+  //   if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
+  //     setErrorField("hotiNumber");
+  //   } else {
+  //     setErrorField("");
+  //   }
+  //   setHotiNumber(hotiNumber);
+  // };
+  // const getHotiDetails = async () => {
+  //   const hotiDetails = await getHotiDetailById(hotiNumber);
+  //   setHotiDetails(hotiDetails);
+  // };
 
   // ends here
   const checkTermsStatus = () => {
@@ -123,7 +123,7 @@ const HotiDetailsPage = ({
                 borderRadius="4px"
               >
                 <Box margin="24px 24px 0">
-                  {(currentUser === "+919049778749" ||
+                  {/* {(currentUser === "+919049778749" ||
                     currentUser === "+919422045027") && (
                     <>
                       <TextField
@@ -155,7 +155,7 @@ const HotiDetailsPage = ({
                         Change
                       </Button>
                     </>
-                  )}
+                  )} */}
                   <Box display="flex" alignItems="center" marginBottom={2}>
                     <Typography
                       fontSize="20px"
@@ -224,11 +224,12 @@ const HotiDetailsPage = ({
                       ticketCount={hotiAllocationDetails.extraTicketQuota}
                     />
                   )}
-                  {(!!yatriDetails.filter(
+                  {!!yatriDetails.filter(
                     (yatri) => yatri.ticketType === "CHILD"
-                  )?.length ||
-                    currentUser === "+919049778749" ||
-                    currentUser === "+919422045027") && (
+                  )?.length && (
+                    // ||
+                    //   currentUser === "+919049778749" ||
+                    //   currentUser === "+919422045027"
                     <TicketTypeRouter
                       label="Children below 5 yrs"
                       yatriLength={

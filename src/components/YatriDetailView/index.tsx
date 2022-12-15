@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Typography } from "@mui/material";
+import React from "react";
 import { convertToAge } from "../../lib/helper";
 import { YatriDetails } from "../../types/yatriDetails";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -7,23 +7,23 @@ import { LJNMColors } from "../../styles";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import ImageDisplayContainer from "../ImageDisplay";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
-import { firebaseAuth } from "../../firebase";
+// import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
+// import { firebaseAuth } from "../../firebase";
 
 type YatriDetailViewProps = {
   yatri: YatriDetails;
-  handleDelete?: () => void;
-  handleEdit?: () => void;
-  hotiAllocationDetails: HotiAllocationDetail;
+  // handleDelete?: () => void;
+  // handleEdit?: () => void;
+  // hotiAllocationDetails: HotiAllocationDetail;
 };
 
 const YatriDetailView = ({
   yatri,
-  handleDelete,
-  handleEdit,
-  hotiAllocationDetails,
-}: YatriDetailViewProps) => {
-  const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
+}: // handleDelete,
+// handleEdit,
+// hotiAllocationDetails,
+YatriDetailViewProps) => {
+  // const [currentUser] = useState(firebaseAuth.currentUser?.phoneNumber);
   return (
     <Box
       borderBottom={`3px dashed ${LJNMColors.primary}`}
@@ -45,7 +45,7 @@ const YatriDetailView = ({
             Yatri Id: {yatri.yatriId}
           </Typography>
         </Box>
-        {(hotiAllocationDetails.allowChanges ||
+        {/* {(hotiAllocationDetails.allowChanges ||
           currentUser === "+919049778749" ||
           currentUser === "+919422045027") && (
           <Box display="flex" alignItems="center">
@@ -60,7 +60,7 @@ const YatriDetailView = ({
               </Button>
             )}
           </Box>
-        )}
+        )} */}
       </Box>
       <Box display="flex" alignItems="center">
         <ImageDisplayContainer

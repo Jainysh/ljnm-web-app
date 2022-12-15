@@ -5,16 +5,16 @@ import { useState } from "react";
 import {
   getHotiDetailById,
   getAllYatriDetailsById,
-  getHotiDetailsByMobileNumber,
+  // getHotiDetailsByMobileNumber,
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
 import HotiDetailsPage from "../../components/HotiDetailsPage";
 import {
-  Button,
+  // Button,
   CircularProgress,
   Grid,
   IconButton,
-  Modal,
+  // Modal,
   Skeleton,
   Typography,
 } from "@mui/material";
@@ -24,14 +24,14 @@ import { HotiAllocationDetail } from "../../types/hotiAllocationDetail";
 import { YatriDetails } from "../../types/yatriDetails";
 import { onSnapshot, Unsubscribe, doc } from "firebase/firestore";
 import {
-  firebaseAuth,
+  // firebaseAuth,
   getFirebaseFirestoreDB,
-  getInvisibleRecaptchaVerifier,
-  getSignInWithPhoneNumber,
+  // getInvisibleRecaptchaVerifier,
+  // getSignInWithPhoneNumber,
 } from "../../firebase";
-import { getHumanErrorMessage } from "../../lib/helper";
-import { onAuthStateChanged, User } from "firebase/auth";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import { getHumanErrorMessage } from "../../lib/helper";
+// import { onAuthStateChanged, User } from "firebase/auth";
+// import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { isHotiInvalid } from "../../components/TicketDetails";
 
 const HomeComponent = () => {
@@ -46,25 +46,25 @@ const HomeComponent = () => {
 
   const [showLoader, setShowLoader] = useState(false);
 
-  const [loadingUserInfo, setLoadingUserInfo] = useState(true);
+  // const [loadingUserInfo, setLoadingUserInfo] = useState(true);
 
-  const [otpRequestObject, setOtpRequestObject] = useState<any>({});
-  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [otpRequestObject, setOtpRequestObject] = useState<any>({});
+  // const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
+  // const [showModal, setShowModal] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
 
-  const [otpNumber, setOtpNumber] = useState("");
-  const [validatingOTP, setValidatingOTP] = useState(false);
+  // const [otpNumber, setOtpNumber] = useState("");
+  // const [validatingOTP, setValidatingOTP] = useState(false);
 
-  const [OTPState, setOTPState] = useState<
-    "NOT_SENT" | "SENDING" | "SENT" | "ERROR"
-  >("NOT_SENT");
+  // const [OTPState, setOTPState] = useState<
+  //   "NOT_SENT" | "SENDING" | "SENT" | "ERROR"
+  // >("NOT_SENT");
 
   const getHotiDetails = async () => {
-    if (firebaseAuth.currentUser) {
-      console.log("user", firebaseAuth.currentUser);
-      return;
-    }
+    // if (firebaseAuth.currentUser) {
+    //   console.log("user", firebaseAuth.currentUser);
+    //   return;
+    // }
     if (isHotiInvalid(hotiNumber) || hotiNumber < 0) {
       setErrorField("hotiNumber");
       return;
@@ -79,7 +79,8 @@ const HomeComponent = () => {
     const hotiDetails = await getHotiDetailById(hotiNumber);
     if (hotiDetails.hotiId) {
       setHotiDetails(hotiDetails);
-      setShowModal(true);
+      setIsVerified(true);
+      // setShowModal(true);
       // setHotiDetails(hotiDetails);
     } else {
       setErrorField("noData");
@@ -87,53 +88,53 @@ const HomeComponent = () => {
     setShowLoader(false);
   };
 
-  const sendOTP = async () => {
-    setOTPState("SENDING");
-    const invisibleRecaptchaVerifier = getInvisibleRecaptchaVerifier();
-    try {
-      const otpRequest = await getSignInWithPhoneNumber(
-        `+91${hotiDetails.mobile}`,
-        invisibleRecaptchaVerifier
-      );
-      setOTPState("SENT");
-      setOtpRequestObject(otpRequest);
-      setPhoneNumberErrorMessage("");
-      setShowModal(true);
-    } catch (error: any) {
-      setOTPState("ERROR");
-      const errorMessageToShow = getHumanErrorMessage(error.code);
-      // TODO: handle error message
-      setPhoneNumberErrorMessage(errorMessageToShow);
-      setErrorField("authError");
-    }
-  };
+  // const sendOTP = async () => {
+  //   setOTPState("SENDING");
+  //   const invisibleRecaptchaVerifier = getInvisibleRecaptchaVerifier();
+  //   try {
+  //     const otpRequest = await getSignInWithPhoneNumber(
+  //       `+91${hotiDetails.mobile}`,
+  //       invisibleRecaptchaVerifier
+  //     );
+  //     setOTPState("SENT");
+  //     setOtpRequestObject(otpRequest);
+  //     setPhoneNumberErrorMessage("");
+  //     setShowModal(true);
+  //   } catch (error: any) {
+  //     setOTPState("ERROR");
+  //     const errorMessageToShow = getHumanErrorMessage(error.code);
+  //     // TODO: handle error message
+  //     setPhoneNumberErrorMessage(errorMessageToShow);
+  //     setErrorField("authError");
+  //   }
+  // };
 
-  const validateOTP = async () => {
-    setValidatingOTP(true);
-    try {
-      const result = await otpRequestObject.confirm(otpNumber);
-      const user = result.user;
-      if (user) {
-        await loadHotiDetailsByMobileNumber(user);
-      }
-      setValidatingOTP(false);
-      setShowModal(false);
-      setOtpNumber("");
-    } catch (error: any) {
-      const errorMessageToShow = getHumanErrorMessage(error.code);
-      // TODO: handle error message
-      setPhoneNumberErrorMessage(errorMessageToShow);
-      setErrorField("authError");
-      setValidatingOTP(false);
-      setOtpNumber(""); //not working; TODO: need to fix
-    }
-  };
+  // const validateOTP = async () => {
+  //   setValidatingOTP(true);
+  //   try {
+  //     const result = await otpRequestObject.confirm(otpNumber);
+  //     const user = result.user;
+  //     if (user) {
+  //       await loadHotiDetailsByMobileNumber(user);
+  //     }
+  //     setValidatingOTP(false);
+  //     setShowModal(false);
+  //     setOtpNumber("");
+  //   } catch (error: any) {
+  //     const errorMessageToShow = getHumanErrorMessage(error.code);
+  //     // TODO: handle error message
+  //     setPhoneNumberErrorMessage(errorMessageToShow);
+  //     setErrorField("authError");
+  //     setValidatingOTP(false);
+  //     setOtpNumber(""); //not working; TODO: need to fix
+  //   }
+  // };
 
   const clearHotiDetails = () => {
-    firebaseAuth.signOut();
+    // firebaseAuth.signOut();
     setHotiDetails({} as Hoti);
     setIsVerified(false);
-    setOTPState("NOT_SENT");
+    // setOTPState("NOT_SENT");
   };
 
   const updateHotiDetails = (e: any) => {
@@ -152,39 +153,39 @@ const HomeComponent = () => {
     }
   };
 
-  useEffect(() => {
-    let authUnsubscribe: Unsubscribe;
-    const doExecute = async () => {
-      if (firebaseAuth.currentUser?.phoneNumber) {
-        await loadHotiDetailsByMobileNumber(firebaseAuth.currentUser);
-        setLoadingUserInfo(false);
-      } else {
-        authUnsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
-          if (user) {
-            // User is signed in
-            if (user.phoneNumber) {
-              await loadHotiDetailsByMobileNumber(user);
-            }
-            setLoadingUserInfo(false);
-          } else {
-            setLoadingUserInfo(false);
-          }
-        });
-      }
-    };
-    doExecute();
-    return () => {
-      authUnsubscribe && authUnsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   let authUnsubscribe: Unsubscribe;
+  //   const doExecute = async () => {
+  //     if (firebaseAuth.currentUser?.phoneNumber) {
+  //       await loadHotiDetailsByMobileNumber(firebaseAuth.currentUser);
+  //       setLoadingUserInfo(false);
+  //     } else {
+  //       authUnsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+  //         if (user) {
+  //           // User is signed in
+  //           if (user.phoneNumber) {
+  //             await loadHotiDetailsByMobileNumber(user);
+  //           }
+  //           setLoadingUserInfo(false);
+  //         } else {
+  //           setLoadingUserInfo(false);
+  //         }
+  //       });
+  //     }
+  //   };
+  //   doExecute();
+  //   return () => {
+  //     authUnsubscribe && authUnsubscribe();
+  //   };
+  // }, []);
 
-  const handleOTPChange = (e: any) => {
-    if (e.target.value.length <= 6) {
-      setErrorField("");
-      setPhoneNumberErrorMessage("");
-      setOtpNumber(e.target.value);
-    }
-  };
+  // const handleOTPChange = (e: any) => {
+  //   if (e.target.value.length <= 6) {
+  //     setErrorField("");
+  //     setPhoneNumberErrorMessage("");
+  //     setOtpNumber(e.target.value);
+  //   }
+  // };
 
   useEffect(() => {
     let hotiDetailsUnsubscribe: Unsubscribe;
@@ -214,17 +215,17 @@ const HomeComponent = () => {
     };
   }, [hotiDetails.hotiId]);
 
-  async function loadHotiDetailsByMobileNumber(user: User) {
-    if (user.phoneNumber) {
-      const hotiData = await getHotiDetailsByMobileNumber(
-        user.phoneNumber.substring(3)
-      );
-      if (hotiData.hotiId) {
-        setHotiDetails(hotiData);
-        setIsVerified(true);
-      }
-    }
-  }
+  // async function loadHotiDetailsByMobileNumber(user: User) {
+  //   if (user.phoneNumber) {
+  //     const hotiData = await getHotiDetailsByMobileNumber(
+  //       user.phoneNumber.substring(3)
+  //     );
+  //     if (hotiData.hotiId) {
+  //       setHotiDetails(hotiData);
+  //       setIsVerified(true);
+  //     }
+  //   }
+  // }
 
   return (
     <>
@@ -260,7 +261,8 @@ const HomeComponent = () => {
                   <Typography margin="8px 0">Passenger details form</Typography>
                 </Box>
               </Box>
-              {loadingUserInfo ? (
+              {/* {loadingUserInfo ? ( */}
+              {false ? (
                 <Box
                   display="flex"
                   alignItems="center"
@@ -336,7 +338,7 @@ const HomeComponent = () => {
               )}
             </Grid>
           </Grid>
-          <Modal
+          {/*    <Modal
             open={showModal && !!hotiDetails.name}
             // onClose={handleModalClose}
             aria-labelledby="modal-modal-title"
@@ -540,9 +542,9 @@ const HomeComponent = () => {
                 </>
               ) : (
                 <>&nbsp;</>
-              )}
+              )} 
             </Box>
-          </Modal>
+              </Modal> */}
         </Box>
       ) : (
         <HotiDetailsPage

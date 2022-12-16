@@ -4,6 +4,7 @@ export const LocalStorageKeys = {
   termsAccepted: "termsAccepted",
   bookingDetailsLastUpdated: "bookingDetailsLastUpdated",
   bookingSummaryCache: "bookingSummaryCache",
+  hotiIdCache: "hotiIdCache",
 };
 export const FormFields = (hotiAllocationDetail: HotiAllocationDetail) => {
   return {

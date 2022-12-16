@@ -33,9 +33,12 @@ import {
 // import { onAuthStateChanged, User } from "firebase/auth";
 // import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { isHotiInvalid } from "../../components/TicketDetails";
+import { LocalStorageKeys } from "../../components/TicketDetails/constant";
 
 const HomeComponent = () => {
-  const [hotiNumber, setHotiNumber] = useState(-1);
+  const [hotiNumber, setHotiNumber] = useState(
+    +(localStorage.getItem(LocalStorageKeys.hotiIdCache) || -1)
+  );
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
   const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>(
     [] as YatriDetails[]
@@ -46,7 +49,7 @@ const HomeComponent = () => {
 
   const [showLoader, setShowLoader] = useState(false);
 
-  // const [loadingUserInfo, setLoadingUserInfo] = useState(true);
+  const [loadingUserInfo, setLoadingUserInfo] = useState(true);
 
   // const [otpRequestObject, setOtpRequestObject] = useState<any>({});
   // const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
@@ -80,6 +83,7 @@ const HomeComponent = () => {
     if (hotiDetails.hotiId) {
       setHotiDetails(hotiDetails);
       setIsVerified(true);
+      localStorage.setItem(LocalStorageKeys.hotiIdCache, hotiNumber + "");
       // setShowModal(true);
       // setHotiDetails(hotiDetails);
     } else {
@@ -153,31 +157,38 @@ const HomeComponent = () => {
     }
   };
 
-  // useEffect(() => {
-  //   let authUnsubscribe: Unsubscribe;
-  //   const doExecute = async () => {
-  //     if (firebaseAuth.currentUser?.phoneNumber) {
-  //       await loadHotiDetailsByMobileNumber(firebaseAuth.currentUser);
-  //       setLoadingUserInfo(false);
-  //     } else {
-  //       authUnsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
-  //         if (user) {
-  //           // User is signed in
-  //           if (user.phoneNumber) {
-  //             await loadHotiDetailsByMobileNumber(user);
-  //           }
-  //           setLoadingUserInfo(false);
-  //         } else {
-  //           setLoadingUserInfo(false);
-  //         }
-  //       });
-  //     }
-  //   };
-  //   doExecute();
-  //   return () => {
-  //     authUnsubscribe && authUnsubscribe();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const doExecute = async () => {
+      let hotiId = localStorage.getItem(LocalStorageKeys.hotiIdCache);
+      if (hotiId) {
+        await loadHotiDetailsByMobileNumber(+hotiId);
+        setLoadingUserInfo(false);
+      } else {
+        setLoadingUserInfo(false);
+      }
+    };
+    //     if (firebaseAuth.currentUser?.phoneNumber) {
+    //       await loadHotiDetailsByMobileNumber(firebaseAuth.currentUser);
+    //       setLoadingUserInfo(false);
+    //     } else {
+    //       authUnsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+    //         if (user) {
+    //           // User is signed in
+    //           if (user.phoneNumber) {
+    //             await loadHotiDetailsByMobileNumber(user);
+    //           }
+    //           setLoadingUserInfo(false);
+    //         } else {
+    //           setLoadingUserInfo(false);
+    //         }
+    //       });
+    //     }
+    //   };
+    doExecute();
+    //   return () => {
+    //     authUnsubscribe && authUnsubscribe();
+    //   };
+  }, []);
 
   // const handleOTPChange = (e: any) => {
   //   if (e.target.value.length <= 6) {
@@ -215,17 +226,13 @@ const HomeComponent = () => {
     };
   }, [hotiDetails.hotiId]);
 
-  // async function loadHotiDetailsByMobileNumber(user: User) {
-  //   if (user.phoneNumber) {
-  //     const hotiData = await getHotiDetailsByMobileNumber(
-  //       user.phoneNumber.substring(3)
-  //     );
-  //     if (hotiData.hotiId) {
-  //       setHotiDetails(hotiData);
-  //       setIsVerified(true);
-  //     }
-  //   }
-  // }
+  async function loadHotiDetailsByMobileNumber(hotiId: number) {
+    const hotiData = await getHotiDetailById(hotiId);
+    if (hotiData.hotiId) {
+      setHotiDetails(hotiData);
+      setIsVerified(true);
+    }
+  }
 
   return (
     <>
@@ -261,8 +268,7 @@ const HomeComponent = () => {
                   <Typography margin="8px 0">Passenger details form</Typography>
                 </Box>
               </Box>
-              {/* {loadingUserInfo ? ( */}
-              {false ? (
+              {loadingUserInfo ? (
                 <Box
                   display="flex"
                   alignItems="center"

@@ -287,6 +287,19 @@ export const getAllYatriDetailsById = async (hotiId: number) => {
 //   return bookingSummary;
 // };
 
+export const getAppConfig = async () => {
+  const db = await getFirebaseFirestoreDB();
+  const path = `EventMaster/event-1/appConfig`;
+  const q = query(collection(db, path));
+  const querySnapShot = await getDocs(q);
+  const appConfigData = querySnapShot.docs.map((doc) => doc.data());
+  if (appConfigData && appConfigData.length) {
+    return appConfigData[0].maintenanceMode;
+  } else {
+    return false;
+  }
+};
+
 export const addPassengerDetails = async (
   passengerDetail: YatriDetails,
   hotiAllocationDetail: HotiAllocationDetail,

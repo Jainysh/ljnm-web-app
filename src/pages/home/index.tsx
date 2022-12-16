@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   getHotiDetailById,
   getAllYatriDetailsById,
+  getAppConfig,
   // getHotiDetailsByMobileNumber,
 } from "../../firebase/service";
 import { Hoti } from "../../types/hoti";
@@ -39,6 +40,7 @@ const HomeComponent = () => {
   const [hotiNumber, setHotiNumber] = useState(
     +(localStorage.getItem(LocalStorageKeys.hotiIdCache) || -1)
   );
+  const [maintenanceMode, setMaintenanceMode] = useState<boolean>(false);
   const [hotiDetails, setHotiDetails] = useState<Hoti>({} as Hoti);
   const [yatriDetails, setYatriDetails] = useState<YatriDetails[]>(
     [] as YatriDetails[]
@@ -159,12 +161,17 @@ const HomeComponent = () => {
 
   useEffect(() => {
     const doExecute = async () => {
-      let hotiId = localStorage.getItem(LocalStorageKeys.hotiIdCache);
-      if (hotiId) {
-        await loadHotiDetailsByMobileNumber(+hotiId);
-        setLoadingUserInfo(false);
+      const maintenanceMode = await getAppConfig();
+      if (!maintenanceMode) {
+        let hotiId = localStorage.getItem(LocalStorageKeys.hotiIdCache);
+        if (hotiId) {
+          await loadHotiDetailsByMobileNumber(+hotiId);
+          setLoadingUserInfo(false);
+        } else {
+          setLoadingUserInfo(false);
+        }
       } else {
-        setLoadingUserInfo(false);
+        setMaintenanceMode(true);
       }
     };
     //     if (firebaseAuth.currentUser?.phoneNumber) {
@@ -236,115 +243,121 @@ const HomeComponent = () => {
 
   return (
     <>
-      {!isVerified || !hotiDetails.name ? (
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          height="100vh"
-        >
-          <Grid container justifyContent="center">
-            <Grid item lg={6} md={8} xs={12}>
-              <Box
-                borderBottom={`1px solid ${LJNMColors.secondary}`}
-                borderLeft="none"
-                borderRight="none"
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                margin="8px"
-                paddingY="8px"
-              >
-                <Box width="100px" height="100px" mb={4}>
-                  <img
-                    src="/logo.jpeg"
-                    width="100%"
-                    style={{ objectFit: "contain" }}
-                    alt="logo"
-                  />
-                </Box>
-                <Box paddingLeft="16px" textAlign="center">
-                  <Typography variant="h4">LJNM Shikharji Yatra</Typography>
-                  <Typography margin="8px 0">Passenger details form</Typography>
-                </Box>
-              </Box>
-              {loadingUserInfo ? (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  flexDirection="column"
-                  paddingTop="32px"
-                >
-                  <Skeleton
-                    sx={{ bgcolor: "#853a4bad", marginBottom: "16px" }}
-                    variant="rectangular"
-                    width="80%"
-                    height="40px"
-                  />
-                  <Skeleton
-                    sx={{ bgcolor: "#853a4bad" }}
-                    variant="rectangular"
-                    width="200px"
-                    height="40px"
-                  />
-                </Box>
-              ) : (
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  flexDirection="column"
-                  marginTop="40px"
-                >
-                  {/* <InfoBanner /> */}
-                  <TextField
-                    fullWidth
-                    label="Enter Hoti Number"
-                    color="secondary"
-                    value={hotiNumber > 0 ? hotiNumber : ""}
-                    sx={{
-                      color: "fff",
-                      input: { color: "white" },
-                      marginBottom: "16px",
-                      width: "80%",
-                    }}
-                    focused
-                    onKeyUp={handleSubmit}
-                    error={
-                      isHotiInvalid(hotiNumber) || errorField === "hotiNumber"
-                    }
-                    onChange={updateHotiDetails}
-                    type="number"
-                    helperText={
-                      isHotiInvalid(hotiNumber) || errorField === "hotiNumber"
-                        ? "Please enter a valid Hoti Number"
-                        : " "
-                    }
-                  />
-
-                  <IconButton
-                    color="secondary"
-                    disabled={showLoader}
-                    onClick={getHotiDetails}
-                    sx={{ marginLeft: "16px" }}
-                    id="sign-in-button"
+      {!maintenanceMode ? (
+        <>
+          {!isVerified || !hotiDetails.name ? (
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              height="100vh"
+            >
+              <Grid container justifyContent="center">
+                <Grid item lg={6} md={8} xs={12}>
+                  <Box
+                    borderBottom={`1px solid ${LJNMColors.secondary}`}
+                    borderLeft="none"
+                    borderRight="none"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    margin="8px"
+                    paddingY="8px"
                   >
-                    <>
-                      <Typography sx={{ color: "inherit" }} fontSize="20px">
-                        Go
+                    <Box width="100px" height="100px" mb={4}>
+                      <img
+                        src="/logo.jpeg"
+                        width="100%"
+                        style={{ objectFit: "contain" }}
+                        alt="logo"
+                      />
+                    </Box>
+                    <Box paddingLeft="16px" textAlign="center">
+                      <Typography variant="h4">LJNM Shikharji Yatra</Typography>
+                      <Typography margin="8px 0">
+                        Passenger details form
                       </Typography>
-                      {!showLoader ? (
-                        <ArrowForwardIos></ArrowForwardIos>
-                      ) : (
-                        <CircularProgress size={20} color="secondary" />
-                      )}
-                    </>
-                  </IconButton>
-                </Box>
-              )}
-            </Grid>
-          </Grid>
-          {/*    <Modal
+                    </Box>
+                  </Box>
+                  {loadingUserInfo ? (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      flexDirection="column"
+                      paddingTop="32px"
+                    >
+                      <Skeleton
+                        sx={{ bgcolor: "#853a4bad", marginBottom: "16px" }}
+                        variant="rectangular"
+                        width="80%"
+                        height="40px"
+                      />
+                      <Skeleton
+                        sx={{ bgcolor: "#853a4bad" }}
+                        variant="rectangular"
+                        width="200px"
+                        height="40px"
+                      />
+                    </Box>
+                  ) : (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      flexDirection="column"
+                      marginTop="40px"
+                    >
+                      {/* <InfoBanner /> */}
+                      <TextField
+                        fullWidth
+                        label="Enter Hoti Number"
+                        color="secondary"
+                        value={hotiNumber > 0 ? hotiNumber : ""}
+                        sx={{
+                          color: "fff",
+                          input: { color: "white" },
+                          marginBottom: "16px",
+                          width: "80%",
+                        }}
+                        focused
+                        onKeyUp={handleSubmit}
+                        error={
+                          isHotiInvalid(hotiNumber) ||
+                          errorField === "hotiNumber"
+                        }
+                        onChange={updateHotiDetails}
+                        type="number"
+                        helperText={
+                          isHotiInvalid(hotiNumber) ||
+                          errorField === "hotiNumber"
+                            ? "Please enter a valid Hoti Number"
+                            : " "
+                        }
+                      />
+
+                      <IconButton
+                        color="secondary"
+                        disabled={showLoader}
+                        onClick={getHotiDetails}
+                        sx={{ marginLeft: "16px" }}
+                        id="sign-in-button"
+                      >
+                        <>
+                          <Typography sx={{ color: "inherit" }} fontSize="20px">
+                            Go
+                          </Typography>
+                          {!showLoader ? (
+                            <ArrowForwardIos></ArrowForwardIos>
+                          ) : (
+                            <CircularProgress size={20} color="secondary" />
+                          )}
+                        </>
+                      </IconButton>
+                    </Box>
+                  )}
+                </Grid>
+              </Grid>
+              {/*    <Modal
             open={showModal && !!hotiDetails.name}
             // onClose={handleModalClose}
             aria-labelledby="modal-modal-title"
@@ -551,16 +564,45 @@ const HomeComponent = () => {
               )} 
             </Box>
               </Modal> */}
-        </Box>
+            </Box>
+          ) : (
+            <HotiDetailsPage
+              setYatriDetails={setYatriDetails}
+              clearHotiDetails={clearHotiDetails}
+              setHotiDetails={setHotiDetails}
+              hotiDetails={hotiDetails}
+              yatriDetails={yatriDetails}
+              hotiAllocationDetails={hotiAllocationDetails}
+            />
+          )}
+        </>
       ) : (
-        <HotiDetailsPage
-          setYatriDetails={setYatriDetails}
-          clearHotiDetails={clearHotiDetails}
-          setHotiDetails={setHotiDetails}
-          hotiDetails={hotiDetails}
-          yatriDetails={yatriDetails}
-          hotiAllocationDetails={hotiAllocationDetails}
-        />
+        <Box
+          padding="16px"
+          margin="16px"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <Box width="100px" height="100px" my={4}>
+            <img
+              src="/logo.jpeg"
+              width="100%"
+              style={{ objectFit: "contain" }}
+              alt="logo"
+            />
+          </Box>
+          <Box
+            border={`1px solid ${LJNMColors.secondary}`}
+            padding={1}
+            marginTop={3}
+            textAlign="center"
+            color="white"
+          >
+            We are upgrading our systems to serve you better and we will be back
+            soon. Inconvenience is regretted.
+          </Box>
+        </Box>
       )}
     </>
   );

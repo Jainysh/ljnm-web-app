@@ -508,6 +508,7 @@ const HomeComponent = () => {
                     disabled={otpNumber.length < 6 || validatingOTP}
                     sx={{
                       marginTop: "16px",
+
                       // "&.Mui-disabled": { color: "#ffffff87" },
                     }}
                     variant="outlined"
